@@ -41,4 +41,9 @@ class MainActivity : AppCompatActivity() {
       .load(R.raw.btn_start_animated_slow)
       .into(binding.btnStart)
   }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    _binding = null
+  }
 }
