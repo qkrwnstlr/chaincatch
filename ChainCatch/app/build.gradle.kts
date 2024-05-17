@@ -52,10 +52,17 @@ dependencies {
   // Firebase
   implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
 
+  // Firebase & Google Auth
+  implementation ("com.google.firebase:firebase-auth-ktx")
+  implementation ("com.google.android.gms:play-services-auth:20.7.0")
+
   // Firebase Realtime Database
   implementation("com.google.firebase:firebase-database-ktx")
 
   // for GIF
   implementation("com.github.bumptech.glide:glide:4.16.0")
   annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+
+  // https://github.com/ybq/Android-SpinKit
+  implementation ("com.github.ybq:Android-SpinKit:1.4.0")
 }
