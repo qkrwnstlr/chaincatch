@@ -3,9 +3,9 @@ package com.dtd.chaincatch
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
+import com.dtd.chaincatch.config.BaseActivity
 import com.dtd.chaincatch.databinding.ActivityMainBinding
 import com.dtd.chaincatch.home.HomeActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -44,9 +44,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     googleSignInClient = GoogleSignIn.getClient(this, gso)
   }
 
-class MainActivity : AppCompatActivity() {
-  private var _binding: ActivityMainBinding? = null
-  private val binding get() = _binding!!
+  private fun firebaseAuthWithGoogle(idToken: String) {
+    val credential = GoogleAuthProvider.getCredential(idToken, null)
+    auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
+      if (task.isSuccessful) startNextActivity()
+      else showCustomToast("로그인에 실패하였습니다.")
+    }
+  }
+
+  private fun signIn() {
+    val signInIntent = googleSignInClient.signInIntent
+    firebaseAuthResult.launch(signInIntent)
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -54,7 +63,6 @@ class MainActivity : AppCompatActivity() {
     initView()
 
     binding.btnStart.setOnClickListener {
-//      startActivity(Intent(this, HomeActivity::class.java))
       startNextActivity()
     }
   }
@@ -84,7 +92,7 @@ class MainActivity : AppCompatActivity() {
 
     binding.btnStart.setOnClickListener {
       if (auth.currentUser == null) signIn()
-      else navigateToHomeActivity()
+      else startNextActivity()
     }
   }
 }
