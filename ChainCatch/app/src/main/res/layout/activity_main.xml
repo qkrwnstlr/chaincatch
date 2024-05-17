@@ -4,10 +4,30 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="@drawable/bg_summer_light60"
+  android:background="@drawable/bg_summer_origin"
   tools:context=".MainActivity">
 
   <!-- title -->
+  <ImageView
+    android:layout_width="@dimen/activity_main_title_blur_width_200"
+    android:layout_height="@dimen/activity_main_title_blur_height_200"
+    android:adjustViewBounds="true"
+    android:src="@drawable/blur"
+    android:layout_marginBottom="@dimen/activity_main_title_blur_margin_140"
+    android:layout_marginStart="@dimen/activity_main_title_blur_margin_40"
+    app:layout_constraintStart_toStartOf="@id/iv_title"
+    app:layout_constraintBottom_toTopOf="@id/iv_title"/>
+
+  <ImageView
+    android:layout_width="@dimen/activity_main_title_blur_width_300"
+    android:layout_height="@dimen/activity_main_title_blur_height_160"
+    android:adjustViewBounds="true"
+    android:src="@drawable/blur"
+    android:layout_marginBottom="@dimen/activity_main_title_blur_margin_130"
+    android:layout_marginEnd="@dimen/activity_main_title_blur_margin_80"
+    app:layout_constraintEnd_toEndOf="@id/iv_title"
+    app:layout_constraintBottom_toTopOf="@id/iv_title"/>
+
   <ImageView
     android:id="@+id/iv_title"
     android:layout_width="@dimen/activity_main_title_width_300"
