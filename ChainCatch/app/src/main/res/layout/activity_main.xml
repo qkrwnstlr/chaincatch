@@ -11,22 +11,22 @@
   <ImageView
     android:layout_width="@dimen/activity_main_title_blur_width_200"
     android:layout_height="@dimen/activity_main_title_blur_height_200"
+    android:layout_marginStart="@dimen/activity_main_title_blur_margin_40"
+    android:layout_marginBottom="@dimen/activity_main_title_blur_margin_140"
     android:adjustViewBounds="true"
     android:src="@drawable/blur"
-    android:layout_marginBottom="@dimen/activity_main_title_blur_margin_140"
-    android:layout_marginStart="@dimen/activity_main_title_blur_margin_40"
-    app:layout_constraintStart_toStartOf="@id/iv_title"
-    app:layout_constraintBottom_toTopOf="@id/iv_title"/>
+    app:layout_constraintBottom_toTopOf="@id/iv_title"
+    app:layout_constraintStart_toStartOf="@id/iv_title" />
 
   <ImageView
     android:layout_width="@dimen/activity_main_title_blur_width_300"
     android:layout_height="@dimen/activity_main_title_blur_height_160"
+    android:layout_marginEnd="@dimen/activity_main_title_blur_margin_80"
+    android:layout_marginBottom="@dimen/activity_main_title_blur_margin_130"
     android:adjustViewBounds="true"
     android:src="@drawable/blur"
-    android:layout_marginBottom="@dimen/activity_main_title_blur_margin_130"
-    android:layout_marginEnd="@dimen/activity_main_title_blur_margin_80"
-    app:layout_constraintEnd_toEndOf="@id/iv_title"
-    app:layout_constraintBottom_toTopOf="@id/iv_title"/>
+    app:layout_constraintBottom_toTopOf="@id/iv_title"
+    app:layout_constraintEnd_toEndOf="@id/iv_title" />
 
   <ImageView
     android:id="@+id/iv_title"
@@ -47,12 +47,57 @@
     android:id="@+id/btn_start"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/activity_main_button_height_50"
-    android:layout_marginBottom="@dimen/activity_main_button_margin_50"
+    android:layout_marginBottom="@dimen/activity_main_button_margin_80"
     android:background="@android:color/transparent"
     android:contentDescription="start 버튼 표시"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/iv_title" />
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/iv_title">
+
+
+    <ImageView
+      android:id="@+id/iv_user"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:src="@drawable/packman_yellow"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/tv_name"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+      android:id="@+id/tv_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="name"
+      android:textSize="40sp"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toEndOf="@id/iv_user"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+      android:id="@+id/tv_greeting"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text=" 님, 준비되셨나요?"
+      android:textColor="@color/black"
+      android:textSize="40sp"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toEndOf="@id/tv_name"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

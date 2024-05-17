@@ -3,6 +3,7 @@ package com.dtd.chaincatch
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
 import com.dtd.chaincatch.config.BaseActivity
@@ -14,6 +15,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+
+private const val TAG = "MainActivity_싸피"
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
   private lateinit var auth: FirebaseAuth
@@ -47,7 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
   private fun firebaseAuthWithGoogle(idToken: String) {
     val credential = GoogleAuthProvider.getCredential(idToken, null)
     auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
-      if (task.isSuccessful) startNextActivity()
+      if (task.isSuccessful) greeting()//startNextActivity()
       else showCustomToast("로그인에 실패하였습니다.")
     }
   }
@@ -59,25 +62,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
     initFirebaseAuth()
     initView()
 
-    binding.btnStart.setOnClickListener {
-      startNextActivity()
-    }
+    auth.signOut()
+    googleSignInClient.signOut()
   }
 
   private fun startNextActivity() {
+
     val intent = Intent(this, HomeActivity::class.java)
-    val options = ActivityOptions.makeCustomAnimation(
-      this,
-      R.anim.slide_in_bottom, R.anim.slide_out_top
-    ).toBundle()
-    startActivity(intent, options)
+    startActivity(
+      intent,
+      ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+    )
   }
 
   private fun initView() {
-
     // Set Title
     Glide
       .with(this)
@@ -92,7 +94,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     binding.btnStart.setOnClickListener {
       if (auth.currentUser == null) signIn()
-      else startNextActivity()
+      else {
+        greeting()
+//        startNextActivity()
+      }
     }
+  }
+
+  private fun greeting() {
+    binding.btnStart.visibility = View.INVISIBLE
+
+
   }
 }
