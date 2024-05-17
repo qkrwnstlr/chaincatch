@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.dtd.chaincatch.config.BaseActivity
 import com.dtd.chaincatch.databinding.ActivityMainBinding
 import com.dtd.chaincatch.home.HomeActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -16,10 +17,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
-class MainActivity : AppCompatActivity() {
-  private var _binding: ActivityMainBinding? = null
-  private val binding get() = _binding!!
-
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
   private lateinit var auth: FirebaseAuth
   private lateinit var googleSignInClient: GoogleSignInClient
 
@@ -32,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             val account = task.getResult(ApiException::class.java)!!
             firebaseAuthWithGoogle(account.idToken!!)
           } catch (e: ApiException) {
-            Toast.makeText(this, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+            showCustomToast("로그인에 실패하였습니다.")
           }
         }
       }
@@ -52,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     val credential = GoogleAuthProvider.getCredential(idToken, null)
     auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
       if (task.isSuccessful) navigateToHomeActivity()
-      else Toast.makeText(this, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+      else showCustomToast("로그인에 실패하였습니다.")
     }
   }
 
@@ -68,9 +66,6 @@ class MainActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    _binding = ActivityMainBinding.inflate(layoutInflater)
-    setContentView(binding.root)
-
     initFirebaseAuth()
     initView()
   }
