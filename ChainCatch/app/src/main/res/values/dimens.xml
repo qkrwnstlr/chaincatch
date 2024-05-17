@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="activity_main_title_width_300">300dp</dimen>
+  <dimen name="activity_main_title_margin_100">100dp</dimen>
+  <dimen name="activity_main_button_height_50">50dp</dimen>
+  <dimen name="activity_main_button_margin_50">50dp</dimen>
+</resources>
