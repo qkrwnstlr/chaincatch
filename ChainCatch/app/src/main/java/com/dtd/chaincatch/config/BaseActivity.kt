@@ -1,5 +1,6 @@
 package com.dtd.chaincatch.config
 
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,7 +28,7 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
     binding = inflate(layoutInflater)
     setContentView(binding.root)
 
-    hideSystemUI();
+    hideSystemUI()
   }
 
   // 로딩 다이얼로그, 즉 로딩창을 띄워줌.

@@ -58,6 +58,10 @@ dependencies {
   // Firebase Realtime Database
   implementation("com.google.firebase:firebase-database-ktx")
 
+  // Firebase & Google Auth
+  implementation ("com.google.firebase:firebase-auth-ktx")
+  implementation ("com.google.android.gms:play-services-auth:20.7.0")
+
   // for GIF
   implementation("com.github.bumptech.glide:glide:4.16.0")
   annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
