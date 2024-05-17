@@ -64,4 +64,7 @@ dependencies {
 
   // fragment KTX
   implementation("androidx.fragment:fragment-ktx:1.7.1")
+
+  // https://github.com/ybq/Android-SpinKit
+  implementation("com.github.ybq:Android-SpinKit:1.4.0")
 }

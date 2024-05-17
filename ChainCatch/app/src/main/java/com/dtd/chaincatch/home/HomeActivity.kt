@@ -15,8 +15,4 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
 
   }
 
-  override fun onDestroy() {
-    super.onDestroy()
-    _binding = null
-  }
 }
