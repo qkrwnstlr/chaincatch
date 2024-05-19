@@ -1,16 +1,18 @@
 export class Room {
-  rid: string | null | undefined;
+  rid: string;
   title: string;
   manager: string;
   maxUser: number;
   currentUser: number;
+  state: string;
 
   constructor(
-    rid: string | null | undefined,
+    rid: string,
     title: string,
     manager: string,
     maxUser: number,
-    currentUser: number
+    currentUser: number,
+    state: string,
   ) {
     this.rid = rid;
     this.title = title;
@@ -25,5 +27,6 @@ export class Room {
     } else {
       this.currentUser = currentUser;
     }
+    this.state = state;
   }
 }

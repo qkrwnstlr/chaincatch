@@ -26,10 +26,14 @@ module.exports = {
     "import",
   ],
   rules: {
+    "indent": "off",
+    "spaced-comment": 0,
+    "key-spacing": 0,
+    "space-before-function-paren": 0,
     "require-jsdoc": 0,
     "object-curly-spacing": 0,
     "quotes": 0,
     "import/no-unresolved": 0,
-    "indent": ["error", 2],
+    "max-line": "off",
   },
 };
