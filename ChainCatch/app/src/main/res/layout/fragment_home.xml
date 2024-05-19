@@ -1,10 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:background="@drawable/bg_summer_origin"
+  android:paddingStart="20dp"
   tools:context=".home.fragment.HomeFragment">
 
+  <!-- User -->
+  <!-- TODO -->
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/layout_user"
+    android:layout_width="300dp"
+    android:layout_height="0dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/rounded_rectangle"
+    app:layout_constraintBottom_toTopOf="@id/layout_room_list"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_chainStyle="spread_inside"
+    app:layout_constraintVertical_weight="2" />
 
-</FrameLayout>
+  <!-- Room -->
+  <!-- TODO : background 깔지 말지 -->
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/layout_room_list"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:paddingHorizontal="10dp"
+    android:paddingBottom="10dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/layout_side_menu"
+    app:layout_constraintHorizontal_chainStyle="packed"
+    app:layout_constraintHorizontal_weight="8"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/layout_user"
+    app:layout_constraintVertical_weight="8">
+
+    <!-- 방 정보 리스트 -->
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/home_fragment_recyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toTopOf="@id/layout_btns"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_chainStyle="packed"
+      app:layout_constraintVertical_weight="9"
+      tools:itemCount="4"
+      tools:listitem="@layout/list_item_room" />
+
+    <!-- 이전/다음 버튼 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/layout_btns"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/home_fragment_recyclerView"
+      app:layout_constraintVertical_weight="1">
+
+      <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_prev"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/btn_prev2"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_next"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+      <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_next"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/btn_next2"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_prev"
+        app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <!-- Side Menu -->
+  <!-- TODO -->
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/layout_side_menu"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:background="@drawable/rounded_rectangle"
+    app:layout_constraintBottom_toBottomOf="@id/layout_room_list"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_weight="2"
+    app:layout_constraintStart_toEndOf="@id/layout_room_list"
+    app:layout_constraintTop_toTopOf="@id/layout_room_list" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

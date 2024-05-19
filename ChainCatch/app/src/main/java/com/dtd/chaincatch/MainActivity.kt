@@ -1,9 +1,9 @@
 package com.dtd.chaincatch
 
-import android.app.ActivityOptions
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
 import com.dtd.chaincatch.config.BaseActivity
@@ -50,7 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
   private fun firebaseAuthWithGoogle(idToken: String) {
     val credential = GoogleAuthProvider.getCredential(idToken, null)
     auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
-      if (task.isSuccessful) greeting()//startNextActivity()
+      if (task.isSuccessful) startNextActivity()
       else showCustomToast("로그인에 실패하였습니다.")
     }
   }
@@ -71,12 +71,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
   }
 
   private fun startNextActivity() {
-
     val intent = Intent(this, HomeActivity::class.java)
-    startActivity(
-      intent,
-      ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
-    )
+    startActivity(intent)
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+      overrideActivityTransition(
+        OVERRIDE_TRANSITION_OPEN,
+        R.anim.fade_in,
+        R.anim.fade_out,
+        Color.BLACK
+      )
+      overrideActivityTransition(
+        OVERRIDE_TRANSITION_CLOSE,
+        R.anim.fade_out,
+        R.anim.fade_in,
+        Color.BLACK
+      )
+    } else {
+      overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
   }
 
   private fun initView() {
@@ -95,15 +108,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     binding.btnStart.setOnClickListener {
       if (auth.currentUser == null) signIn()
       else {
-        greeting()
-//        startNextActivity()
+
+        startNextActivity()
       }
     }
   }
 
-  private fun greeting() {
-    binding.btnStart.visibility = View.INVISIBLE
-
-
-  }
 }

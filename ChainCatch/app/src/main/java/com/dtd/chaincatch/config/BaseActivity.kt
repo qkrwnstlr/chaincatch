@@ -1,6 +1,5 @@
 package com.dtd.chaincatch.config
 
-import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,6 +18,11 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
     private set
   protected val mLoadingDialog: LoadingDialog by lazy {
     LoadingDialog(this)
+  }
+
+  override fun onResume() {
+    super.onResume()
+    hideSystemUI()
   }
 
   // 뷰 바인딩 객체를 받아서 inflate해서 화면을 만들어줌.

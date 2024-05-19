@@ -1,0 +1,65 @@
+package com.dtd.chaincatch.home
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import androidx.recyclerview.widget.RecyclerView
+import com.dtd.chaincatch.R
+import com.dtd.chaincatch.databinding.ListItemRoomBinding
+import com.dtd.chaincatch.home.fragment.RoomDTO
+
+class HomeAdapter(private val context: Context, private val items: List<RoomDTO>) :
+  RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
+
+  private var lastPosition = -1
+  private var list: List<RoomDTO> = items
+
+  class HomeViewHolder(private val binding: ListItemRoomBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    fun bind(room: RoomDTO) {
+      with(binding) {
+        tvTitle.text = room.title
+        tvManager.text = room.manager
+        tvStatus.text = "게임 중"
+        tvCurrentPlayer.text = room.currentUser.toString()
+      }
+
+//      val animator = ObjectAnimator.ofFloat(itemView, "translationX", -5f, 5f)
+//      animator.duration = 500
+//      animator.interpolator = AccelerateDecelerateInterpolator()
+//      animator.repeatMode = ValueAnimator.REVERSE
+//      animator.repeatCount = ValueAnimator.INFINITE
+//      animator.start()
+    }
+
+  }
+
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
+    val binding = ListItemRoomBinding.inflate(LayoutInflater.from(context), parent, false)
+    return HomeViewHolder(binding)
+  }
+
+  override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
+    holder.bind(list[position])
+    setAnimation(holder.itemView, position)
+  }
+
+  override fun getItemCount() = list.size
+
+  private fun setAnimation(viewToAnimate: View, position: Int) {
+    if (position > lastPosition) {
+      val animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_left)
+      viewToAnimate.startAnimation(animation)
+      lastPosition = position
+    }
+  }
+
+  fun submitList(newDataList: List<RoomDTO>) {
+    list = newDataList
+    notifyDataSetChanged()
+  }
+
+
+}
