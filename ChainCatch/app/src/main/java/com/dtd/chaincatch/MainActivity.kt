@@ -6,22 +6,36 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.dtd.chaincatch.config.BaseActivity
 import com.dtd.chaincatch.databinding.ActivityMainBinding
 import com.dtd.chaincatch.home.HomeActivity
+import com.dtd.chaincatch.home.model.service.UserService
+import com.dtd.chaincatch.home.viewmodel.HomeViewModel
+import com.dtd.chaincatch.user.model.dto.UserDto
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 private const val TAG = "MainActivity_싸피"
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
   private lateinit var auth: FirebaseAuth
   private lateinit var googleSignInClient: GoogleSignInClient
+
+  private val userService by lazy { ApplicationClass.wRetrofit.create(UserService::class.java) }
 
   private var firebaseAuthResult =
     registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -51,7 +65,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
   private fun firebaseAuthWithGoogle(idToken: String) {
     val credential = GoogleAuthProvider.getCredential(idToken, null)
     auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
-      if (task.isSuccessful) startNextActivity()
+      if (task.isSuccessful) checkUserInfo()
       else showCustomToast("로그인에 실패하였습니다.")
     }
   }
@@ -68,6 +82,35 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     auth.signOut()
     googleSignInClient.signOut()
+  }
+
+  private fun checkUserInfo() {
+    val userDB: DatabaseReference = Firebase.database.getReference(
+      "${HomeViewModel.USER_DB_KEY}/${auth.currentUser!!.uid}"
+    )
+
+    lifecycleScope.launch {
+      val userSnapshot = userDB.get().await()
+
+      if (!userSnapshot.exists()) {
+        // TODO : 회원가입 다이얼로그 띄우기
+        showCustomToast("다이얼로그 띄우기")
+        lifecycleScope.launch {
+          userService.createUser(UserDto(uid = auth.currentUser!!.uid, nickname = "nickname"))
+        }
+      } else {
+        userDB.child("isOnline").setValue(true)
+      }
+    }
+
+    userDB.child("isOnline").addValueEventListener(object : ValueEventListener {
+      override fun onDataChange(snapshot: DataSnapshot) {
+        val isOnline = snapshot.getValue(Boolean::class.java) ?: false
+        if (isOnline) startNextActivity()
+      }
+
+      override fun onCancelled(error: DatabaseError) {}
+    })
   }
 
   private fun startNextActivity() {
@@ -107,10 +150,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     binding.btnStart.setOnClickListener {
       if (auth.currentUser == null) signIn()
-      else {
-
-        startNextActivity()
-      }
+      else checkUserInfo()
     }
   }
 }
