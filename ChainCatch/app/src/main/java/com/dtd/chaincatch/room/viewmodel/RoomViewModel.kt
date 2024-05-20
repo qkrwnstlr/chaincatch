@@ -91,7 +91,8 @@ class RoomViewModel : ViewModel() {
           viewModelScope.launch {
             val user =
               userDB.child(uid).get().await().getValue(UserDto::class.java) ?: return@launch
-            _playerList.value = _playerList.value!!.toMutableList().apply { add(user) }
+            _playerList.value = _playerList.value?.toMutableList()?.apply { add(user) }
+              ?: listOf(user)
           }
         }
 
@@ -155,7 +156,8 @@ class RoomViewModel : ViewModel() {
       chattingDB.addChildEventListener(object : ChildEventListener {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
           val chattingDto = snapshot.getValue(ChattingDto::class.java) ?: return
-          _chattingList.value = _chattingList.value!!.toMutableList().apply { add(chattingDto) }
+          _chattingList.value = _chattingList.value?.toMutableList()?.apply { add(chattingDto) }
+            ?: listOf(chattingDto)
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
@@ -179,6 +181,11 @@ class RoomViewModel : ViewModel() {
     viewModelScope.launch {
       userService.startGame(RoomActionDto(rid = room.value!!.rid))
     }
+  }
+
+  fun sendChatting(content: String) {
+    val chattingDto = ChattingDto(user.value!!.uid, room.value!!.rid, content)
+    chattingDB.push()
   }
 
 
