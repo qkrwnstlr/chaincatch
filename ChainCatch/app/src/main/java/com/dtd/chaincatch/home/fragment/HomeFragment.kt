@@ -158,7 +158,7 @@ class HomeFragment :
       }, BUTTON_CLICKED_DELAY)
 
       // last page handling
-      if ((currentPage + 1) * pageSize < allData.size) {
+      if ((currentPage + 1) * pageSize < viewModel.roomDtoList.value!!.size) {
         currentPage++
         updateRecyclerView()
       } else {
