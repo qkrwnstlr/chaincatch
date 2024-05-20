@@ -118,8 +118,8 @@
 
       <ImageView
         android:id="@+id/btn_prev"
-        android:layout_width="@dimen/fragment_home_room_btn_width_30"
-        android:layout_height="@dimen/fragment_home_room_btn_height_30"
+        android:layout_width="@dimen/fragment_home_room_btn_width_35"
+        android:layout_height="@dimen/fragment_home_room_btn_width_35"
         android:layout_marginEnd="@dimen/fragment_home_room_btn_margin_horizontal_between"
         android:adjustViewBounds="true"
         android:minWidth="0dp"
@@ -133,8 +133,8 @@
 
       <ImageView
         android:id="@+id/btn_next"
-        android:layout_width="@dimen/fragment_home_room_btn_width_30"
-        android:layout_height="@dimen/fragment_home_room_btn_height_30"
+        android:layout_width="@dimen/fragment_home_room_btn_width_35"
+        android:layout_height="@dimen/fragment_home_room_btn_width_35"
         android:layout_marginStart="@dimen/fragment_home_room_btn_margin_horizontal_between"
         android:adjustViewBounds="true"
         android:minWidth="0dp"

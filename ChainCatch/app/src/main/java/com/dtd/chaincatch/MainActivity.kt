@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -94,6 +93,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
       if (!userSnapshot.exists()) {
         // TODO : 회원가입 다이얼로그 띄우기
+        showSignUpdialog()
+
         showCustomToast("다이얼로그 띄우기")
         lifecycleScope.launch {
           userService.createUser(UserDto(uid = auth.currentUser!!.uid, nickname = "nickname"))
@@ -111,6 +112,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
       override fun onCancelled(error: DatabaseError) {}
     })
+  }
+
+  private fun showSignUpdialog() {
+//    val layoutInflater = LayoutInflater.from(this@MainActivity)
+//    val view = layoutInflater.inflate(R.layout.alert_dialog, null)
+//
+//    val alertDialog = AlertDialog.Builder(this@MainActivity)
+//      .setView(view)
+//      .create()
+//
+//    val textTitle = view.findViewById<TextView>(R.id.text_title)
+//    val textSubtitle = view.findViewById<TextView>(R.id.text_subtitle)
+//    val buttonConfirm = view.findViewById<TextView>(R.id.button_confirm)
+//    val buttonClose = view.findViewById<View>(R.id.button_close)
+//
+//    textTitle.text = "로그인 해볼까요?"
+//    textSubtitle.text = "로그인 후 사용할 수 있는 기능입니다."
+//    buttonConfirm.text = "로그인 하기"
+//    buttonClose.setOnClickListener {
+//      alertDialog.dismiss()
+//    }
+//
+//    alertDialog.show()
   }
 
   private fun startNextActivity() {

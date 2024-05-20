@@ -90,12 +90,12 @@ class HomeFragment :
     binding.homeFragmentRecyclerView.scheduleLayoutAnimation()
 
     updateRecyclerView()
+    setVisibilityForAllButtons()
     initPrevAndNextButtons()
 
     viewModel.roomDtoList.observe(viewLifecycleOwner) {
       updateRecyclerView()
     }
-    initPrevAndNextButtons()
   }
 
   private fun setRecyclerViewHeight() {
@@ -139,7 +139,7 @@ class HomeFragment :
     adapter.submitList(sublist)
   }
 
-  private fun initPrevAndNextButtons() {
+  private fun setVisibilityForAllButtons() {
     Handler(Looper.getMainLooper()).postDelayed({
       with(binding) {
         btnPrev.visibility = View.VISIBLE
@@ -154,14 +154,15 @@ class HomeFragment :
         }, VISIBILITY_OFFSET - 700)
       }
     }, VISIBILITY_OFFSET)
+  }
 
-
+  private fun initPrevAndNextButtons() {
     // when prev button clicked
     binding.btnPrev.setOnClickListener {
       // twinkle
-      binding.btnPrev.setBackgroundResource(R.drawable.btn_prev_clicked)
+      setResourcewithGlide(R.drawable.btn_prev_clicked, binding.btnPrev)
       Handler(Looper.getMainLooper()).postDelayed({
-        binding.btnPrev.setBackgroundResource(R.drawable.btn_prev)
+        setResourcewithGlide(R.raw.btn_prev_animated, binding.btnPrev)
       }, BUTTON_CLICKED_DELAY)
 
       // first page handling
@@ -176,9 +177,9 @@ class HomeFragment :
     // when next button clicked
     binding.btnNext.setOnClickListener {
       // twinkle
-      binding.btnNext.setBackgroundResource(R.drawable.btn_next_clicked)
+      setResourcewithGlide(R.drawable.btn_next_clicked, binding.btnNext)
       Handler(Looper.getMainLooper()).postDelayed({
-        binding.btnNext.setBackgroundResource(R.drawable.btn_next)
+        setResourcewithGlide(R.raw.btn_next_animated, binding.btnNext)
       }, BUTTON_CLICKED_DELAY)
 
       // last page handling

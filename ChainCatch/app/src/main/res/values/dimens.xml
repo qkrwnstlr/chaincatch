@@ -25,8 +25,8 @@
   <dimen name="fragment_home_room_constraint_layout_padding_horizontal_10">10dp</dimen>
 
   <dimen name="fragment_home_room_btns_constraint_layout_margin_10">10dp</dimen>
-  <dimen name="fragment_home_room_btn_width_30">30dp</dimen>
-  <dimen name="fragment_home_room_btn_height_30">30dp</dimen>
+  <dimen name="fragment_home_room_btn_width_35">35dp</dimen>
+  <dimen name="fragment_home_room_btn_height_35">35dp</dimen>
   <dimen name="fragment_home_room_btn_margin_horizontal_between">10dp</dimen>
 
 
