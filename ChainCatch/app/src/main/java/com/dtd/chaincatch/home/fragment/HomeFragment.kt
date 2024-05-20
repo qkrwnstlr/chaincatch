@@ -1,5 +1,6 @@
 package com.dtd.chaincatch.home.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,6 +18,9 @@ import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.FragmentHomeBinding
 import com.dtd.chaincatch.home.HomeAdapter
 import com.dtd.chaincatch.home.viewmodel.HomeViewModel
+import com.dtd.chaincatch.room.RoomActivity
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 private const val TAG = "HomeFragment_싸피"
@@ -46,6 +51,7 @@ class HomeFragment :
       .into(binding.ivBackground)
 
     initRecyclerView()
+    initUserInfo()
   }
 
   private fun initUserInfo() {
@@ -55,7 +61,8 @@ class HomeFragment :
 
     viewModel.userInfo.observe(viewLifecycleOwner) {
       if(it == null) return@observe
-      // TODO : userInfo.currentRid 바뀌면 방으로 이동
+      val intent = Intent(requireContext(), RoomActivity::class.java)
+      if(it.currentRid != null) startActivity(intent)
     }
   }
 
@@ -71,11 +78,15 @@ class HomeFragment :
     binding.homeFragmentRecyclerView.layoutAnimation = animation
     binding.homeFragmentRecyclerView.scheduleLayoutAnimation()
 
-    updateRecyclerView()
     initButtons()
 
     viewModel.roomDtoList.observe(viewLifecycleOwner) {
       updateRecyclerView()
+    }
+
+    lifecycleScope.launch {
+      delay(200)
+      binding.homeFragmentRecyclerView.scheduleLayoutAnimation()
     }
   }
 
