@@ -7,12 +7,14 @@ import android.util.TypedValue
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.FragmentHomeBinding
 import com.dtd.chaincatch.home.HomeAdapter
+import com.dtd.chaincatch.home.model.dto.RoomDTO
 import com.dtd.chaincatch.home.viewmodel.HomeViewModel
 import kotlin.math.roundToInt
 
@@ -31,21 +33,25 @@ class HomeFragment :
     private const val DIVIDER_HEIGHT_PX = 15 // 구분선 Height (px)
   }
 
-  private lateinit var viewModel: HomeViewModel
+  private val viewModel: HomeViewModel by activityViewModels()
 
   private lateinit var adapter: HomeAdapter
-  private val allData: List<RoomDTO> = getSampleData()
   private val pageSize = COUNT_PER_PAGE
   private var currentPage = 0
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    Handler(Looper.getMainLooper()).postDelayed({ initRecyclerView() }, RECYCLER_VIEW_DELAY)
+//    Handler(Looper.getMainLooper()).postDelayed({ initRecyclerView() }, RECYCLER_VIEW_DELAY)
+    initRecyclerView()
+
+    viewModel.roomDTOList.observe(viewLifecycleOwner) {
+      updateRecyclerView()
+    }
   }
 
   private fun initRecyclerView() {
-    adapter = HomeAdapter(requireContext(), allData)
+    adapter = HomeAdapter(requireContext(), viewModel.roomDTOList.value!!)
     binding.homeFragmentRecyclerView.layoutManager = LinearLayoutManager(context)
     binding.homeFragmentRecyclerView.adapter = adapter
 
@@ -96,8 +102,8 @@ class HomeFragment :
 
   private fun updateRecyclerView() {
     val start = currentPage * pageSize
-    val end = Math.min(start + pageSize, allData.size)
-    val sublist = allData.subList(start, end)
+    val end = Math.min(start + pageSize, viewModel.roomDTOList.value!!.size)
+    val sublist = viewModel.roomDTOList.value!!.subList(start, end)
     adapter.submitList(sublist)
   }
 
@@ -139,7 +145,7 @@ class HomeFragment :
       }, BUTTON_CLICKED_DELAY)
 
       // last page handling
-      if ((currentPage + 1) * pageSize < allData.size) {
+      if ((currentPage + 1) * pageSize < viewModel.roomDTOList.value!!.size) {
         currentPage++
         updateRecyclerView()
       } else {
@@ -147,22 +153,4 @@ class HomeFragment :
       }
     }
   }
-
-
-  private fun getSampleData(): List<RoomDTO> {
-    return listOf(
-      RoomDTO(title = "초보만 들어와라", manager = "방장", currentUser = 2),
-      RoomDTO(title = "방이름", manager = "방장2", currentUser = 2),
-      RoomDTO(title = "방이름", manager = "방장3", currentUser = 4),
-      RoomDTO(title = "방이름4", manager = "방장", currentUser = 2),
-      RoomDTO(title = "방이름2", manager = "방장1", currentUser = 2),
-      RoomDTO(title = "방이름3", manager = "방장d", currentUser = 2),
-      RoomDTO(title = "방이름3", manager = "방장d", currentUser = 2),
-      RoomDTO(title = "방이름", manager = "방장", currentUser = 2),
-      RoomDTO(title = "방이름", manager = "방장s", currentUser = 2),
-      RoomDTO(title = "방이름", manager = "방장", currentUser = 2),
-      RoomDTO(title = "방이름", manager = "방장", currentUser = 2),
-    )
-  }
-
 }
