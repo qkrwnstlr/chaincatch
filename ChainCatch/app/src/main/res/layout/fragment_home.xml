@@ -6,6 +6,7 @@
   android:layout_height="match_parent"
   tools:context=".home.fragment.HomeFragment">
 
+  <!-- background gif -->
   <ImageView
     android:id="@+id/iv_background"
     android:layout_width="match_parent"
@@ -18,36 +19,76 @@
     android:id="@+id/layout_user"
     android:layout_width="300dp"
     android:layout_height="0dp"
-    android:layout_marginStart="@dimen/fragment_home_root_margin_start_20"
+    android:layout_marginStart="@dimen/fragment_home_root_margin_start_25"
     android:layout_marginTop="10dp"
-    android:background="@drawable/rounded_rectangle"
     app:layout_constraintBottom_toTopOf="@id/layout_room_list"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_chainStyle="spread_inside"
-    app:layout_constraintVertical_weight="1.5" />
+    app:layout_constraintVertical_weight="2">
+
+    <!-- user 캐릭터 사진 -->
+    <ImageView
+      android:id="@+id/iv_user"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:adjustViewBounds="true"
+      android:background="@drawable/bg_user_with_opacity"
+      android:padding="15dp"
+      android:src="@drawable/cat_brown_face"
+      app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@id/iv_user">
+      <!-- user 닉네임 -->
+      <TextView
+        android:id="@+id/tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="닉네임"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/progress_bar_experience"
+        app:layout_constraintStart_toStartOf="@id/progress_bar_experience"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+      <!-- user 경험치 -->
+      <ProgressBar
+        android:id="@+id/progress_bar_experience"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:progress="20"
+        android:progressDrawable="@drawable/custom_progress_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
   <!-- Room -->
-  <!-- TODO : background 깔지 말지 -->
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/layout_room_list"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    android:layout_marginStart="20dp"
-    android:layout_marginTop="@dimen/fragment_home_room_constraint_layout_margin_10"
+    android:layout_marginStart="@dimen/fragment_home_root_margin_start_25"
     android:layout_marginBottom="@dimen/fragment_home_room_constraint_layout_margin_10"
-    android:background="@drawable/rounded_rectangle_dark"
-    android:paddingHorizontal="@dimen/fragment_home_room_constraint_layout_padding_horizontal_10"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp"
-    android:paddingBottom="@dimen/fragment_home_room_constraint_layout_padding_10"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@id/layout_side_menu"
     app:layout_constraintHorizontal_chainStyle="packed"
-    app:layout_constraintHorizontal_weight="8.5"
+    app:layout_constraintHorizontal_weight="8"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/layout_user"
-    app:layout_constraintVertical_weight="8">
+    app:layout_constraintVertical_weight="8.5">
 
     <!-- 방 정보 리스트 -->
     <androidx.recyclerview.widget.RecyclerView
@@ -95,7 +136,7 @@
         android:layout_width="@dimen/fragment_home_room_btn_width_30"
         android:layout_height="@dimen/fragment_home_room_btn_height_30"
         android:layout_marginStart="@dimen/fragment_home_room_btn_margin_horizontal_between"
-        android:background="@drawable/btn_next3"
+        android:background="@drawable/btn_next"
         android:minWidth="0dp"
         android:minHeight="0dp"
         android:visibility="invisible"
@@ -107,7 +148,6 @@
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <!-- Side Menu -->
-  <!-- TODO -->
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/layout_side_menu"
     android:layout_width="0dp"
@@ -125,7 +165,7 @@
       android:layout_marginHorizontal="20dp"
       android:layout_marginTop="25dp"
       android:adjustViewBounds="true"
-      android:src="@drawable/btn_new_room_retro5"
+      android:src="@drawable/btn_new_room_retro"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_chainStyle="spread" />

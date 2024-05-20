@@ -46,12 +46,27 @@ class HomeFragment :
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    initSideMenuButtons()
+    initRecyclerView()
+    initUserInfo()
+  }
+
+  private fun initSideMenuButtons() {
     Glide.with(requireContext())
       .load(R.raw.bg_animated2)
       .into(binding.ivBackground)
 
-    initRecyclerView()
-    initUserInfo()
+    Glide.with(requireContext())
+      .load(R.raw.btn_new_room_animated3)
+      .into(binding.ivBtnNewRoom)
+
+    Glide.with(requireContext())
+      .load(R.raw.btn_random_start_animated)
+      .into(binding.ivBtnRandomStart)
+
+    Glide.with(requireContext())
+      .load(R.raw.btn_setting_animated6)
+      .into(binding.ivBtnSetting)
   }
 
   private fun initUserInfo() {
@@ -68,7 +83,9 @@ class HomeFragment :
 
   private fun initRecyclerView() {
     adapter = HomeAdapter(requireContext(), viewModel.roomDtoList.value!!)
-    binding.homeFragmentRecyclerView.layoutManager = LinearLayoutManager(context)
+    binding.homeFragmentRecyclerView.layoutManager = object : LinearLayoutManager(context) {
+      override fun canScrollVertically() = false
+    }
     binding.homeFragmentRecyclerView.adapter = adapter
 
     setRecyclerViewHeight()
@@ -78,16 +95,13 @@ class HomeFragment :
     binding.homeFragmentRecyclerView.layoutAnimation = animation
     binding.homeFragmentRecyclerView.scheduleLayoutAnimation()
 
-    initButtons()
+    updateRecyclerView()
+    initPrevAndNextButtons()
 
     viewModel.roomDtoList.observe(viewLifecycleOwner) {
       updateRecyclerView()
     }
-
-    lifecycleScope.launch {
-      delay(200)
-      binding.homeFragmentRecyclerView.scheduleLayoutAnimation()
-    }
+    initPrevAndNextButtons()
   }
 
   private fun setRecyclerViewHeight() {
@@ -131,7 +145,7 @@ class HomeFragment :
     adapter.submitList(sublist)
   }
 
-  private fun initButtons() {
+  private fun initPrevAndNextButtons() {
     // button initial animation : fade in
     binding.btnPrev.visibility = View.VISIBLE
     binding.btnPrev.startAnimation(
@@ -163,9 +177,9 @@ class HomeFragment :
     // when next button clicked
     binding.btnNext.setOnClickListener {
       // twinkle
-      binding.btnNext.setBackgroundResource(R.drawable.btn_next3_clicked2)
+      binding.btnNext.setBackgroundResource(R.drawable.btn_next_clicked)
       Handler(Looper.getMainLooper()).postDelayed({
-        binding.btnNext.setBackgroundResource(R.drawable.btn_next3)
+        binding.btnNext.setBackgroundResource(R.drawable.btn_next)
       }, BUTTON_CLICKED_DELAY)
 
       // last page handling
