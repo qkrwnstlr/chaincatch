@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dtd.chaincatch.ApplicationClass
+import com.dtd.chaincatch.home.model.dto.RoomActionDto
 import com.dtd.chaincatch.home.model.dto.RoomDto
 import com.dtd.chaincatch.home.model.service.UserService
 import com.dtd.chaincatch.room.model.dto.ChattingDto
@@ -97,16 +98,28 @@ class RoomViewModel : ViewModel() {
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
           val uid = snapshot.getValue(String::class.java) ?: return
           viewModelScope.launch {
-            val user =
-              userDB.child(uid).get().await().getValue(UserDto::class.java) ?: return@launch
-            _playerList.value = _playerList.value!!.toMutableList().apply { add(user) }
+            val user = userDB.child(uid).get().await().getValue(UserDto::class.java)
+              ?: return@launch
+            if (user.uid == "empty") {
+              _playerList.value = _playerList.value!!.toMutableList().apply {
+                removeAt(indexOf(user))
+              }
+            } else {
+              _playerList.value = _playerList.value!!.toMutableList().apply {
+                set(indexOf(user), user)
+              }
+            }
           }
         }
 
         override fun onChildRemoved(snapshot: DataSnapshot) {
           val uid = snapshot.getValue(String::class.java) ?: return
           viewModelScope.launch {
-            _playerList.value = _playerList.value!!.toMutableList().filter { it.uid != uid }
+            val user = userDB.child(uid).get().await().getValue(UserDto::class.java)
+              ?: return@launch
+            _playerList.value = _playerList.value!!.toMutableList().apply {
+              removeAt(indexOf(user))
+            }
           }
         }
 
@@ -153,6 +166,18 @@ class RoomViewModel : ViewModel() {
 
         override fun onCancelled(error: DatabaseError) {}
       })
+    }
+  }
+
+  fun exitRoom() {
+    viewModelScope.launch {
+      userService.exitRoom(RoomActionDto(uid = user.value!!.uid))
+    }
+  }
+
+  fun playGame() {
+    viewModelScope.launch {
+      userService.startGame(RoomActionDto(rid = room.value!!.rid))
     }
   }
 

@@ -4,7 +4,6 @@ import com.dtd.chaincatch.home.model.dto.RoomActionDto
 import com.dtd.chaincatch.home.model.dto.RoomDto
 import com.dtd.chaincatch.user.model.dto.UserDto
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface UserService {
