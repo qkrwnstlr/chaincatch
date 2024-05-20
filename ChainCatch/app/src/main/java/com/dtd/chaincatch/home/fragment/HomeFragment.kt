@@ -42,6 +42,11 @@ class HomeFragment :
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    initSideMenuButtons()
+    Handler(Looper.getMainLooper()).postDelayed({ initRecyclerView() }, RECYCLER_VIEW_DELAY)
+  }
+
+  private fun initSideMenuButtons() {
     Glide.with(requireContext())
       .load(R.raw.bg_animated2)
       .into(binding.ivBackground)
@@ -57,13 +62,13 @@ class HomeFragment :
     Glide.with(requireContext())
       .load(R.raw.btn_setting_animated6)
       .into(binding.ivBtnSetting)
-
-    Handler(Looper.getMainLooper()).postDelayed({ initRecyclerView() }, RECYCLER_VIEW_DELAY)
   }
 
   private fun initRecyclerView() {
     adapter = HomeAdapter(requireContext(), allData)
-    binding.homeFragmentRecyclerView.layoutManager = LinearLayoutManager(context)
+    binding.homeFragmentRecyclerView.layoutManager = object : LinearLayoutManager(context) {
+      override fun canScrollVertically() = false
+    }
     binding.homeFragmentRecyclerView.adapter = adapter
 
     setRecyclerViewHeight()
@@ -74,7 +79,7 @@ class HomeFragment :
     binding.homeFragmentRecyclerView.scheduleLayoutAnimation()
 
     updateRecyclerView()
-    initButtons()
+    initPrevAndNextButtons()
   }
 
   fun setRecyclerViewHeight() {
@@ -118,7 +123,7 @@ class HomeFragment :
     adapter.submitList(sublist)
   }
 
-  private fun initButtons() {
+  private fun initPrevAndNextButtons() {
     // button initial animation : fade in
     binding.btnPrev.visibility = View.VISIBLE
     binding.btnPrev.startAnimation(

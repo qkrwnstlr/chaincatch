@@ -20,27 +20,42 @@
     android:layout_height="0dp"
     android:layout_marginStart="@dimen/fragment_home_root_margin_start_20"
     android:layout_marginTop="10dp"
-    android:background="@drawable/rounded_rectangle"
     app:layout_constraintBottom_toTopOf="@id/layout_room_list"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_chainStyle="spread_inside"
-    app:layout_constraintVertical_weight="1.5" />
+    app:layout_constraintVertical_weight="2">
+
+    <ImageView
+      android:id="@+id/iv_user"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:adjustViewBounds="true"
+      android:background="@drawable/bg_user_rainbow"
+      android:padding="15dp"
+      android:src="@drawable/packman_yellow"
+      app:layout_constraintStart_toStartOf="parent" />
+
+    <!--    <TextView-->
+    <!--      android:id="@+id/tv_nickname"-->
+    <!--      android:layout_width="wrap_content"-->
+    <!--      android:layout_height="wrap_content"-->
+    <!--      app:layout_constraintBottom_toTopOf="@id/progress_bar_experience"-->
+    <!--      app:layout_constraintStart_toEndOf="@id/iv_user"-->
+    <!--      app:layout_constraintTop_toTopOf="parent"-->
+    <!--      app:layout_constraintVertical_chainStyle="packed"-->
+    <!--      tools:text="닉네임" />-->
+
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
   <!-- Room -->
-  <!-- TODO : background 깔지 말지 -->
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/layout_room_list"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    android:layout_marginStart="20dp"
-    android:layout_marginTop="@dimen/fragment_home_room_constraint_layout_margin_10"
+    android:layout_marginStart="@dimen/fragment_home_root_margin_start_20"
     android:layout_marginBottom="@dimen/fragment_home_room_constraint_layout_margin_10"
-    android:background="@drawable/rounded_rectangle_dark"
-    android:paddingHorizontal="@dimen/fragment_home_room_constraint_layout_padding_horizontal_10"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp"
-    android:paddingBottom="@dimen/fragment_home_room_constraint_layout_padding_10"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@id/layout_side_menu"
     app:layout_constraintHorizontal_chainStyle="packed"
@@ -107,14 +122,13 @@
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <!-- Side Menu -->
-  <!-- TODO -->
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/layout_side_menu"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginEnd="10dp"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_weight="2"
+    app:layout_constraintHorizontal_weight="1.5"
     app:layout_constraintStart_toEndOf="@id/layout_room_list"
     app:layout_constraintTop_toTopOf="@id/layout_room_list">
 
