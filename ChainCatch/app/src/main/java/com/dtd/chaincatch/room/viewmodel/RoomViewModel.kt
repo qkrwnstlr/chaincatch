@@ -1,5 +1,6 @@
 package com.dtd.chaincatch.room.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,8 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+
+private const val TAG = "RoomViewModel_싸피"
 
 class RoomViewModel : ViewModel() {
   private var auth: FirebaseAuth = Firebase.auth

@@ -3,6 +3,7 @@ package com.dtd.chaincatch.room.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
@@ -24,6 +25,10 @@ class RoomFragment :
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+
+    requireActivity().onBackPressedDispatcher.addCallback {
+      viewModel.exitRoom()
+    }
 
     viewModel.user.observe(viewLifecycleOwner) {
       if (it.currentRid == null) roomActivity.finish()
@@ -66,8 +71,9 @@ class RoomFragment :
     }
   }
 
-  override fun onDestroy() {
-    super.onDestroy()
+  override fun onDestroyView() {
+    super.onDestroyView()
+    // TODO : 호출안되는 버그 수정
     viewModel.exitRoom()
   }
 }
