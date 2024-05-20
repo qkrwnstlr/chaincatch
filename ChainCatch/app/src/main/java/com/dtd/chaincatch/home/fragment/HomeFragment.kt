@@ -6,6 +6,7 @@ import android.os.Looper
 import android.util.TypedValue
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +27,7 @@ class HomeFragment :
   companion object {
     fun newInstance() = HomeFragment()
 
+    private const val VISIBILITY_OFFSET = 1000L
     private const val BUTTON_CLICKED_DELAY = 100L
     private const val COUNT_PER_PAGE = 4 // 한 페이지에 표시할 항목 수
     private const val ITEM_HEIGHT_DP = 50 // 한 아이템의 Height (dp)
@@ -41,26 +43,25 @@ class HomeFragment :
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    initSideMenuButtons()
+    initAllButtons()
     initRecyclerView()
   }
 
-  private fun initSideMenuButtons() {
-    Glide.with(requireContext())
-      .load(R.raw.bg_animated2)
-      .into(binding.ivBackground)
+  private fun initAllButtons() {
+    setResourcewithGlide(R.raw.bg_animated2, binding.ivBackground)
 
-    Glide.with(requireContext())
-      .load(R.raw.btn_new_room_animated3)
-      .into(binding.ivBtnNewRoom)
+    setResourcewithGlide(R.raw.btn_prev_animated, binding.btnPrev)
+    setResourcewithGlide(R.raw.btn_next_animated, binding.btnNext)
 
-    Glide.with(requireContext())
-      .load(R.raw.btn_random_start_animated)
-      .into(binding.ivBtnRandomStart)
+    setResourcewithGlide(R.raw.btn_new_room_animated3, binding.ivBtnNewRoom)
+    setResourcewithGlide(R.raw.btn_random_start_animated, binding.ivBtnRandomStart)
+    setResourcewithGlide(R.raw.btn_setting_animated6, binding.ivBtnSetting)
+  }
 
+  private fun setResourcewithGlide(rawInt: Int, imageView: ImageView) {
     Glide.with(requireContext())
-      .load(R.raw.btn_setting_animated6)
-      .into(binding.ivBtnSetting)
+      .load(rawInt)
+      .into(imageView)
   }
 
   private fun initUserInfo() {
@@ -139,23 +140,28 @@ class HomeFragment :
   }
 
   private fun initPrevAndNextButtons() {
-    // button initial animation : fade in
-    binding.btnPrev.visibility = View.VISIBLE
-    binding.btnPrev.startAnimation(
-      AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in_with_no_offset)
-    )
+    Handler(Looper.getMainLooper()).postDelayed({
+      with(binding) {
+        btnPrev.visibility = View.VISIBLE
+        btnNext.visibility = View.VISIBLE
+        ivBtnNewRoom.visibility = View.VISIBLE
+        Handler(Looper.getMainLooper()).postDelayed({
+          binding.ivBtnRandomStart.visibility = View.VISIBLE
+          Handler(Looper.getMainLooper()).postDelayed(
+            { binding.ivBtnSetting.visibility = View.VISIBLE },
+            VISIBILITY_OFFSET - 700
+          )
+        }, VISIBILITY_OFFSET - 700)
+      }
+    }, VISIBILITY_OFFSET)
 
-    binding.btnNext.visibility = View.VISIBLE
-    binding.btnNext.startAnimation(
-      AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in_with_no_offset)
-    )
 
     // when prev button clicked
     binding.btnPrev.setOnClickListener {
       // twinkle
-      binding.btnPrev.setBackgroundResource(R.drawable.btn_prev3_clicked2)
+      binding.btnPrev.setBackgroundResource(R.drawable.btn_prev_clicked)
       Handler(Looper.getMainLooper()).postDelayed({
-        binding.btnPrev.setBackgroundResource(R.drawable.btn_prev3)
+        binding.btnPrev.setBackgroundResource(R.drawable.btn_prev)
       }, BUTTON_CLICKED_DELAY)
 
       // first page handling

@@ -116,12 +116,12 @@
       app:layout_constraintTop_toBottomOf="@id/home_fragment_recyclerView"
       app:layout_constraintVertical_weight="1">
 
-      <androidx.appcompat.widget.AppCompatButton
+      <ImageView
         android:id="@+id/btn_prev"
         android:layout_width="@dimen/fragment_home_room_btn_width_30"
         android:layout_height="@dimen/fragment_home_room_btn_height_30"
         android:layout_marginEnd="@dimen/fragment_home_room_btn_margin_horizontal_between"
-        android:background="@drawable/btn_prev3"
+        android:adjustViewBounds="true"
         android:minWidth="0dp"
         android:minHeight="0dp"
         android:visibility="invisible"
@@ -131,12 +131,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-      <androidx.appcompat.widget.AppCompatButton
+      <ImageView
         android:id="@+id/btn_next"
         android:layout_width="@dimen/fragment_home_room_btn_width_30"
         android:layout_height="@dimen/fragment_home_room_btn_height_30"
         android:layout_marginStart="@dimen/fragment_home_room_btn_margin_horizontal_between"
-        android:background="@drawable/btn_next"
+        android:adjustViewBounds="true"
         android:minWidth="0dp"
         android:minHeight="0dp"
         android:visibility="invisible"
@@ -166,9 +166,11 @@
       android:layout_marginTop="25dp"
       android:adjustViewBounds="true"
       android:src="@drawable/btn_new_room_retro"
+      android:visibility="invisible"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_chainStyle="spread" />
+      app:layout_constraintVertical_chainStyle="spread"
+      tools:visibility="visible" />
 
     <ImageView
       android:id="@+id/iv_btn_random_start"
@@ -178,8 +180,10 @@
       android:layout_marginTop="20dp"
       android:adjustViewBounds="true"
       android:src="@drawable/btn_random_start_retro"
+      android:visibility="invisible"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/iv_btn_new_room" />
+      app:layout_constraintTop_toBottomOf="@id/iv_btn_new_room"
+      tools:visibility="visible" />
 
     <ImageView
       android:id="@+id/iv_btn_setting"
@@ -189,8 +193,10 @@
       android:layout_marginTop="20dp"
       android:adjustViewBounds="true"
       android:src="@drawable/btn_setting_retro"
+      android:visibility="invisible"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/iv_btn_random_start" />
+      app:layout_constraintTop_toBottomOf="@id/iv_btn_random_start"
+      tools:visibility="visible" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 
