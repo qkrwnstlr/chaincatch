@@ -46,6 +46,18 @@ class HomeFragment :
       .load(R.raw.bg_animated2)
       .into(binding.ivBackground)
 
+    Glide.with(requireContext())
+      .load(R.raw.btn_new_room_animated3)
+      .into(binding.ivBtnNewRoom)
+
+    Glide.with(requireContext())
+      .load(R.raw.btn_random_start_animated)
+      .into(binding.ivBtnRandomStart)
+
+    Glide.with(requireContext())
+      .load(R.raw.btn_setting_animated6)
+      .into(binding.ivBtnSetting)
+
     Handler(Looper.getMainLooper()).postDelayed({ initRecyclerView() }, RECYCLER_VIEW_DELAY)
   }
 
