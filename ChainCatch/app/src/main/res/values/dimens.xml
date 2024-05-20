@@ -29,5 +29,8 @@
   <dimen name="fragment_home_room_btn_height_35">35dp</dimen>
   <dimen name="fragment_home_room_btn_margin_horizontal_between">10dp</dimen>
 
+  <!-- sign up dialog -->
+  <dimen name="sign_up_dialog_corner_radius_30">30dp</dimen>
+
 
 </resources>

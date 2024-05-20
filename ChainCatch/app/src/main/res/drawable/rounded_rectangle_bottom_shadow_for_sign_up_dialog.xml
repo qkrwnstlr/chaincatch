@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+  <solid android:color="#a17a4d" />
+  <stroke
+    android:width="2dp"
+    android:color="#24100b" />
+  <corners
+    android:bottomLeftRadius="@dimen/sign_up_dialog_corner_radius_30"
+    android:bottomRightRadius="@dimen/sign_up_dialog_corner_radius_30" />
+</shape>

@@ -1,7 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="wrap_content"
+  android:paddingHorizontal="100dp"
+  android:paddingVertical="30dp">
+
+  <!-- background imgs -->
+  <ImageView
+    android:id="@+id/iv_top"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:src="@drawable/rounded_rectangle_top_for_sign_up_dialog"
+    app:layout_constraintBottom_toTopOf="@id/iv_bottom"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_weight="2" />
+
+  <!-- cancel button -->
+  <ImageView
+    android:id="@+id/sign_up_dialog_btn_cancel"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginEnd="30dp"
+    android:adjustViewBounds="true"
+    android:src="@drawable/btn_cancel3"
+    app:layout_constraintBottom_toBottomOf="@id/tv_title"
+    app:layout_constraintDimensionRatio="1"
+    app:layout_constraintEnd_toEndOf="@id/iv_top"
+    app:layout_constraintTop_toTopOf="@id/tv_title" />
+
+  <ImageView
+    android:id="@+id/iv_bottom_shadow"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:src="@drawable/rounded_rectangle_bottom_shadow_for_sign_up_dialog"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/iv_top"
+    app:layout_constraintVertical_weight="8" />
+
+  <ImageView
+    android:id="@+id/iv_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginBottom="10dp"
+    android:src="@drawable/rounded_rectangle_bottom_for_sign_up_dialog"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/iv_top"
+    app:layout_constraintVertical_weight="8" />
+
+  <!--  <ImageView-->
+  <!--    android:id="@+id/iv_bottom_content"-->
+  <!--    android:layout_width="match_parent"-->
+  <!--    android:layout_height="0dp"-->
+  <!--    android:layout_marginBottom="90dp"-->
+  <!--    android:src="@drawable/rounded_rectangle_bottom_content_sign_up_dialog"-->
+  <!--    app:layout_constraintBottom_toBottomOf="parent"-->
+  <!--    app:layout_constraintTop_toBottomOf="@id/iv_top"-->
+  <!--    app:layout_constraintVertical_weight="8" />-->
+
+
+  <!-- title -->
+  <TextView
+    android:id="@+id/tv_title_shadow"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="7dp"
+    android:text="어느 고양이로 플레이 할까요?"
+    android:textColor="@color/white"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="@id/iv_top"
+    app:layout_constraintEnd_toEndOf="@id/iv_top"
+    app:layout_constraintStart_toStartOf="@id/iv_top"
+    app:layout_constraintTop_toTopOf="@id/iv_top" />
+
+  <TextView
+    android:id="@+id/tv_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="25dp"
+    android:text="어느 고양이로 플레이 할까요?"
+    android:textColor="#48390e"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="@id/iv_top"
+    app:layout_constraintEnd_toEndOf="@id/iv_top"
+    app:layout_constraintStart_toStartOf="@id/iv_top"
+    app:layout_constraintTop_toTopOf="@id/iv_top" />
+
+  <!-- 냥이들 -->
+  <GridLayout
+    android:id="@+id/layout_cats"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:alignmentMode="alignMargins"
+    android:columnCount="2"
+    android:padding="8dp"
+    android:rowCount="2"
+    app:layout_constraintBottom_toBottomOf="@id/iv_bottom"
+    app:layout_constraintTop_toTopOf="@id/iv_bottom">
+
+    <ImageView
+      android:id="@+id/cat_brown"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_row="0"
+      android:layout_rowWeight="1"
+      android:layout_column="0"
+      android:layout_columnWeight="1"
+      android:layout_gravity="fill"
+      android:layout_marginStart="50dp"
+      android:adjustViewBounds="true"
+      android:src="@drawable/cat_brown_face" />
+
+    <ImageView
+      android:id="@+id/cat_fish"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_row="0"
+      android:layout_rowWeight="1"
+      android:layout_column="1"
+      android:layout_columnWeight="1"
+      android:layout_gravity="fill"
+      android:layout_marginEnd="50dp"
+      android:adjustViewBounds="true"
+      android:src="@drawable/cat_white_face" />
+
+    <ImageView
+      android:id="@+id/cat_grey"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_row="1"
+      android:layout_rowWeight="1"
+      android:layout_column="0"
+      android:layout_columnWeight="1"
+      android:layout_gravity="fill"
+      android:layout_marginStart="50dp"
+      android:layout_marginTop="30dp"
+      android:adjustViewBounds="true"
+      android:src="@drawable/cat_grey_face" />
+
+    <ImageView
+      android:id="@+id/cat_rainbow"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_row="1"
+      android:layout_rowWeight="0"
+      android:layout_column="1"
+      android:layout_columnWeight="1"
+      android:layout_gravity="fill"
+      android:layout_marginTop="30dp"
+      android:layout_marginEnd="50dp"
+      android:adjustViewBounds="true"
+      android:src="@drawable/cat_rainbow_face" />
+
+
+  </GridLayout>
+
+  <!--  <androidx.constraintlayout.widget.ConstraintLayout-->
+  <!--    android:id="@+id/layout_cats"-->
+  <!--    android:layout_width="match_parent"-->
+  <!--    android:layout_height="0dp"-->
+  <!--    android:layout_marginHorizontal="30dp"-->
+  <!--    android:layout_marginVertical="30dp"-->
+  <!--    app:layout_constraintBottom_toBottomOf="@id/iv_bottom"-->
+  <!--    app:layout_constraintTop_toTopOf="@id/iv_bottom">-->
+
+  <!--    <ImageView-->
+  <!--      android:id="@+id/cat_brown"-->
+  <!--      android:layout_width="0dp"-->
+  <!--      android:layout_height="wrap_content"-->
+  <!--      android:layout_marginEnd="10dp"-->
+  <!--      android:adjustViewBounds="true"-->
+  <!--      android:paddingHorizontal="10dp"-->
+  <!--      android:paddingVertical="30dp"-->
+  <!--      app:layout_constraintBottom_toBottomOf="parent"-->
+  <!--      app:layout_constraintEnd_toStartOf="@id/cat_grey"-->
+  <!--      app:layout_constraintStart_toStartOf="parent"-->
+  <!--      app:layout_constraintTop_toTopOf="parent"-->
+  <!--      tools:background="@drawable/rounded_rectangle_yellow"-->
+  <!--      tools:src="@drawable/cat_brown_face" />-->
+
+  <!--    <ImageView-->
+  <!--      android:id="@+id/cat_grey"-->
+  <!--      android:layout_width="0dp"-->
+  <!--      android:layout_height="wrap_content"-->
+  <!--      android:layout_marginEnd="10dp"-->
+  <!--      android:adjustViewBounds="true"-->
+  <!--      android:paddingHorizontal="10dp"-->
+  <!--      android:paddingVertical="30dp"-->
+  <!--      app:layout_constraintBottom_toBottomOf="parent"-->
+  <!--      app:layout_constraintEnd_toStartOf="@id/cat_fish"-->
+  <!--      app:layout_constraintStart_toEndOf="@id/cat_brown"-->
+  <!--      app:layout_constraintTop_toTopOf="parent"-->
+  <!--      tools:background="@drawable/rounded_rectangle_white"-->
+  <!--      tools:src="@drawable/cat_grey_face" />-->
+
+  <!--    <ImageView-->
+  <!--      android:id="@+id/cat_fish"-->
+  <!--      android:layout_width="0dp"-->
+  <!--      android:layout_height="wrap_content"-->
+  <!--      android:layout_marginEnd="10dp"-->
+  <!--      android:adjustViewBounds="true"-->
+  <!--      android:paddingHorizontal="10dp"-->
+  <!--      android:paddingVertical="30dp"-->
+  <!--      app:layout_constraintBottom_toBottomOf="parent"-->
+  <!--      app:layout_constraintEnd_toStartOf="@id/cat_rainbow"-->
+  <!--      app:layout_constraintStart_toEndOf="@id/cat_grey"-->
+  <!--      app:layout_constraintTop_toTopOf="parent"-->
+  <!--      tools:background="@drawable/rounded_rectangle_white"-->
+  <!--      tools:src="@drawable/cat_white_face" />-->
+
+  <!--    <ImageView-->
+  <!--      android:id="@+id/cat_rainbow"-->
+  <!--      android:layout_width="0dp"-->
+  <!--      android:layout_height="wrap_content"-->
+  <!--      android:adjustViewBounds="true"-->
+  <!--      android:paddingHorizontal="10dp"-->
+  <!--      android:paddingVertical="30dp"-->
+  <!--      app:layout_constraintBottom_toBottomOf="parent"-->
+  <!--      app:layout_constraintEnd_toEndOf="parent"-->
+  <!--      app:layout_constraintStart_toEndOf="@id/cat_fish"-->
+  <!--      app:layout_constraintTop_toTopOf="parent"-->
+  <!--      tools:background="@drawable/rounded_rectangle_white"-->
+  <!--      tools:src="@drawable/cat_rainbow_face" />-->
+  <!--  </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

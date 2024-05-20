@@ -1,9 +1,14 @@
 package com.dtd.chaincatch
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -28,6 +33,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
+
 private const val TAG = "MainActivity_싸피"
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -50,6 +56,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
       }
     }
+
+  private lateinit var catBrown: ImageView
+  private lateinit var catGrey: ImageView
+  private lateinit var catFish: ImageView
+  private lateinit var catRainbow: ImageView
+  private var isCatClicked = mutableListOf(false, false, false, false)
+  private var clickedCat = -1
 
   private fun initFirebaseAuth() {
     auth = FirebaseAuth.getInstance()
@@ -93,7 +106,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
       if (!userSnapshot.exists()) {
         // TODO : 회원가입 다이얼로그 띄우기
-        showSignUpdialog()
+
 
         showCustomToast("다이얼로그 띄우기")
         lifecycleScope.launch {
@@ -107,7 +120,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     userDB.child("isOnline").addValueEventListener(object : ValueEventListener {
       override fun onDataChange(snapshot: DataSnapshot) {
         val isOnline = snapshot.getValue(Boolean::class.java) ?: false
-        if (isOnline) startNextActivity()
+        if (isOnline) showSignUpdialog() //startNextActivity()
       }
 
       override fun onCancelled(error: DatabaseError) {}
@@ -115,27 +128,60 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
   }
 
   private fun showSignUpdialog() {
-//    val layoutInflater = LayoutInflater.from(this@MainActivity)
-//    val view = layoutInflater.inflate(R.layout.alert_dialog, null)
-//
-//    val alertDialog = AlertDialog.Builder(this@MainActivity)
-//      .setView(view)
-//      .create()
-//
-//    val textTitle = view.findViewById<TextView>(R.id.text_title)
-//    val textSubtitle = view.findViewById<TextView>(R.id.text_subtitle)
-//    val buttonConfirm = view.findViewById<TextView>(R.id.button_confirm)
-//    val buttonClose = view.findViewById<View>(R.id.button_close)
-//
-//    textTitle.text = "로그인 해볼까요?"
-//    textSubtitle.text = "로그인 후 사용할 수 있는 기능입니다."
-//    buttonConfirm.text = "로그인 하기"
-//    buttonClose.setOnClickListener {
-//      alertDialog.dismiss()
-//    }
-//
-//    alertDialog.show()
+    val layoutInflater = LayoutInflater.from(this@MainActivity)
+    val view = layoutInflater.inflate(R.layout.dialog_sign_up, null)
+
+    val alertDialog = AlertDialog.Builder(this@MainActivity, R.style.CustomAlertDialog)
+      .setView(view)
+      .create()
+
+    val btnCancel = view.findViewById<View>(R.id.sign_up_dialog_btn_cancel)
+    catBrown = view.findViewById(R.id.cat_brown)
+    catGrey = view.findViewById(R.id.cat_grey)
+    catFish = view.findViewById(R.id.cat_fish)
+    catRainbow = view.findViewById(R.id.cat_rainbow)
+
+    initCats(this@MainActivity)
+
+    btnCancel.setOnClickListener {
+      alertDialog.dismiss()
+    }
+
+
+    alertDialog.show()
   }
+
+  private fun initCats(context: Context) {
+    with(binding) {
+      catBrown.apply {
+//        setBackgroundResource(R.drawable.rounded_rectangle_white)
+        Glide.with(context).load(R.raw.cat_brown_animated).into(this)
+//        setOnClickListener {
+//          if (isCatClicked[CAT_BROWN]) {
+//            this.setBackgroundResource(R.drawable.rounded_rectangle_yellow)
+//            isCatClicked[CAT_BROWN] = !isCatClicked[CAT_BROWN]
+//          }
+//        }
+      }
+      catGrey.apply {
+//        setBackgroundResource(R.drawable.rounded_rectangle_white)
+        Glide.with(context).load(R.raw.cat_grey_animated).into(this@apply)
+      }
+      catFish.apply {
+//        setBackgroundResource(R.drawable.rounded_rectangle_white)
+        Glide.with(context).load(R.raw.cat_white_with_fish_animated).into(this@apply)
+      }
+      catRainbow.apply {
+//        setBackgroundResource(R.drawable.rounded_rectangle_white)
+        Glide.with(context).load(R.raw.cat_rainbow_animated).into(this@apply)
+      }
+    }
+  }
+
+  private fun toggleCat(nowClicked: Int) {
+
+  }
+
 
   private fun startNextActivity() {
     val intent = Intent(this, HomeActivity::class.java)
@@ -176,5 +222,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
       if (auth.currentUser == null) signIn()
       else checkUserInfo()
     }
+  }
+
+  companion object {
+    private const val CAT_BROWN = 0
+    private const val CAT_GREY = 1
+    private const val CAT_FISH = 2
+    private const val CAT_RAINBOW = 3
   }
 }
