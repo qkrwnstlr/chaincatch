@@ -59,8 +59,8 @@ dependencies {
   implementation("com.google.firebase:firebase-database-ktx")
 
   // Firebase & Google Auth
-  implementation ("com.google.firebase:firebase-auth-ktx")
-  implementation ("com.google.android.gms:play-services-auth:20.7.0")
+  implementation("com.google.firebase:firebase-auth-ktx")
+  implementation("com.google.android.gms:play-services-auth:20.7.0")
 
   // for GIF
   implementation("com.github.bumptech.glide:glide:4.16.0")
@@ -71,4 +71,7 @@ dependencies {
 
   // https://github.com/ybq/Android-SpinKit
   implementation("com.github.ybq:Android-SpinKit:1.4.0")
+
+  // for Circlular Image
+  implementation("de.hdodenhof:circleimageview:3.1.0")
 }

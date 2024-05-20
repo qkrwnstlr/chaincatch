@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <!-- main page -->
   <dimen name="activity_main_title_width_300">300dp</dimen>
   <dimen name="activity_main_title_margin_100">100dp</dimen>
 
@@ -13,5 +14,19 @@
   <dimen name="activity_main_title_blur_margin_80">-80dp</dimen>
 
   <dimen name="activity_main_button_height_50">50dp</dimen>
-  <dimen name="activity_main_button_margin_50">50dp</dimen>
+  <dimen name="activity_main_button_margin_80">80dp</dimen>
+
+  <!-- home page -->
+  <dimen name="fragment_home_root_padding_start_20">20dp</dimen>
+
+  <dimen name="fragment_home_room_constraint_layout_margin_10">10dp</dimen>
+  <dimen name="fragment_home_room_constraint_layout_padding_10">10dp</dimen>
+  <dimen name="fragment_home_room_constraint_layout_padding_horizontal_10">10dp</dimen>
+
+  <dimen name="fragment_home_room_btns_constraint_layout_margin_10">10dp</dimen>
+  <dimen name="fragment_home_room_btn_width_30">30dp</dimen>
+  <dimen name="fragment_home_room_btn_height_30">30dp</dimen>
+  <dimen name="fragment_home_room_btn_margin_horizontal_between">10dp</dimen>
+
+
 </resources>

@@ -1,7 +1,8 @@
 package com.dtd.chaincatch
 
-import android.app.ActivityOptions
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
@@ -41,16 +42,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     auth = FirebaseAuth.getInstance()
 
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-      .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
+      .requestIdToken(getString(R.string.default_web_client_id))
+      .requestEmail()
+      .build()
     googleSignInClient = GoogleSignIn.getClient(this, gso)
   }
 
   private fun firebaseAuthWithGoogle(idToken: String) {
     val credential = GoogleAuthProvider.getCredential(idToken, null)
-    auth.signInWithCredential(credential).addOnSuccessListener {
-      startNextActivity()
-    }.addOnFailureListener {
-      showCustomToast("로그인에 실패하였습니다.")
+    auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
+      if (task.isSuccessful) startNextActivity()
+      else showCustomToast("로그인에 실패하였습니다.")
     }
   }
 
@@ -61,7 +63,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-
     initFirebaseAuth()
     initView()
 
@@ -71,21 +72,43 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
   private fun startNextActivity() {
     val intent = Intent(this, HomeActivity::class.java)
-    val options = ActivityOptions.makeCustomAnimation(
-      this, R.anim.slide_in_bottom, R.anim.slide_out_top
-    )
-    startActivity(intent, options.toBundle())
+    startActivity(intent)
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+      overrideActivityTransition(
+        OVERRIDE_TRANSITION_OPEN,
+        R.anim.fade_in,
+        R.anim.fade_out,
+        Color.BLACK
+      )
+      overrideActivityTransition(
+        OVERRIDE_TRANSITION_CLOSE,
+        R.anim.fade_out,
+        R.anim.fade_in,
+        Color.BLACK
+      )
+    } else {
+      overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
   }
 
   private fun initView() {
-    Glide.with(this).load(R.raw.title_animated).into(binding.ivTitle)
+    // Set Title
+    Glide
+      .with(this)
+      .load(R.raw.title_animated)
+      .into(binding.ivTitle)
 
-    Glide.with(this).load(R.raw.btn_start_animated_slow).into(binding.btnStart)
+    // Set Start Button
+    Glide
+      .with(this)
+      .load(R.raw.btn_start_animated_slow)
+      .into(binding.btnStart)
 
     binding.btnStart.setOnClickListener {
-      if (auth.currentUser == null) {
-        signIn()
-      } else {
+      if (auth.currentUser == null) signIn()
+      else {
+
         startNextActivity()
       }
     }
