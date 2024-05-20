@@ -75,14 +75,16 @@ class HomeFragment :
     }
 
     viewModel.userInfo.observe(viewLifecycleOwner) {
-      if(it == null) return@observe
+      if (it == null) return@observe
       val intent = Intent(requireContext(), RoomActivity::class.java)
-      if(it.currentRid != null) startActivity(intent)
+      if (it.currentRid != null) startActivity(intent)
     }
   }
 
   private fun initRecyclerView() {
-    adapter = HomeAdapter(requireContext(), viewModel.roomDtoList.value!!)
+    adapter = HomeAdapter(requireContext(), viewModel.roomDtoList.value!!).apply {
+      setOnItemClickListener { viewModel.enterRoom(it.rid) }
+    }
     binding.homeFragmentRecyclerView.layoutManager = object : LinearLayoutManager(context) {
       override fun canScrollVertically() = false
     }
@@ -93,7 +95,10 @@ class HomeFragment :
     val animation =
       AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_anim_slide_in_left)
     binding.homeFragmentRecyclerView.layoutAnimation = animation
-    binding.homeFragmentRecyclerView.scheduleLayoutAnimation()
+    lifecycleScope.launch {
+      delay(200)
+      binding.homeFragmentRecyclerView.scheduleLayoutAnimation()
+    }
 
     updateRecyclerView()
     initPrevAndNextButtons()

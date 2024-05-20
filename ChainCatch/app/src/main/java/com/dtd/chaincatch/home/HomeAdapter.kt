@@ -15,8 +15,14 @@ class HomeAdapter(private val context: Context, private val items: List<RoomDto>
 
   private var lastPosition = -1
   private var list: List<RoomDto> = items
+  private var onItemClickListener: ((room: RoomDto) -> Unit)? = null
 
-  class HomeViewHolder(private val binding: ListItemRoomBinding) :
+  fun setOnItemClickListener(onItemClickListener: (room: RoomDto) -> Unit) {
+    this.onItemClickListener = onItemClickListener
+  }
+
+
+  inner class HomeViewHolder(private val binding: ListItemRoomBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(room: RoomDto) {
       with(binding) {
@@ -24,6 +30,7 @@ class HomeAdapter(private val context: Context, private val items: List<RoomDto>
         tvManager.text = room.manager
         tvStatus.text = "게임 중"
         tvCurrentPlayer.text = room.currentUser.toString()
+        root.setOnClickListener { onItemClickListener?.invoke(room) }
       }
 
 //      val animator = ObjectAnimator.ofFloat(itemView, "translationX", -5f, 5f)

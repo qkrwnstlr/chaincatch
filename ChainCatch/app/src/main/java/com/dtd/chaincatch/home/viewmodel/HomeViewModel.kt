@@ -71,7 +71,6 @@ class HomeViewModel : ViewModel() {
           val roomDTO = snapshot.getValue(RoomDto::class.java) ?: return
           if(_roomDtoList.value?.contains(roomDTO) == true) return
           _roomDtoList.value = _roomDtoList.value?.toMutableList()?.apply { add(roomDTO) }
-          Log.d(TAG, "onChildAdded: ${_roomDtoList.value?.size}")
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -102,7 +101,7 @@ class HomeViewModel : ViewModel() {
 
   fun enterRoom(rid: String) {
     viewModelScope.launch {
-      userService.enterRoom(RoomActionDto(rid = rid))
+      userService.enterRoom(RoomActionDto(rid = rid, uid = userInfo.value!!.uid))
     }
   }
 
