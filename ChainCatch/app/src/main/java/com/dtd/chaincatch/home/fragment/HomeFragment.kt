@@ -7,14 +7,12 @@ import android.util.TypedValue
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.FragmentHomeBinding
 import com.dtd.chaincatch.home.HomeAdapter
-import com.dtd.chaincatch.home.model.dto.RoomDTO
 import com.dtd.chaincatch.home.viewmodel.HomeViewModel
 import kotlin.math.roundToInt
 
@@ -36,6 +34,7 @@ class HomeFragment :
   private val viewModel: HomeViewModel by activityViewModels()
 
   private lateinit var adapter: HomeAdapter
+  private val allData: List<RoomDTO> = getSampleData()
   private val pageSize = COUNT_PER_PAGE
   private var currentPage = 0
 
