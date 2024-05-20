@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.FragmentHomeBinding
@@ -40,6 +41,10 @@ class HomeFragment :
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+
+    Glide.with(requireContext())
+      .load(R.raw.bg_animated2)
+      .into(binding.ivBackground)
 
     Handler(Looper.getMainLooper()).postDelayed({ initRecyclerView() }, RECYCLER_VIEW_DELAY)
   }

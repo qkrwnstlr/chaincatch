@@ -17,7 +17,7 @@
   <dimen name="activity_main_button_margin_80">80dp</dimen>
 
   <!-- home page -->
-  <dimen name="fragment_home_root_padding_start_20">20dp</dimen>
+  <dimen name="fragment_home_root_margin_start_20">20dp</dimen>
 
   <dimen name="fragment_home_room_constraint_layout_margin_10">10dp</dimen>
   <dimen name="fragment_home_room_constraint_layout_padding_10">10dp</dimen>

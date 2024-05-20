@@ -4,9 +4,13 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="@drawable/bg_summer_origin"
-  android:paddingStart="@dimen/fragment_home_root_padding_start_20"
   tools:context=".home.fragment.HomeFragment">
+
+  <ImageView
+    android:id="@+id/iv_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scaleType="fitXY" />
 
   <!-- User -->
   <!-- TODO -->
@@ -14,6 +18,7 @@
     android:id="@+id/layout_user"
     android:layout_width="300dp"
     android:layout_height="0dp"
+    android:layout_marginStart="@dimen/fragment_home_root_margin_start_20"
     android:layout_marginTop="10dp"
     android:background="@drawable/rounded_rectangle"
     app:layout_constraintBottom_toTopOf="@id/layout_room_list"
@@ -33,7 +38,7 @@
     android:paddingHorizontal="@dimen/fragment_home_room_constraint_layout_padding_horizontal_10"
     android:paddingBottom="@dimen/fragment_home_room_constraint_layout_padding_10"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/layout_side_menu"
     app:layout_constraintHorizontal_chainStyle="packed"
     app:layout_constraintHorizontal_weight="8"
     app:layout_constraintStart_toStartOf="parent"
@@ -43,62 +48,15 @@
     <!-- 방 정보 리스트 -->
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/home_fragment_recyclerView"
-      android:layout_width="0dp"
+      android:layout_width="match_parent"
       android:layout_height="0dp"
+      android:layout_marginStart="@dimen/fragment_home_root_margin_start_20"
       app:layout_constraintBottom_toTopOf="@id/layout_btns"
-      app:layout_constraintHorizontal_weight="8"
-      app:layout_constraintStart_toEndOf="@id/layout_side_menu"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_chainStyle="packed"
       app:layout_constraintVertical_weight="9"
       tools:itemCount="4"
       tools:listitem="@layout/list_item_room" />
-
-    <!-- Side Menu -->
-    <!-- TODO -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-      android:id="@+id/layout_side_menu"
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      android:layout_marginEnd="10dp"
-      app:layout_constraintBottom_toBottomOf="@id/home_fragment_recyclerView"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_weight="2"
-      app:layout_constraintStart_toEndOf="@id/home_fragment_recyclerView"
-      app:layout_constraintTop_toTopOf="@id/layout_room_list">
-
-      <ImageView
-        android:id="@+id/iv_btn_new_room"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/btn_new_room_horizontal"
-        app:layout_constraintBottom_toTopOf="@id/iv_btn_random_start"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread" />
-
-      <ImageView
-        android:id="@+id/iv_btn_random_start"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/btn_random_green_horizontal"
-        app:layout_constraintBottom_toTopOf="@id/iv_btn_setting"
-        app:layout_constraintTop_toBottomOf="@id/iv_btn_new_room" />
-
-      <ImageView
-        android:id="@+id/iv_btn_setting"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/btn_setting_grey2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_btn_random_start" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 이전/다음 버튼 -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -140,6 +98,52 @@
         app:layout_constraintStart_toEndOf="@id/btn_prev"
         app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <!-- Side Menu -->
+  <!-- TODO -->
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/layout_side_menu"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginEnd="10dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_weight="2"
+    app:layout_constraintStart_toEndOf="@id/layout_room_list"
+    app:layout_constraintTop_toTopOf="@id/layout_room_list">
+
+    <ImageView
+      android:id="@+id/iv_btn_new_room"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="10dp"
+      android:adjustViewBounds="true"
+      android:src="@drawable/btn_new_room_horizontal"
+      app:layout_constraintBottom_toTopOf="@id/iv_btn_random_start"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_chainStyle="spread" />
+
+    <ImageView
+      android:id="@+id/iv_btn_random_start"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="10dp"
+      android:adjustViewBounds="true"
+      android:src="@drawable/btn_random_green_horizontal"
+      app:layout_constraintBottom_toTopOf="@id/iv_btn_setting"
+      app:layout_constraintTop_toBottomOf="@id/iv_btn_new_room" />
+
+    <ImageView
+      android:id="@+id/iv_btn_setting"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="30dp"
+      android:adjustViewBounds="true"
+      android:src="@drawable/btn_setting_grey2"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/iv_btn_random_start" />
+
   </androidx.constraintlayout.widget.ConstraintLayout>
 
 
