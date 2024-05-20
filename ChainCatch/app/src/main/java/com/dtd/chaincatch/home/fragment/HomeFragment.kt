@@ -7,8 +7,10 @@ import android.util.TypedValue
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.FragmentHomeBinding
@@ -24,7 +26,6 @@ class HomeFragment :
   companion object {
     fun newInstance() = HomeFragment()
 
-    private const val RECYCLER_VIEW_DELAY = 1000L
     private const val BUTTON_CLICKED_DELAY = 100L
     private const val COUNT_PER_PAGE = 4 // 한 페이지에 표시할 항목 수
     private const val ITEM_HEIGHT_DP = 50 // 한 아이템의 Height (dp)
@@ -34,23 +35,32 @@ class HomeFragment :
   private val viewModel: HomeViewModel by activityViewModels()
 
   private lateinit var adapter: HomeAdapter
-  private val allData: List<RoomDTO> = getSampleData()
   private val pageSize = COUNT_PER_PAGE
   private var currentPage = 0
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-//    Handler(Looper.getMainLooper()).postDelayed({ initRecyclerView() }, RECYCLER_VIEW_DELAY)
-    initRecyclerView()
+    Glide.with(requireContext())
+      .load(R.raw.bg_animated2)
+      .into(binding.ivBackground)
 
-    viewModel.roomDTOList.observe(viewLifecycleOwner) {
-      updateRecyclerView()
+    initRecyclerView()
+  }
+
+  private fun initUserInfo() {
+    viewModel.userInfo.observe(viewLifecycleOwner) {
+      // TODO : userInfo View 설정
+    }
+    
+    viewModel.userInfo.observe(viewLifecycleOwner) {
+      if(it == null) return@observe
+      // TODO : userInfo.currentRid 바뀌면 방으로 이동
     }
   }
 
   private fun initRecyclerView() {
-    adapter = HomeAdapter(requireContext(), viewModel.roomDTOList.value!!)
+    adapter = HomeAdapter(requireContext(), viewModel.roomDtoList.value!!)
     binding.homeFragmentRecyclerView.layoutManager = LinearLayoutManager(context)
     binding.homeFragmentRecyclerView.adapter = adapter
 
@@ -63,9 +73,13 @@ class HomeFragment :
 
     updateRecyclerView()
     initButtons()
+
+    viewModel.roomDtoList.observe(viewLifecycleOwner) {
+      updateRecyclerView()
+    }
   }
 
-  fun setRecyclerViewHeight() {
+  private fun setRecyclerViewHeight() {
     val itemHeightDp = ITEM_HEIGHT_DP
     val itemHeightPx = TypedValue.applyDimension(
       TypedValue.COMPLEX_UNIT_DIP,
@@ -101,8 +115,8 @@ class HomeFragment :
 
   private fun updateRecyclerView() {
     val start = currentPage * pageSize
-    val end = Math.min(start + pageSize, viewModel.roomDTOList.value!!.size)
-    val sublist = viewModel.roomDTOList.value!!.subList(start, end)
+    val end = Math.min(start + pageSize, viewModel.roomDtoList.value!!.size)
+    val sublist = viewModel.roomDtoList.value!!.subList(start, end)
     adapter.submitList(sublist)
   }
 
@@ -144,7 +158,7 @@ class HomeFragment :
       }, BUTTON_CLICKED_DELAY)
 
       // last page handling
-      if ((currentPage + 1) * pageSize < viewModel.roomDTOList.value!!.size) {
+      if ((currentPage + 1) * pageSize < viewModel.roomDtoList.value!!.size) {
         currentPage++
         updateRecyclerView()
       } else {

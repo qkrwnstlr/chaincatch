@@ -26,6 +26,7 @@ module.exports = {
     "import",
   ],
   rules: {
+    "valid-jsdoc" : 0,
     "indent": "off",
     "spaced-comment": 0,
     "key-spacing": 0,

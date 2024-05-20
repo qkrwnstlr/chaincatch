@@ -4,44 +4,79 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dtd.chaincatch.home.model.dto.RoomDTO
+import androidx.lifecycle.viewModelScope
+import com.dtd.chaincatch.ApplicationClass
+import com.dtd.chaincatch.home.model.dto.RoomActionDto
+import com.dtd.chaincatch.home.model.dto.RoomDto
+import com.dtd.chaincatch.home.model.service.UserService
+import com.dtd.chaincatch.user.model.dto.UserDto
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 
 private const val TAG = "HomeViewModel_싸피"
 
 class HomeViewModel : ViewModel() {
   private var auth: FirebaseAuth = Firebase.auth
 
-  private var roomDB: DatabaseReference = Firebase.database.getReference(DB_KEY)
+  private val userDB: DatabaseReference =
+    Firebase.database.getReference("$USER_DB_KEY/${auth.currentUser!!.uid}")
+  private val roomDB: DatabaseReference = Firebase.database.getReference(ROOM_DB_KEY)
 
-  private var _roomDTOList = MutableLiveData<List<RoomDTO>>(mutableListOf())
-  val roomDTOList: LiveData<List<RoomDTO>> get() = _roomDTOList
+  private val userService by lazy { ApplicationClass.wRetrofit.create(UserService::class.java) }
+
+  private val _roomDtoList = MutableLiveData<List<RoomDto>>(mutableListOf())
+  val roomDtoList: LiveData<List<RoomDto>> get() = _roomDtoList
+
+  private val _userInfo = MutableLiveData<UserDto?>()
+  val userInfo: LiveData<UserDto?> get() = _userInfo
 
   init {
+    userDB.addValueEventListener(object : ValueEventListener {
+      override fun onDataChange(snapshot: DataSnapshot) {
+        val userDto = snapshot.getValue(UserDto::class.java)
+        _userInfo.value = userDto
+      }
+
+      override fun onCancelled(error: DatabaseError) {}
+    })
+
+    Firebase.database.getReference(".info/connected")
+      .addValueEventListener(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+          if (snapshot.value != false) return
+          userDB.child("isOnline").onDisconnect().setValue(false)
+        }
+
+        override fun onCancelled(error: DatabaseError) {}
+      })
+
     roomDB.addChildEventListener(object : ChildEventListener {
       override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-        val roomDTO = snapshot.getValue(RoomDTO::class.java) ?: return
+        val roomDTO = snapshot.getValue(RoomDto::class.java) ?: return
         Log.d(TAG, "onChildAdded: $roomDTO")
 
-        _roomDTOList.value = _roomDTOList.value?.toMutableList()?.apply { add(roomDTO) }
+        _roomDtoList.value = _roomDtoList.value?.toMutableList()?.apply { add(roomDTO) }
       }
 
       override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-        val roomDTO = snapshot.getValue<RoomDTO>() ?: return
-        _roomDTOList.value = _roomDTOList.value?.toMutableList()?.apply { this[indexOf(roomDTO)] = roomDTO }
+        val roomDTO = snapshot.getValue<RoomDto>() ?: return
+        _roomDtoList.value =
+          _roomDtoList.value?.toMutableList()?.apply { this[indexOf(roomDTO)] = roomDTO }
       }
 
       override fun onChildRemoved(snapshot: DataSnapshot) {
-        val roomDTO = snapshot.getValue<RoomDTO>() ?: return
-        _roomDTOList.value = _roomDTOList.value?.toMutableList()?.apply { removeAt(indexOf(roomDTO)) }
+        val roomDTO = snapshot.getValue<RoomDto>() ?: return
+        _roomDtoList.value =
+          _roomDtoList.value?.toMutableList()?.apply { removeAt(indexOf(roomDTO)) }
       }
 
       override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
@@ -50,15 +85,20 @@ class HomeViewModel : ViewModel() {
     })
   }
 
-  fun createRoom(roomDTO: RoomDTO) {
-
+  fun createRoom(roomDTO: RoomDto) {
+    viewModelScope.launch {
+      userService.createRoom(roomDTO)
+    }
   }
 
   fun enterRoom(rid: String) {
-
+    viewModelScope.launch {
+      userService.enterRoom(RoomActionDto(rid = rid))
+    }
   }
 
   companion object {
-    const val DB_KEY = "room"
+    const val ROOM_DB_KEY = "room"
+    const val USER_DB_KEY = "user"
   }
 }

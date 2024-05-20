@@ -2,7 +2,7 @@ package com.dtd.chaincatch.home.model.dto
 
 import java.io.Serializable
 
-data class RoomDTO(
+data class RoomDto(
   val rid: String = "",
   val title: String = "",
   val manager: String = "",
@@ -11,7 +11,7 @@ data class RoomDTO(
   val state: String = "",
 ): Serializable {
   override fun equals(other: Any?): Boolean {
-    if (other is RoomDTO) return rid == other.rid
+    if (other is RoomDto) return rid == other.rid
     return false
   }
 
