@@ -15,16 +15,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
       overrideActivityTransition(
         OVERRIDE_TRANSITION_OPEN,
-        R.anim.fade_in,
-        R.anim.fade_out,
+        com.google.android.material.R.anim.abc_fade_in,
+        com.google.android.material.R.anim.abc_fade_out,
         Color.BLACK
       )
     }
 
     supportFragmentManager
       .beginTransaction()
-//      .setReorderingAllowed(true)
-//      .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+      .setReorderingAllowed(true)
+      .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
       .replace(R.id.home_fragment_container, HomeFragment())
       .commit()
   }

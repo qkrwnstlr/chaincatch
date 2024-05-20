@@ -1,9 +1,12 @@
 package com.dtd.chaincatch.home
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.dtd.chaincatch.R
@@ -26,12 +29,12 @@ class HomeAdapter(private val context: Context, private val items: List<RoomDTO>
         tvCurrentPlayer.text = room.currentUser.toString()
       }
 
-//      val animator = ObjectAnimator.ofFloat(itemView, "translationX", -5f, 5f)
-//      animator.duration = 500
-//      animator.interpolator = AccelerateDecelerateInterpolator()
-//      animator.repeatMode = ValueAnimator.REVERSE
-//      animator.repeatCount = ValueAnimator.INFINITE
-//      animator.start()
+      val animator = ObjectAnimator.ofFloat(itemView, "translationX", -5f, 5f)
+      animator.duration = 500
+      animator.interpolator = AccelerateDecelerateInterpolator()
+      animator.repeatMode = ValueAnimator.REVERSE
+      animator.repeatCount = ValueAnimator.INFINITE
+      animator.start()
     }
 
   }

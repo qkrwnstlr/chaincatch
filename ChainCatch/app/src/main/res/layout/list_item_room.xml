@@ -3,7 +3,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
-  android:layout_height="wrap_content"
+  android:layout_height="50dp"
   android:layout_marginVertical="2dp"
   android:background="@drawable/balloon_ocean"
   android:padding="10dp">
@@ -23,13 +23,17 @@
     android:id="@+id/tv_status"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="50dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginEnd="40dp"
+    android:layout_marginBottom="2dp"
+    android:paddingTop="2dp"
+    android:textColor="#AE0505"
+    android:textSize="12sp"
+    android:textStyle="bold"
     app:layout_constraintBottom_toTopOf="@id/constraintlayout_name_and_count"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_chainStyle="packed"
-    tools:text="게임 중" />
+    tools:text="게임 중!" />
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/constraintlayout_name_and_count"
@@ -44,9 +48,10 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginEnd="100dp"
+      android:paddingBottom="2dp"
+      android:textSize="12sp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toStartOf="@id/tv_current_player"
-      app:layout_constraintHorizontal_chainStyle="packed"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       tools:text="방장이름" />
@@ -55,9 +60,9 @@
       android:id="@+id/tv_current_player"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:paddingBottom="2dp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toStartOf="@id/tv_max_player_cnt"
-      app:layout_constraintStart_toEndOf="@id/tv_manager"
       app:layout_constraintTop_toTopOf="parent"
       tools:text="2" />
 
@@ -65,10 +70,10 @@
       android:id="@+id/tv_max_player_cnt"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:paddingBottom="2dp"
       android:text=" / 5"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@id/tv_current_player"
       app:layout_constraintTop_toTopOf="parent" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
