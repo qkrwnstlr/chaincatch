@@ -69,7 +69,7 @@ class HomeFragment :
     }
 
     viewModel.userInfo.observe(viewLifecycleOwner) {
-      if(it == null) return@observe
+      if (it == null) return@observe
       // TODO : userInfo.currentRid 바뀌면 방으로 이동
     }
   }
@@ -170,9 +170,9 @@ class HomeFragment :
     // when next button clicked
     binding.btnNext.setOnClickListener {
       // twinkle
-      binding.btnNext.setBackgroundResource(R.drawable.btn_next3_clicked2)
+      binding.btnNext.setBackgroundResource(R.drawable.btn_next_clicked)
       Handler(Looper.getMainLooper()).postDelayed({
-        binding.btnNext.setBackgroundResource(R.drawable.btn_next3)
+        binding.btnNext.setBackgroundResource(R.drawable.btn_next)
       }, BUTTON_CLICKED_DELAY)
 
       // last page handling
