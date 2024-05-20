@@ -11,17 +11,17 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.databinding.ListItemRoomBinding
-import com.dtd.chaincatch.home.model.dto.RoomDTO
+import com.dtd.chaincatch.home.model.dto.RoomDto
 
-class HomeAdapter(private val context: Context, private val items: List<RoomDTO>) :
+class HomeAdapter(private val context: Context, private val items: List<RoomDto>) :
   RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
   private var lastPosition = -1
-  private var list: List<RoomDTO> = items
+  private var list: List<RoomDto> = items
 
   class HomeViewHolder(private val binding: ListItemRoomBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(room: RoomDTO) {
+    fun bind(room: RoomDto) {
       with(binding) {
         tvTitle.text = room.title
         tvManager.text = room.manager
@@ -59,7 +59,7 @@ class HomeAdapter(private val context: Context, private val items: List<RoomDTO>
     }
   }
 
-  fun submitList(newDataList: List<RoomDTO>) {
+  fun submitList(newDataList: List<RoomDto>) {
     list = newDataList
     notifyDataSetChanged()
   }

@@ -1,7 +1,7 @@
 export class RoomDetail {
   rid: string;
   playerList: string[];
-  watingList: string[];
+  waitingList: string[];
 
   constructor(
     rid: string,
@@ -10,6 +10,6 @@ export class RoomDetail {
   ) {
     this.rid = rid;
     this.playerList = playerList;
-    this.watingList = watingList;
+    this.waitingList = watingList;
   }
 }
