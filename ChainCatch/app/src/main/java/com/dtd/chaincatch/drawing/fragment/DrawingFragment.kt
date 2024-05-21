@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.dtd.chaincatch.databinding.FragmentDrawingBinding
 import com.google.firebase.database.DataSnapshot
@@ -119,4 +120,10 @@ fun Bitmap.toBase64(): String {
   } else {
     ""
   }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun Bitmap.fromBase64(base64: String): Bitmap {
+  val byteArr = Base64.getDecoder().decode(base64)
+  return BitmapFactory.decodeByteArray(byteArr, 0, byteArr.size)
 }

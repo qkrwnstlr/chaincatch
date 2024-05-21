@@ -72,9 +72,6 @@ class HomeFragment :
   private fun initUserInfo() {
     viewModel.userInfo.observe(viewLifecycleOwner) {
       // TODO : userInfo View 설정
-    }
-
-    viewModel.userInfo.observe(viewLifecycleOwner) {
       if (it == null) return@observe
       val intent = Intent(requireContext(), RoomActivity::class.java)
       if (it.currentRid != null) startActivity(intent)

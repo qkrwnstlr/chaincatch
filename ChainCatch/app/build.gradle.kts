@@ -52,6 +52,7 @@ dependencies {
 
   // for drawing
   implementation("com.raedapps:rasmview:1.2.1")
+  implementation("com.github.Dhaval2404:ColorPicker:2.3")
 
   // Firebase
   implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
