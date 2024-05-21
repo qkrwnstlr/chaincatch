@@ -37,6 +37,11 @@ class HomeFragment :
     const val COUNT_PER_PAGE = 4 // 한 페이지에 표시할 항목 수
     const val ITEM_HEIGHT_DP = 50 // 한 아이템의 Height (dp)
     const val DIVIDER_HEIGHT_PX = 15 // 구분선 Height (px)
+
+    private const val CAT_CHEESE = 0
+    private const val CAT_GREY = 1
+    private const val CAT_FISH = 2
+    private const val CAT_RAINBOW = 3
   }
 
   private val viewModel: HomeViewModel by activityViewModels()
@@ -54,17 +59,17 @@ class HomeFragment :
   }
 
   private fun initAllButtons() {
-    setResourcewithGlide(R.raw.bg_animated2, binding.ivBackground)
+    setResourceWithGlide(R.raw.bg_animated2, binding.ivBackground)
 
-    setResourcewithGlide(R.raw.btn_prev_animated, binding.btnPrev)
-    setResourcewithGlide(R.raw.btn_next_animated, binding.btnNext)
+    setResourceWithGlide(R.raw.btn_prev_animated, binding.btnPrev)
+    setResourceWithGlide(R.raw.btn_next_animated, binding.btnNext)
 
-    setResourcewithGlide(R.raw.btn_new_room_animated3, binding.ivBtnNewRoom)
-    setResourcewithGlide(R.raw.btn_random_start_animated, binding.ivBtnRandomStart)
-    setResourcewithGlide(R.raw.btn_setting_animated6, binding.ivBtnSetting)
+    setResourceWithGlide(R.raw.btn_new_room_animated3, binding.ivBtnNewRoom)
+    setResourceWithGlide(R.raw.btn_random_start_animated, binding.ivBtnRandomStart)
+    setResourceWithGlide(R.raw.btn_setting_animated6, binding.ivBtnSetting)
   }
 
-  private fun setResourcewithGlide(rawInt: Int, imageView: ImageView) {
+  private fun setResourceWithGlide(rawInt: Int, imageView: ImageView) {
     Glide.with(requireContext())
       .load(rawInt)
       .into(imageView)
@@ -74,6 +79,16 @@ class HomeFragment :
     viewModel.userInfo.observe(viewLifecycleOwner) {
       // TODO : userInfo View 설정
       if (it == null) return@observe
+      when (it.profileImg) {
+        CAT_CHEESE -> binding.ivUser.setImageResource(R.drawable.cat_cheese_face)
+        CAT_GREY -> binding.ivUser.setImageResource(R.drawable.cat_grey_face)
+        CAT_FISH -> binding.ivUser.setImageResource(R.drawable.cat_fish_face)
+        CAT_RAINBOW -> binding.ivUser.setImageResource(R.drawable.cat_rainbow_face)
+      }
+
+      binding.tvNickname.text = it.nickname
+      binding.progressBarExperience.progress = it.experience
+
       val intent = Intent(requireContext(), RoomActivity::class.java)
       if (it.currentRid != null) startActivity(intent)
     }
@@ -169,9 +184,9 @@ class HomeFragment :
     // when prev button clicked
     binding.btnPrev.setOnClickListener {
       // twinkle
-      setResourcewithGlide(R.drawable.btn_prev_clicked, binding.btnPrev)
+      setResourceWithGlide(R.drawable.btn_prev_clicked, binding.btnPrev)
       Handler(Looper.getMainLooper()).postDelayed({
-        setResourcewithGlide(R.raw.btn_prev_animated, binding.btnPrev)
+        setResourceWithGlide(R.raw.btn_prev_animated, binding.btnPrev)
       }, BUTTON_CLICKED_DELAY)
 
       // first page handling
@@ -186,9 +201,9 @@ class HomeFragment :
     // when next button clicked
     binding.btnNext.setOnClickListener {
       // twinkle
-      setResourcewithGlide(R.drawable.btn_next_clicked, binding.btnNext)
+      setResourceWithGlide(R.drawable.btn_next_clicked, binding.btnNext)
       Handler(Looper.getMainLooper()).postDelayed({
-        setResourcewithGlide(R.raw.btn_next_animated, binding.btnNext)
+        setResourceWithGlide(R.raw.btn_next_animated, binding.btnNext)
       }, BUTTON_CLICKED_DELAY)
 
       // last page handling

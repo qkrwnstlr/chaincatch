@@ -21,7 +21,7 @@
     android:adjustViewBounds="true"
     android:background="@drawable/bg_user_with_opacity"
     android:padding="15dp"
-    android:src="@drawable/cat_brown_face"
+    android:src="@drawable/cat_cheese_face"
     app:layout_constraintStart_toStartOf="parent" />
 
   <androidx.constraintlayout.widget.ConstraintLayout

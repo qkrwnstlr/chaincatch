@@ -115,13 +115,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
       val userSnapshot = userDB.get().await()
 
       if (!userSnapshot.exists()) {
-        // TODO : 회원가입 다이얼로그 띄우기
-
-
-        showCustomToast("다이얼로그 띄우기")
-        lifecycleScope.launch {
-          userService.createUser(UserDto(uid = auth.currentUser!!.uid, nickname = "nickname"))
-        }
+        showSignUpDialog()
       } else {
         userDB.child("isOnline").setValue(true)
       }
@@ -130,14 +124,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     userDB.child("isOnline").addValueEventListener(object : ValueEventListener {
       override fun onDataChange(snapshot: DataSnapshot) {
         val isOnline = snapshot.getValue(Boolean::class.java) ?: false
-        if (isOnline) showSignUpdialog() //startNextActivity()
+        if (isOnline) startNextActivity()
       }
 
       override fun onCancelled(error: DatabaseError) {}
     })
   }
 
-  private fun showSignUpdialog() {
+  private fun showSignUpDialog() {
     val layoutInflater = LayoutInflater.from(this@MainActivity)
     val view = layoutInflater.inflate(R.layout.dialog_sign_up, null)
     val alertDialog = AlertDialog.Builder(this@MainActivity, R.style.CustomAlertDialog)
@@ -247,14 +241,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     // 닉네임 입력 화면에서 확인 버튼 눌렀을 때
     btnSubmit.setOnClickListener {
-      // TODO : 사용자가 선택한 캐릭터, 닉네임 DB에 저장
-      // choicedCatId : 0 = 치즈냥, 1 = 고등어냥, 2 = 생선냥, 3 = 무지개냥
-      Toast.makeText(
-        this,
-        "image : ${choicedCatId}, nickname : ${etNickname.text}",
-        Toast.LENGTH_SHORT
-      ).show()
-      startNextActivity()
+      lifecycleScope.launch {
+        userService.createUser(
+          UserDto(
+            uid = auth.currentUser!!.uid,
+            profileImg = choicedCatId,
+            nickname = etNickname.text.toString()
+          )
+        )
+      }
     }
   }
 
