@@ -5,4 +5,6 @@ data class QuestionDto(
   val answer: String = "",
   val state: String = "",
   val startTime: Long = 0,
+  val drawing: String = "",
+  val successorUid: String = "",
 )
