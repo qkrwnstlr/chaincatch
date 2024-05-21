@@ -1,5 +1,6 @@
 package com.dtd.chaincatch.home.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +10,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,6 +19,9 @@ import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.FragmentHomeBinding
 import com.dtd.chaincatch.home.HomeAdapter
 import com.dtd.chaincatch.home.viewmodel.HomeViewModel
+import com.dtd.chaincatch.room.RoomActivity
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 private const val TAG = "HomeFragment_싸피"
@@ -45,6 +50,7 @@ class HomeFragment :
 
     initAllButtons()
     initRecyclerView()
+    initUserInfo()
   }
 
   private fun initAllButtons() {
@@ -67,16 +73,16 @@ class HomeFragment :
   private fun initUserInfo() {
     viewModel.userInfo.observe(viewLifecycleOwner) {
       // TODO : userInfo View 설정
-    }
-
-    viewModel.userInfo.observe(viewLifecycleOwner) {
       if (it == null) return@observe
-      // TODO : userInfo.currentRid 바뀌면 방으로 이동
+      val intent = Intent(requireContext(), RoomActivity::class.java)
+      if (it.currentRid != null) startActivity(intent)
     }
   }
 
   private fun initRecyclerView() {
-    adapter = HomeAdapter(requireContext(), viewModel.roomDtoList.value!!)
+    adapter = HomeAdapter(requireContext(), viewModel.roomDtoList.value!!).apply {
+      setOnItemClickListener { viewModel.enterRoom(it.rid) }
+    }
     binding.homeFragmentRecyclerView.layoutManager = object : LinearLayoutManager(context) {
       override fun canScrollVertically() = false
     }
@@ -87,7 +93,10 @@ class HomeFragment :
     val animation =
       AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_anim_slide_in_left)
     binding.homeFragmentRecyclerView.layoutAnimation = animation
-    binding.homeFragmentRecyclerView.scheduleLayoutAnimation()
+    lifecycleScope.launch {
+      delay(200)
+      binding.homeFragmentRecyclerView.scheduleLayoutAnimation()
+    }
 
     updateRecyclerView()
     setVisibilityForAllButtons()

@@ -1,10 +1,13 @@
 package com.dtd.chaincatch.room.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dtd.chaincatch.ApplicationClass
+import com.dtd.chaincatch.drawing.fragment.toBase64
+import com.dtd.chaincatch.home.model.dto.RoomActionDto
 import com.dtd.chaincatch.home.model.dto.RoomDto
 import com.dtd.chaincatch.home.model.service.UserService
 import com.dtd.chaincatch.room.model.dto.ChattingDto
@@ -23,6 +26,8 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
+private const val TAG = "RoomViewModel_싸피"
+
 class RoomViewModel : ViewModel() {
   private var auth: FirebaseAuth = Firebase.auth
 
@@ -31,6 +36,7 @@ class RoomViewModel : ViewModel() {
   private lateinit var roomDetailDB: DatabaseReference
   private lateinit var roundDB: DatabaseReference
   private lateinit var questionDB: DatabaseReference
+  private lateinit var drawingDB: DatabaseReference
   private lateinit var chattingDB: DatabaseReference
 
   private val userService by lazy { ApplicationClass.wRetrofit.create(UserService::class.java) }
@@ -39,10 +45,10 @@ class RoomViewModel : ViewModel() {
   val user: LiveData<UserDto> get() = _user
 
   private val _playerList = MutableLiveData<List<UserDto>>()
-  val playerList: LiveData<List<UserDto>> get() = _playerList;
+  val playerList: LiveData<List<UserDto>> get() = _playerList
 
-  private val _room = MutableLiveData<RoomDto>()
-  val room: LiveData<RoomDto> get() = _room
+  private val _room = MutableLiveData<RoomDto?>()
+  val room: LiveData<RoomDto?> get() = _room
 
   private val _round = MutableLiveData<RoundDto?>()
   val round: LiveData<RoundDto?> get() = _round
@@ -67,6 +73,7 @@ class RoomViewModel : ViewModel() {
       roundDB = Firebase.database.getReference("${ROUND_DB_KEY}/${rid}")
       questionDB = Firebase.database.getReference("${QUESTION_DB_KEY}/${rid}")
       chattingDB = Firebase.database.getReference("${CHATTING_DB_KEY}/${rid}")
+      drawingDB = Firebase.database.getReference("${DRAWING_DB_KEY}/${rid}")
 
       currentUserDB.addValueEventListener(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
@@ -90,23 +97,36 @@ class RoomViewModel : ViewModel() {
           viewModelScope.launch {
             val user =
               userDB.child(uid).get().await().getValue(UserDto::class.java) ?: return@launch
-            _playerList.value = _playerList.value!!.toMutableList().apply { add(user) }
+            _playerList.postValue(_playerList.value?.toMutableList()?.apply { add(user) }
+              ?: listOf(user))
           }
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
           val uid = snapshot.getValue(String::class.java) ?: return
           viewModelScope.launch {
-            val user =
-              userDB.child(uid).get().await().getValue(UserDto::class.java) ?: return@launch
-            _playerList.value = _playerList.value!!.toMutableList().apply { add(user) }
+            val user = userDB.child(uid).get().await().getValue(UserDto::class.java)
+              ?: return@launch
+            if (user.uid == "empty") {
+              _playerList.postValue(_playerList.value!!.toMutableList().apply {
+                removeAt(indexOf(user))
+              })
+            } else {
+              _playerList.postValue(_playerList.value!!.toMutableList().apply {
+                set(indexOf(user), user)
+              })
+            }
           }
         }
 
         override fun onChildRemoved(snapshot: DataSnapshot) {
           val uid = snapshot.getValue(String::class.java) ?: return
           viewModelScope.launch {
-            _playerList.value = _playerList.value!!.toMutableList().filter { it.uid != uid }
+            val user = userDB.child(uid).get().await().getValue(UserDto::class.java)
+              ?: return@launch
+            _playerList.postValue(_playerList.value!!.toMutableList().apply {
+              removeAt(indexOf(user))
+            })
           }
         }
 
@@ -131,7 +151,7 @@ class RoomViewModel : ViewModel() {
         override fun onCancelled(error: DatabaseError) {}
       })
 
-      questionDB.child("drawing").addValueEventListener(object : ValueEventListener {
+      drawingDB.addValueEventListener(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
           _drawing.postValue(snapshot.getValue(String::class.java))
         }
@@ -142,7 +162,9 @@ class RoomViewModel : ViewModel() {
       chattingDB.addChildEventListener(object : ChildEventListener {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
           val chattingDto = snapshot.getValue(ChattingDto::class.java) ?: return
-          _chattingList.value = _chattingList.value!!.toMutableList().apply { add(chattingDto) }
+          _chattingList.postValue(_chattingList.value?.toMutableList()?.apply { add(chattingDto) }
+            ?: listOf(chattingDto)
+          )
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
@@ -156,6 +178,33 @@ class RoomViewModel : ViewModel() {
     }
   }
 
+  fun exitRoom() {
+    viewModelScope.launch {
+      userService.exitRoom(RoomActionDto(uid = user.value!!.uid))
+    }
+  }
+
+  fun playGame() {
+    viewModelScope.launch {
+      userService.startGame(RoomActionDto(rid = room.value!!.rid))
+    }
+  }
+
+  fun drawing(base64: String) {
+    if (::questionDB.isInitialized) drawingDB.setValue(base64)
+  }
+
+  fun sendChatting(content: String) {
+    val chattingDto = ChattingDto(user.value!!.uid, room.value!!.rid, content)
+    chattingDB.push().setValue(chattingDto)
+  }
+
+  fun startGame() {
+    viewModelScope.launch {
+      userService.startGame(RoomActionDto(rid = room.value!!.rid))
+    }
+  }
+
 
   companion object {
     const val USER_DB_KEY = "user"
@@ -164,5 +213,6 @@ class RoomViewModel : ViewModel() {
     const val ROUND_DB_KEY = "round"
     const val QUESTION_DB_KEY = "question"
     const val CHATTING_DB_KEY = "chatting"
+    const val DRAWING_DB_KEY = "drawing"
   }
 }
