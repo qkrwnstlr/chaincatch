@@ -6,10 +6,10 @@ export class RoomDetail {
   constructor(
     rid: string,
     playerList: string[],
-    watingList: string[]
+    waitingList: string[]
   ) {
     this.rid = rid;
     this.playerList = playerList;
-    this.waitingList = watingList;
+    this.waitingList = waitingList;
   }
 }
