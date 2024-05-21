@@ -5,10 +5,6 @@
     <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     <item name="android:textColor">@color/black</item>
 
-
-    <!-- for Transition -->
-    <item name="android:windowActivityTransitions">true</item>
-
     <!--custom font-family 적용-->
     <item name="android:textViewStyle">@style/customTextViewFontStyle</item>
     <item name="android:buttonStyle">@style/customButtonFontStyle</item>
@@ -20,5 +16,11 @@
 
   <style name="Theme.ChainCatch" parent="Base.Theme.ChainCatch" />
 
+  <!-- for SignUp CardView -->
+  <style name="CustomCardView.SignUp" parent="Base.Theme.ChainCatch">
+    <item name="android:textStyle">bold</item>
+    <item name="android:textSize">14sp</item>
+    <item name="android:textColor">@color/sign_up_dialog_text_color</item>
+  </style>
 
 </resources>

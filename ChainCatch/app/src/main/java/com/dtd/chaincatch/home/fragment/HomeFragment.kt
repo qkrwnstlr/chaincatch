@@ -27,11 +27,11 @@ class HomeFragment :
   companion object {
     fun newInstance() = HomeFragment()
 
-    private const val VISIBILITY_OFFSET = 1000L
-    private const val BUTTON_CLICKED_DELAY = 100L
-    private const val COUNT_PER_PAGE = 4 // 한 페이지에 표시할 항목 수
-    private const val ITEM_HEIGHT_DP = 50 // 한 아이템의 Height (dp)
-    private const val DIVIDER_HEIGHT_PX = 15 // 구분선 Height (px)
+    const val VISIBILITY_OFFSET = 1000L
+    const val BUTTON_CLICKED_DELAY = 100L
+    const val COUNT_PER_PAGE = 4 // 한 페이지에 표시할 항목 수
+    const val ITEM_HEIGHT_DP = 50 // 한 아이템의 Height (dp)
+    const val DIVIDER_HEIGHT_PX = 15 // 구분선 Height (px)
   }
 
   private val viewModel: HomeViewModel by activityViewModels()

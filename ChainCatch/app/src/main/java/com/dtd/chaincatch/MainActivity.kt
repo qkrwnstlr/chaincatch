@@ -1,14 +1,15 @@
 package com.dtd.chaincatch
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -18,10 +19,12 @@ import com.dtd.chaincatch.home.HomeActivity
 import com.dtd.chaincatch.home.model.service.UserService
 import com.dtd.chaincatch.home.viewmodel.HomeViewModel
 import com.dtd.chaincatch.user.model.dto.UserDto
+import com.dtd.chaincatch.util.SignUpCardView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DataSnapshot
@@ -57,12 +60,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
       }
     }
 
-  private lateinit var catBrown: ImageView
-  private lateinit var catGrey: ImageView
-  private lateinit var catFish: ImageView
-  private lateinit var catRainbow: ImageView
-  private var isCatClicked = mutableListOf(false, false, false, false)
-  private var clickedCat = -1
+  private lateinit var dialogTitle: TextView
+  private lateinit var dialogTitleShadow: TextView
+  private lateinit var catCheese: SignUpCardView
+  private lateinit var layoutCats: View
+  private lateinit var layoutNickName: View
+  private lateinit var layoutNextButton: View
+  private lateinit var catGrey: SignUpCardView
+  private lateinit var catFish: SignUpCardView
+  private lateinit var catRainbow: SignUpCardView
+  private lateinit var btnCancel: View
+  private lateinit var btnSubmit: View
+  private lateinit var etNickname: EditText
+  private var choicedCatId = -1
 
   private fun initFirebaseAuth() {
     auth = FirebaseAuth.getInstance()
@@ -130,58 +140,123 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
   private fun showSignUpdialog() {
     val layoutInflater = LayoutInflater.from(this@MainActivity)
     val view = layoutInflater.inflate(R.layout.dialog_sign_up, null)
-
     val alertDialog = AlertDialog.Builder(this@MainActivity, R.style.CustomAlertDialog)
       .setView(view)
       .create()
 
-    val btnCancel = view.findViewById<View>(R.id.sign_up_dialog_btn_cancel)
-    catBrown = view.findViewById(R.id.cat_brown)
+    dialogTitle = view.findViewById(R.id.tv_title)
+    dialogTitleShadow = view.findViewById(R.id.tv_title_shadow)
+    layoutCats = view.findViewById(R.id.layout_cats)
+    layoutNextButton = view.findViewById(R.id.sign_up_layout_next_btns)
+    layoutNickName = view.findViewById(R.id.sign_up_layout_nickname)
+    catCheese = view.findViewById(R.id.cat_cheese)
     catGrey = view.findViewById(R.id.cat_grey)
     catFish = view.findViewById(R.id.cat_fish)
     catRainbow = view.findViewById(R.id.cat_rainbow)
+    btnCancel = view.findViewById(R.id.sign_up_dialog_btn_cancel)
+    btnSubmit = view.findViewById(R.id.sign_up_dialog_btn_submit)
+    etNickname = view.findViewById(R.id.et_nickname)
 
-    initCats(this@MainActivity)
-
-    btnCancel.setOnClickListener {
-      alertDialog.dismiss()
-    }
-
+    initCats()
+    initClickListeners(alertDialog)
 
     alertDialog.show()
   }
 
-  private fun initCats(context: Context) {
-    with(binding) {
-      catBrown.apply {
-//        setBackgroundResource(R.drawable.rounded_rectangle_white)
-        Glide.with(context).load(R.raw.cat_brown_animated).into(this)
-//        setOnClickListener {
-//          if (isCatClicked[CAT_BROWN]) {
-//            this.setBackgroundResource(R.drawable.rounded_rectangle_yellow)
-//            isCatClicked[CAT_BROWN] = !isCatClicked[CAT_BROWN]
-//          }
-//        }
-      }
-      catGrey.apply {
-//        setBackgroundResource(R.drawable.rounded_rectangle_white)
-        Glide.with(context).load(R.raw.cat_grey_animated).into(this@apply)
-      }
-      catFish.apply {
-//        setBackgroundResource(R.drawable.rounded_rectangle_white)
-        Glide.with(context).load(R.raw.cat_white_with_fish_animated).into(this@apply)
-      }
-      catRainbow.apply {
-//        setBackgroundResource(R.drawable.rounded_rectangle_white)
-        Glide.with(context).load(R.raw.cat_rainbow_animated).into(this@apply)
-      }
+  private fun initCats() {
+    setCatImageAndName(catCheese, R.raw.cat_cheese_animated, "치즈", "#68bbe2")
+    setCatImageAndName(catGrey, R.raw.cat_grey_animated, "고등어", "#adbca1")
+    setCatImageAndName(catFish, R.raw.cat_white_with_fish_animated, "생선", "#c7b39f")
+    setCatImageAndName(catRainbow, R.raw.cat_rainbow_animated, "무지개", "#bca1a9")
+  }
+
+  private fun setCatImageAndName(
+    catCard: SignUpCardView,
+    resId: Int,
+    name: String,
+    bgColor: String
+  ) {
+    catCard.apply {
+      setCatCardBackground(this, bgColor)
+      setCatImageResource(resId)
+      setCatName(name)
     }
   }
 
-  private fun toggleCat(nowClicked: Int) {
-
+  private fun setCatCardBackground(catCard: SignUpCardView, bgColor: String) {
+    catCard.apply {
+      findViewById<MaterialCardView>(R.id.cardview_cat).setCardBackgroundColor(
+        Color.parseColor(
+          bgColor
+        )
+      )
+    }
   }
 
+  private fun getCatCardViewByID(catId: Int): SignUpCardView? {
+    return when (catId) {
+      CAT_CHEESE -> catCheese
+      CAT_GREY -> catGrey
+      CAT_FISH -> catFish
+      CAT_RAINBOW -> catRainbow
+      else -> null
+    }
+  }
+
+  private fun getCatCardBgColorUnClicked(catId: Int): String {
+    return when (catId) {
+      CAT_CHEESE -> "#68bbe2"
+      CAT_GREY -> "#adbca1"
+      CAT_FISH -> "#c7b39f"
+      CAT_RAINBOW -> "#bca1a9"
+      else -> ""
+    }
+  }
+
+  private fun toggleCat(clickedCatId: Int, clickedBgColor: String) {
+    val prevCatCard = getCatCardViewByID(choicedCatId)
+
+    // 이전에 선택된 애
+    if (prevCatCard != null) setCatCardBackground(
+      prevCatCard,
+      getCatCardBgColorUnClicked(choicedCatId)
+    )
+    // 지금 선택된 애
+    choicedCatId = clickedCatId
+    setCatCardBackground(getCatCardViewByID(choicedCatId)!!, clickedBgColor)
+  }
+
+  private fun initClickListeners(alertDialog: AlertDialog) {
+    // 우상단 취소 버튼 눌렀을 때
+    btnCancel.setOnClickListener { alertDialog.dismiss() }
+
+    // 냥이 선택할 때
+    catCheese.setOnClickListener { toggleCat(CAT_CHEESE, "#4f8aa6") }
+    catGrey.setOnClickListener { toggleCat(CAT_GREY, "#8d9b82") }
+    catFish.setOnClickListener { toggleCat(CAT_FISH, "#a09080") }
+    catRainbow.setOnClickListener { toggleCat(CAT_RAINBOW, "#9e828b") }
+
+    // 냥이 선택 화면에서 우하단 다음 버튼 눌렀을 때
+    layoutNextButton.setOnClickListener {
+      dialogTitle.text = "닉네임을 정해주세요!"
+      dialogTitleShadow.text = "닉네임을 정해주세요!"
+      layoutCats.visibility = View.GONE
+      layoutNextButton.visibility = View.GONE
+      layoutNickName.visibility = View.VISIBLE
+    }
+
+    // 닉네임 입력 화면에서 확인 버튼 눌렀을 때
+    btnSubmit.setOnClickListener {
+      // TODO : 사용자가 선택한 캐릭터, 닉네임 DB에 저장
+      // choicedCatId : 0 = 치즈냥, 1 = 고등어냥, 2 = 생선냥, 3 = 무지개냥
+      Toast.makeText(
+        this,
+        "image : ${choicedCatId}, nickname : ${etNickname.text}",
+        Toast.LENGTH_SHORT
+      ).show()
+      startNextActivity()
+    }
+  }
 
   private fun startNextActivity() {
     val intent = Intent(this, HomeActivity::class.java)
@@ -225,7 +300,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
   }
 
   companion object {
-    private const val CAT_BROWN = 0
+    private const val CAT_CHEESE = 0
     private const val CAT_GREY = 1
     private const val CAT_FISH = 2
     private const val CAT_RAINBOW = 3

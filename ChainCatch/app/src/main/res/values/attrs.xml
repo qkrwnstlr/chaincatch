@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- for Sign Up Dialog -->
+  <declare-styleable name="SignUpCardView">
+    <attr name="ivCat" format="reference" />
+    <attr name="tvCat" format="string" />
+  </declare-styleable>
+
+</resources>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:card_view="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <com.google.android.material.card.MaterialCardView
+    android:id="@+id/cardview_cat"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="5dp"
+    card_view:cardBackgroundColor="@color/white"
+    card_view:cardCornerRadius="10dp"
+    card_view:layout_constraintBottom_toBottomOf="parent"
+    card_view:layout_constraintTop_toTopOf="parent"
+    card_view:strokeColor="@color/white"
+    card_view:strokeWidth="5dp">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+
+      <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7">
+
+        <ImageView
+          android:id="@+id/iv_cat"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="bottom"
+          android:adjustViewBounds="true"
+          android:paddingStart="15dp"
+          android:paddingEnd="8dp"
+          android:src="@drawable/cat_cheese_face" />
+      </FrameLayout>
+
+      <TextView
+        android:id="@+id/tv_cat"
+        style="@style/CustomCardView.SignUp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="치즈 냥이.." />
+
+    </LinearLayout>
+  </com.google.android.material.card.MaterialCardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
