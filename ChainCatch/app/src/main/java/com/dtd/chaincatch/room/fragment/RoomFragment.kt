@@ -30,6 +30,7 @@ import com.raed.rasmview.state.RasmState
 import kotlinx.coroutines.launch
 import java.util.Timer
 import java.util.TimerTask
+import kotlin.math.max
 import kotlin.math.roundToInt
 
 
@@ -225,9 +226,9 @@ class RoomFragment :
             override fun run() {
               lifecycleScope.launch {
                 val leftTime = 120 - (System.currentTimeMillis() - question.startTime) / 1000
-                val minute = String.format("%02d", leftTime / 60)
-                val second = String.format("%02d", leftTime % 60)
-                binding.timeTv.text = "남은 시간 - $minute : $second"
+                val minute = String.format("%02d", max(leftTime / 60, 0))
+                val second = String.format("%02d", max(leftTime % 60, 0))
+                binding.timeTv.text = "$minute : $second"
               }
             }
           }

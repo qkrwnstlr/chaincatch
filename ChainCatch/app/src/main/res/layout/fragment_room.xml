@@ -57,7 +57,8 @@
       android:id="@+id/time_tv"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      tools:text="남은 시간 - 00 : 30" />
+      android:textSize="24sp"
+      tools:text="00 : 30" />
   </LinearLayout>
 
   <LinearLayout
