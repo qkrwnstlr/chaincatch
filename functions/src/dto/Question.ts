@@ -2,7 +2,7 @@ export class Question {
   uid: string;
   answer: string;
   state: string;
-  startTime: number;
+  startTime: number | null;
   drawing: string | null;
   successorUid: string | null;
 
@@ -10,7 +10,7 @@ export class Question {
     uid: string,
     answer: string,
     state: string,
-    startTime: number,
+    startTime: number | null,
     drawing: string | null,
     successorUid: string | null,
   ) {
