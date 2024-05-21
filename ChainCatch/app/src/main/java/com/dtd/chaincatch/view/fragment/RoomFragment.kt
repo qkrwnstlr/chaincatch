@@ -1,4 +1,4 @@
-package com.dtd.chaincatch.room.fragment
+package com.dtd.chaincatch.view.fragment
 
 import android.app.AlertDialog
 import android.graphics.Bitmap
@@ -15,12 +15,12 @@ import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.DialogBrushSettingsBinding
 import com.dtd.chaincatch.databinding.FragmentRoomBinding
-import com.dtd.chaincatch.room.RoomActivity
-import com.dtd.chaincatch.room.adapter.PlayerListAdapter
-import com.dtd.chaincatch.room.viewmodel.RoomViewModel
+import com.dtd.chaincatch.view.activity.RoomActivity
 import com.dtd.chaincatch.util.SeekBarUserChangeListener
 import com.dtd.chaincatch.util.base64ToBitmap
 import com.dtd.chaincatch.util.toBase64
+import com.dtd.chaincatch.view.adapter.PlayerListAdapter
+import com.dtd.chaincatch.viewmodel.RoomViewModel
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.raed.rasmview.RasmContext
@@ -32,9 +32,6 @@ import java.util.Timer
 import java.util.TimerTask
 import kotlin.math.max
 import kotlin.math.roundToInt
-
-
-private const val TAG = "RoomFragment_싸피"
 
 class RoomFragment :
   BaseFragment<FragmentRoomBinding>(FragmentRoomBinding::bind, R.layout.fragment_room) {
@@ -197,11 +194,9 @@ class RoomFragment :
 
     viewModel.chatting.observe(viewLifecycleOwner) {
       // TODO : chattingList 초기화
-      Log.d(TAG, "chatting: $it")
     }
 
     viewModel.drawing.observe(viewLifecycleOwner) {
-      Log.d(TAG, "drawing: $it")
       if (it == null) binding.imageView.setImageResource(0)
       else binding.imageView.setImageBitmap(base64ToBitmap(it))
     }
@@ -269,7 +264,6 @@ class RoomFragment :
           .setMessage("라운드가 종료되었습니다.")
           .setPositiveButton("OK") { _, _ -> }.show()
       }
-      Log.d(TAG, "round: $it")
     }
 
     viewModel.room.observe(viewLifecycleOwner) {

@@ -1,4 +1,4 @@
-package com.dtd.chaincatch.home.fragment
+package com.dtd.chaincatch.view.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -17,14 +17,12 @@ import com.bumptech.glide.Glide
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.FragmentHomeBinding
-import com.dtd.chaincatch.home.HomeAdapter
-import com.dtd.chaincatch.home.viewmodel.HomeViewModel
-import com.dtd.chaincatch.room.RoomActivity
+import com.dtd.chaincatch.viewmodel.HomeViewModel
+import com.dtd.chaincatch.view.activity.RoomActivity
+import com.dtd.chaincatch.view.adapter.HomeAdapter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
-
-private const val TAG = "HomeFragment_싸피"
 
 class HomeFragment :
   BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {

@@ -1,4 +1,4 @@
-package com.dtd.chaincatch.room
+package com.dtd.chaincatch.view.activity
 
 import android.graphics.Color
 import android.os.Build
@@ -8,8 +8,8 @@ import androidx.activity.viewModels
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseActivity
 import com.dtd.chaincatch.databinding.ActivityRoomBinding
-import com.dtd.chaincatch.room.fragment.RoomFragment
-import com.dtd.chaincatch.room.viewmodel.RoomViewModel
+import com.dtd.chaincatch.view.fragment.RoomFragment
+import com.dtd.chaincatch.viewmodel.RoomViewModel
 
 class RoomActivity : BaseActivity<ActivityRoomBinding>(ActivityRoomBinding::inflate) {
   private val viewModel by viewModels<RoomViewModel>()

@@ -1,4 +1,4 @@
-package com.dtd.chaincatch
+package com.dtd.chaincatch.view.activity
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -9,17 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.dtd.chaincatch.ApplicationClass
+import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseActivity
 import com.dtd.chaincatch.databinding.ActivityMainBinding
-import com.dtd.chaincatch.home.HomeActivity
-import com.dtd.chaincatch.home.model.service.UserService
-import com.dtd.chaincatch.home.viewmodel.HomeViewModel
-import com.dtd.chaincatch.user.model.dto.UserDto
+import com.dtd.chaincatch.model.dto.UserDto
+import com.dtd.chaincatch.model.service.UserService
 import com.dtd.chaincatch.util.SignUpCardView
+import com.dtd.chaincatch.viewmodel.HomeViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -35,9 +35,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-
-
-private const val TAG = "MainActivity_싸피"
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
   private lateinit var auth: FirebaseAuth
@@ -277,14 +274,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
   private fun initView() {
     // Set Title
-    Glide
-      .with(this)
+    Glide.with(this)
       .load(R.raw.title_animated)
       .into(binding.ivTitle)
 
     // Set Start Button
-    Glide
-      .with(this)
+    Glide.with(this)
       .load(R.raw.btn_start_animated_slow)
       .into(binding.btnStart)
 

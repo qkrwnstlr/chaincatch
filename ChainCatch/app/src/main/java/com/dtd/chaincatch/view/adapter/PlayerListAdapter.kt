@@ -1,4 +1,4 @@
-package com.dtd.chaincatch.room.adapter
+package com.dtd.chaincatch.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.databinding.ListItemUserBinding
-import com.dtd.chaincatch.home.fragment.HomeFragment
-import com.dtd.chaincatch.user.model.dto.UserDto
+import com.dtd.chaincatch.model.dto.UserDto
 
 class PlayerListAdapter : ListAdapter<UserDto, PlayerListAdapter.ViewHolder>(diffUtil) {
   inner class ViewHolder(private val binding: ListItemUserBinding) :

@@ -14,15 +14,15 @@
     android:theme="@style/Theme.ChainCatch"
     tools:targetApi="31">
     <activity
-      android:name=".room.RoomActivity"
+      android:name=".view.activity.RoomActivity"
       android:exported="false"
       android:screenOrientation="landscape"/>
     <activity
-      android:name=".home.HomeActivity"
+      android:name=".view.activity.HomeActivity"
       android:exported="false"
       android:screenOrientation="landscape" />
     <activity
-      android:name=".MainActivity"
+      android:name=".view.activity.MainActivity"
       android:exported="true"
       android:screenOrientation="landscape">
       <intent-filter>

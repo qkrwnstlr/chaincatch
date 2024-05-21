@@ -1,4 +1,4 @@
-package com.dtd.chaincatch.home
+package com.dtd.chaincatch.view.activity
 
 import android.graphics.Color
 import android.os.Build
@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseActivity
 import com.dtd.chaincatch.databinding.ActivityHomeBinding
-import com.dtd.chaincatch.home.fragment.HomeFragment
+import com.dtd.chaincatch.view.fragment.HomeFragment
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
   override fun onCreate(savedInstanceState: Bundle?) {

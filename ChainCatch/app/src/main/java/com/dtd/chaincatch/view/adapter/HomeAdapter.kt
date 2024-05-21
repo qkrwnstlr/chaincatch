@@ -1,4 +1,4 @@
-package com.dtd.chaincatch.home
+package com.dtd.chaincatch.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.databinding.ListItemRoomBinding
-import com.dtd.chaincatch.home.model.dto.RoomDto
+import com.dtd.chaincatch.model.dto.RoomDto
 
 class HomeAdapter(private val context: Context, private val items: List<RoomDto>) :
   RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
