@@ -15,12 +15,12 @@ import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.DialogBrushSettingsBinding
 import com.dtd.chaincatch.databinding.FragmentRoomBinding
-import com.dtd.chaincatch.drawing.fragment.toBase64
 import com.dtd.chaincatch.room.RoomActivity
 import com.dtd.chaincatch.room.adapter.PlayerListAdapter
 import com.dtd.chaincatch.room.viewmodel.RoomViewModel
 import com.dtd.chaincatch.util.SeekBarUserChangeListener
 import com.dtd.chaincatch.util.base64ToBitmap
+import com.dtd.chaincatch.util.toBase64
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.raed.rasmview.RasmContext
@@ -130,12 +130,16 @@ class RoomFragment :
     if (isDrawing) {
       binding.drawingView.visibility = View.VISIBLE
       binding.toolList.visibility = View.VISIBLE
+      binding.questionTv.visibility = View.VISIBLE
+
       binding.imageView.visibility = View.GONE
 
       binding.chattingEt.isEnabled = false
     } else {
       binding.drawingView.visibility = View.GONE
       binding.toolList.visibility = View.GONE
+      binding.questionTv.visibility = View.GONE
+
       binding.imageView.visibility = View.VISIBLE
 
       binding.chattingEt.isEnabled = true
@@ -202,10 +206,10 @@ class RoomFragment :
     }
 
     viewModel.question.observe(viewLifecycleOwner) { question ->
-      // TODO : 자기 차례면 questionView 초기화
       toggleMode(question?.uid == viewModel.user.value!!.uid)
 
       if (question == null) return@observe
+      binding.questionTv.text = question.answer
 
       when (question.state) {
         "Waiting" -> {
@@ -223,7 +227,7 @@ class RoomFragment :
                 val leftTime = 120 - (System.currentTimeMillis() - question.startTime) / 1000
                 val minute = String.format("%02d", leftTime / 60)
                 val second = String.format("%02d", leftTime % 60)
-                binding.timeTv.text = "$minute : $second"
+                binding.timeTv.text = "남은 시간 - $minute : $second"
               }
             }
           }
@@ -235,7 +239,9 @@ class RoomFragment :
           timer.cancel()
           binding.timeTv.visibility = View.GONE
           AlertDialog.Builder(requireContext())
-            .setMessage("${question.successorUid}님이 정답을 맞췄습니다.\n정답 : ${question.answer}")
+            .setMessage(
+              "${question.successorUid}님이 정답을 맞췄습니다.\n" + "정답 : ${question.answer}"
+            )
             .setPositiveButton("OK") { _, _ -> }.show()
         }
 
@@ -243,7 +249,9 @@ class RoomFragment :
           timer.cancel()
           binding.timeTv.visibility = View.GONE
           AlertDialog.Builder(requireContext())
-            .setMessage("시간이 초과되었습니다.")
+            .setMessage(
+              "시간이 초과되었습니다.\n" + "정답 : ${question.answer}"
+            )
             .setPositiveButton("OK") { _, _ -> }.show()
         }
       }
@@ -252,6 +260,12 @@ class RoomFragment :
     viewModel.round.observe(viewLifecycleOwner) {
       // TODO : round 정보 초기화
       // state == Finished -> nft 다이얼로그 띄우기
+      if (it == null) return@observe
+      if (it.state == "Finished") {
+        AlertDialog.Builder(requireContext())
+          .setMessage("라운드가 종료되었습니다.")
+          .setPositiveButton("OK") { _, _ -> }.show()
+      }
       Log.d(TAG, "round: $it")
     }
 

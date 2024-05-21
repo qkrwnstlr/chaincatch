@@ -1,12 +1,10 @@
 package com.dtd.chaincatch.room.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dtd.chaincatch.ApplicationClass
-import com.dtd.chaincatch.drawing.fragment.toBase64
 import com.dtd.chaincatch.home.model.dto.RoomActionDto
 import com.dtd.chaincatch.home.model.dto.RoomDto
 import com.dtd.chaincatch.home.model.service.UserService
