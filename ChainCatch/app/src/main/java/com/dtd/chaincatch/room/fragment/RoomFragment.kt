@@ -214,7 +214,9 @@ class RoomFragment :
 
       when (question.state) {
         "Waiting" -> {
-          val nickname = viewModel.playerList.value?.find { user -> user.uid == question.uid }
+          val nickname = viewModel.playerList.value?.find { user ->
+            user.uid == question.uid
+          }?.nickname
           AlertDialog.Builder(requireContext())
             .setMessage("${nickname}님의 차례입니다.")
             .setPositiveButton("OK") { _, _ -> }.show()
