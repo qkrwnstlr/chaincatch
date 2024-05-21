@@ -19,6 +19,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
         com.google.android.material.R.anim.abc_fade_out,
         Color.BLACK
       )
+      overrideActivityTransition(
+        OVERRIDE_TRANSITION_CLOSE,
+        com.google.android.material.R.anim.abc_fade_in,
+        com.google.android.material.R.anim.abc_fade_out,
+        Color.BLACK
+      )
     }
 
     supportFragmentManager

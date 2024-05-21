@@ -61,11 +61,11 @@ class RoomFragment :
   }
 
   private fun initPlayerList() {
-    playerListAdapter = PlayerListAdapter()
-    binding.playerList.adapter = playerListAdapter
-    binding.playerList.layoutManager = LinearLayoutManager(requireContext()).apply {
-      orientation = LinearLayoutManager.VERTICAL
-    }
+//    playerListAdapter = PlayerListAdapter()
+//    binding.playerList.adapter = playerListAdapter
+//    binding.playerList.layoutManager = LinearLayoutManager(requireContext()).apply {
+//      orientation = LinearLayoutManager.VERTICAL
+//    }
   }
 
   private fun initBrushDialog() {
@@ -277,7 +277,7 @@ class RoomFragment :
 
     initDrawingView()
     initBrushDialog()
-    initPlayerList()
+//    initPlayerList()
     initStartButton()
     initTimerButton()
   }

@@ -6,40 +6,165 @@
   android:layout_height="match_parent"
   tools:context=".view.fragment.RoomFragment">
 
-  <androidx.recyclerview.widget.RecyclerView
+  <!-- 사용자 영역 -->
+  <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/player_list"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@id/bottom_layout"
+    app:layout_constraintEnd_toStartOf="@id/layout_drawing"
+    app:layout_constraintHorizontal_weight="1.5"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    app:layout_constraintTop_toTopOf="parent"
+    tools:background="#27FF0000">
 
-  <com.raed.rasmview.RasmView
-    android:id="@+id/drawing_view"
+    <com.dtd.chaincatch.widget.UserCardView
+      android:id="@+id/user1"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toTopOf="@id/user2"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_chainStyle="packed" />
+
+    <com.dtd.chaincatch.widget.UserCardView
+      android:id="@+id/user2"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toTopOf="@id/user3"
+      app:layout_constraintTop_toBottomOf="@id/user1" />
+
+    <com.dtd.chaincatch.widget.UserCardView
+      android:id="@+id/user3"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toTopOf="@id/user4"
+      app:layout_constraintTop_toBottomOf="@id/user2" />
+
+    <com.dtd.chaincatch.widget.UserCardView
+      android:id="@+id/user4"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toTopOf="@id/user5"
+      app:layout_constraintTop_toBottomOf="@id/user3" />
+
+    <com.dtd.chaincatch.widget.UserCardView
+      android:id="@+id/user5"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/user4" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <!-- 그림판 영역 -->
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/layout_drawing"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    app:layout_constraintBottom_toTopOf="@+id/bottom_layout"
-    app:layout_constraintEnd_toStartOf="@+id/toolList"
-    app:layout_constraintStart_toEndOf="@+id/player_list"
-    app:layout_constraintTop_toTopOf="parent" />
+    app:layout_constraintBottom_toTopOf="@id/bottom_layout"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_weight="8.5"
+    app:layout_constraintStart_toEndOf="@id/player_list"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_weight="9"
+    tools:background="#ADCDF3D1">
 
-  <ImageView
-    android:id="@+id/imageView"
-    android:layout_width="0dp"
+    <!-- questioner 그림판 -->
+    <com.raed.rasmview.RasmView
+      android:id="@+id/drawing_view"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      app:layout_constraintEnd_toStartOf="@id/toolList"
+      app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- solver 그림판 -->
+    <ImageView
+      android:id="@+id/imageView"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      app:layout_constraintEnd_toStartOf="@id/toolList"
+      app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- 그림판 툴 영역 -->
+    <LinearLayout
+      android:id="@+id/toolList"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.0">
+
+      <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/color_btn"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="6dp"
+        android:background="@color/black" />
+
+      <Button
+        android:id="@+id/brush_btn"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="6dp"
+        android:background="@drawable/icon_brush" />
+
+      <Button
+        android:id="@+id/undo_btn"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="6dp"
+        android:background="@drawable/icon_undo" />
+
+      <Button
+        android:id="@+id/redo_btn"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="6dp"
+        android:background="@drawable/icon_redo" />
+
+      <Button
+        android:id="@+id/clear_btn"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="6dp"
+        android:background="@drawable/icon_clear" />
+    </LinearLayout>
+
+    <TextView
+      android:id="@+id/question_tv"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:text=""
+      android:textSize="24sp"
+      app:layout_constraintEnd_toStartOf="@+id/toolList"
+      app:layout_constraintHorizontal_bias="0.955"
+      app:layout_constraintStart_toEndOf="@+id/player_list"
+      app:layout_constraintTop_toTopOf="@+id/drawing_view" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <!-- 말풍선 영역-->
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/layout_balloons"
+    android:layout_width="150dp"
     android:layout_height="0dp"
-    app:layout_constraintBottom_toTopOf="@+id/bottom_layout"
-    app:layout_constraintEnd_toStartOf="@+id/toolList"
-    app:layout_constraintStart_toEndOf="@+id/player_list"
-    app:layout_constraintTop_toTopOf="parent" />
+    app:layout_constraintBottom_toBottomOf="@id/player_list"
+    app:layout_constraintStart_toEndOf="@id/player_list"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:background="#4A000000" />
 
+  <!-- 채팅, 게임시작 버튼, 타이머 영역 -->
   <LinearLayout
     android:id="@+id/bottom_layout"
     android:layout_width="0dp"
-    android:layout_height="wrap_content"
+    android:layout_height="0dp"
     android:orientation="horizontal"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toStartOf="@+id/toolList"
-    app:layout_constraintStart_toEndOf="@+id/player_list">
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@id/player_list"
+    app:layout_constraintTop_toBottomOf="@id/layout_drawing"
+    app:layout_constraintVertical_weight="1">
 
     <EditText
       android:id="@+id/chatting_et"
@@ -61,62 +186,5 @@
       tools:text="00 : 30" />
   </LinearLayout>
 
-  <LinearLayout
-    android:id="@+id/toolList"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.0">
-
-    <androidx.appcompat.widget.AppCompatButton
-      android:id="@+id/color_btn"
-      android:layout_width="36dp"
-      android:layout_height="36dp"
-      android:layout_margin="6dp"
-      android:background="@color/black"/>
-
-    <Button
-      android:id="@+id/brush_btn"
-      android:layout_width="36dp"
-      android:layout_height="36dp"
-      android:layout_margin="6dp"
-      android:background="@drawable/icon_brush" />
-
-    <Button
-      android:id="@+id/undo_btn"
-      android:layout_width="36dp"
-      android:layout_height="36dp"
-      android:layout_margin="6dp"
-      android:background="@drawable/icon_undo" />
-
-    <Button
-      android:id="@+id/redo_btn"
-      android:layout_width="36dp"
-      android:layout_height="36dp"
-      android:layout_margin="6dp"
-      android:background="@drawable/icon_redo" />
-
-    <Button
-      android:id="@+id/clear_btn"
-      android:layout_width="36dp"
-      android:layout_height="36dp"
-      android:layout_margin="6dp"
-      android:background="@drawable/icon_clear" />
-  </LinearLayout>
-
-  <TextView
-    android:id="@+id/question_tv"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:text=""
-    android:textSize="24sp"
-    app:layout_constraintEnd_toStartOf="@+id/toolList"
-    app:layout_constraintHorizontal_bias="0.955"
-    app:layout_constraintStart_toEndOf="@+id/player_list"
-    app:layout_constraintTop_toTopOf="@+id/drawing_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
