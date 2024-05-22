@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
@@ -37,8 +36,6 @@ import java.util.TimerTask
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-private const val TAG = "RoomFragment_싸피"
-
 class RoomFragment :
   BaseFragment<FragmentRoomBinding>(FragmentRoomBinding::bind, R.layout.fragment_room) {
   private val viewModel by activityViewModels<RoomViewModel>()
@@ -63,7 +60,8 @@ class RoomFragment :
 
   private fun showStartDialog() {
     startDialog?.dismiss()
-    startDialog = AlertDialog.Builder(requireContext()).setMessage("곧 게임이 시작됩니다.").show()
+    startDialog = AlertDialog.Builder(requireContext()).setCancelable(false)
+      .setMessage("곧 게임이 시작됩니다.").show()
   }
 
   private fun closeStartDialog() {
@@ -73,13 +71,14 @@ class RoomFragment :
 
   private fun showWaitingDialog() {
     waitingDialog?.dismiss()
-    waitingDialog =
-      AlertDialog.Builder(requireContext()).setMessage("이미 게임이 진행 중 입니다. 대기해 주세요").show()
+    waitingDialog = AlertDialog.Builder(requireContext())
+      .setMessage("이미 게임이 진행 중 입니다. 대기해 주세요").show()
   }
 
   private fun showFinishDialog() {
     finishDialog?.dismiss()
-    finishDialog = AlertDialog.Builder(requireContext()).setMessage("게임이 종료되었습니다.").show()
+    finishDialog = AlertDialog.Builder(requireContext()).setCancelable(false)
+      .setMessage("게임이 종료되었습니다.").show()
   }
 
   private fun closeFinishDialog() {
@@ -90,7 +89,8 @@ class RoomFragment :
   private fun showTurnDialog(nickname: String) {
     turnDialog?.dismiss()
     closeStartDialog()
-    turnDialog = AlertDialog.Builder(requireContext()).setMessage("${nickname}님의 차례입니다.").show()
+    turnDialog = AlertDialog.Builder(requireContext()).setCancelable(false)
+      .setMessage("${nickname}님의 차례입니다.").show()
   }
 
   private fun closeTurnDialog() {
@@ -98,11 +98,10 @@ class RoomFragment :
     turnDialog = null
   }
 
-  private fun showSuccessDialog(uid: String, answer: String) {
+  private fun showSuccessDialog(nickname: String, answer: String) {
     successDialog?.dismiss()
-    successDialog = AlertDialog.Builder(requireContext()).setMessage(
-      "${uid}님이 정답을 맞췄습니다.\n" + "정답 : $answer"
-    ).show()
+    successDialog = AlertDialog.Builder(requireContext()).setCancelable(false)
+      .setMessage("${nickname}님이 정답을 맞췄습니다.\n" + "정답 : $answer").show()
   }
 
   private fun closeSuccessDialog() {
@@ -112,9 +111,8 @@ class RoomFragment :
 
   private fun showFailDialog(answer: String) {
     failDialog?.dismiss()
-    failDialog = AlertDialog.Builder(requireContext()).setMessage(
-      "시간이 초과되었습니다.\n정답 : $answer"
-    ).show()
+    failDialog = AlertDialog.Builder(requireContext()).setCancelable(false)
+      .setMessage("시간이 초과되었습니다.\n정답 : $answer").show()
   }
 
   private fun closeFailDialog() {
@@ -209,6 +207,9 @@ class RoomFragment :
       binding.containerDrawingView.ivSolver.visibility = View.GONE
 
       binding.chattingEt.isEnabled = false
+
+      binding.containerDrawingView.undoBtn.visibility = View.VISIBLE
+      binding.containerDrawingView.redoBtn.visibility = View.VISIBLE
     } else {
       binding.containerDrawingView.dvQuestioner.visibility = View.GONE
       binding.toolList.visibility = View.GONE
@@ -217,6 +218,9 @@ class RoomFragment :
       binding.containerDrawingView.ivSolver.visibility = View.VISIBLE
 
       binding.chattingEt.isEnabled = true
+
+      binding.containerDrawingView.undoBtn.visibility = View.GONE
+      binding.containerDrawingView.redoBtn.visibility = View.GONE
     }
   }
 
@@ -293,7 +297,6 @@ class RoomFragment :
     }
 
     viewModel.playerList.observe(viewLifecycleOwner) {
-      Log.d(TAG, "onViewCreated: ${it.size}")
       var index = 0
       for (i in 0 until it.size) {
         val userDto = it[index]
@@ -417,6 +420,11 @@ class RoomFragment :
       }
       false
     }
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+    timer.cancel()
   }
 
   companion object {

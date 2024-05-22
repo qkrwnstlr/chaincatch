@@ -1,5 +1,6 @@
 package com.dtd.chaincatch.view.fragment
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -102,7 +103,10 @@ class HomeFragment :
 
   private fun initRecyclerView() {
     adapter = HomeAdapter(requireContext(), viewModel.roomDtoList.value!!).apply {
-      setOnItemClickListener { viewModel.enterRoom(it.rid) }
+      setOnItemClickListener {
+        if (it.currentUser < it.maxUser) viewModel.enterRoom(it.rid)
+        else AlertDialog.Builder(requireContext()).setMessage("사용자가 가득차서 들어갈 수 없습니다.").show()
+      }
     }
     binding.homeFragmentRecyclerView.layoutManager = object : LinearLayoutManager(context) {
       override fun canScrollVertically() = false

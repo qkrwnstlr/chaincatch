@@ -98,7 +98,7 @@ class RoomViewModel : ViewModel() {
           val uidList = snapshot.getValue(ti)
           viewModelScope.launch {
             val playerList = mutableListOf<UserDto>()
-            uidList?.forEach {
+            uidList?.filter { it != "empty" }?.forEach {
               val user = userDB.child(it).get().await().getValue(UserDto::class.java)
                 ?: return@forEach
               playerList.add(user)
@@ -162,7 +162,7 @@ class RoomViewModel : ViewModel() {
   }
 
   fun sendChatting(content: String) {
-    val chattingDto = ChattingDto(user.value!!.uid, room.value!!.rid, content)
+    val chattingDto = ChattingDto(user.value!!.uid, user.value!!.nickname, content)
     chattingDB.push().setValue(chattingDto)
   }
 
