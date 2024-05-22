@@ -3,22 +3,20 @@ package com.dtd.chaincatch.view.fragment
 import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.DialogBrushSettingsBinding
 import com.dtd.chaincatch.databinding.FragmentRoomBinding
-import com.dtd.chaincatch.view.activity.RoomActivity
 import com.dtd.chaincatch.util.SeekBarUserChangeListener
 import com.dtd.chaincatch.util.base64ToBitmap
 import com.dtd.chaincatch.util.toBase64
+import com.dtd.chaincatch.view.activity.RoomActivity
 import com.dtd.chaincatch.view.adapter.PlayerListAdapter
 import com.dtd.chaincatch.viewmodel.RoomViewModel
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
@@ -126,26 +124,26 @@ class RoomFragment :
 
   private fun toggleMode(isDrawing: Boolean) {
     if (isDrawing) {
-      binding.drawingView.visibility = View.VISIBLE
+      binding.dvQuestioner.visibility = View.VISIBLE
       binding.toolList.visibility = View.VISIBLE
       binding.questionTv.visibility = View.VISIBLE
 
-      binding.imageView.visibility = View.GONE
+      binding.ivSolver.visibility = View.INVISIBLE
 
       binding.chattingEt.isEnabled = false
     } else {
-      binding.drawingView.visibility = View.GONE
+      binding.dvQuestioner.visibility = View.INVISIBLE
       binding.toolList.visibility = View.GONE
       binding.questionTv.visibility = View.GONE
 
-      binding.imageView.visibility = View.VISIBLE
+      binding.ivSolver.visibility = View.VISIBLE
 
       binding.chattingEt.isEnabled = true
     }
   }
 
   private fun initDrawingView() {
-    rasmContext = binding.drawingView.rasmContext
+    rasmContext = binding.dvQuestioner.rasmContext
     rasmState = rasmContext.state
 
     rasmState.addOnStateChangedListener {
@@ -197,8 +195,8 @@ class RoomFragment :
     }
 
     viewModel.drawing.observe(viewLifecycleOwner) {
-      if (it == null) binding.imageView.setImageResource(0)
-      else binding.imageView.setImageBitmap(base64ToBitmap(it))
+      if (it == null) binding.ivSolver.setImageResource(0)
+      else binding.ivSolver.setImageBitmap(base64ToBitmap(it))
     }
 
     viewModel.question.observe(viewLifecycleOwner) { question ->
@@ -241,6 +239,7 @@ class RoomFragment :
               "${question.successorUid}님이 정답을 맞췄습니다.\n" + "정답 : ${question.answer}"
             )
             .setPositiveButton("OK") { _, _ -> }.show()
+          // TODO : 경험치 올리기
         }
 
         "Fail" -> {
