@@ -106,6 +106,11 @@ class HomeViewModel : ViewModel() {
     }
   }
 
+  fun enterRandomRoom() {
+    val rid = roomDtoList.value!!.filter { it.currentUser < it.maxUser }.random().rid
+    enterRoom(rid)
+  }
+
   companion object {
     const val ROOM_DB_KEY = "room"
     const val USER_DB_KEY = "user"
