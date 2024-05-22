@@ -11,6 +11,9 @@ interface UserService {
   suspend fun createUser(@Body userDto: UserDto)
 
   @POST("/createRoom")
+  suspend fun deleteUser(@Body uid: String)
+
+  @POST("/createRoom")
   suspend fun createRoom(@Body roomDto: RoomDto)
 
   @POST("/enterRoom")
