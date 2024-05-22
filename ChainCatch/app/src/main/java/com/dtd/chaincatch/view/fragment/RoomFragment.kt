@@ -60,11 +60,6 @@ class RoomFragment :
   }
 
   private fun initPlayerList() {
-//    playerListAdapter = PlayerListAdapter()
-//    binding.playerList.adapter = playerListAdapter
-//    binding.playerList.layoutManager = LinearLayoutManager(requireContext()).apply {
-//      orientation = LinearLayoutManager.VERTICAL
-//    }
     initPlayerBGColor()
   }
 
@@ -210,7 +205,7 @@ class RoomFragment :
     }
 
     viewModel.question.observe(viewLifecycleOwner) { question ->
-//      toggleMode(question?.uid == viewModel.user.value!!.uid)
+      toggleMode(question?.uid == viewModel.user.value!!.uid)
 
       if (question == null) return@observe
       binding.containerDrawingView.questionTv.text = question.answer
@@ -229,7 +224,7 @@ class RoomFragment :
           timer = Timer()
           val timerTask: TimerTask = object : TimerTask() {
             override fun run() {
-              lifecycleScope.launch {
+              viewLifecycleOwner.lifecycleScope.launch {
                 val leftTime = 120 - (System.currentTimeMillis() - question.startTime) / 1000
                 val minute = String.format("%02d", max(leftTime / 60, 0))
                 val second = String.format("%02d", max(leftTime % 60, 0))
@@ -289,6 +284,5 @@ class RoomFragment :
     initPlayerList()
     initStartButton()
     initTimerButton()
-
   }
 }

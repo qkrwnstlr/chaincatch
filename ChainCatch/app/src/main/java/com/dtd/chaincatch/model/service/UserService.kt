@@ -10,6 +10,9 @@ interface UserService {
   @POST("/createUser")
   suspend fun createUser(@Body userDto: UserDto)
 
+  @POST("/deleteUser")
+  suspend fun deleteUser(@Body userDto: UserDto)
+
   @POST("/createRoom")
   suspend fun createRoom(@Body roomDto: RoomDto)
 

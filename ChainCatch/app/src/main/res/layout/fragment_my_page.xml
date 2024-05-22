@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/white"
+  tools:context=".view.fragment.MyPageFragment">
+
+  <!-- background gif -->
+  <ImageView
+    android:id="@+id/iv_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scaleType="fitXY" />
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <com.dtd.chaincatch.widget.UserCardView
+      android:id="@+id/user_info"
+      android:layout_width="300dp"
+      android:layout_height="100dp"
+      android:textSize="8sp"
+      app:ivUser="@drawable/cat_cheese_face"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_weight="1"
+      app:tvNickname="닉네임" />
+
+    <TextView
+      android:id="@+id/textView"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:text="NFT 지갑 주소"
+      android:textSize="24sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="@+id/user_info"
+      app:layout_constraintTop_toBottomOf="@+id/user_info" />
+
+    <TextView
+      android:id="@+id/nftAddress"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:textSize="24sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="1.0"
+      app:layout_constraintStart_toStartOf="@+id/textView"
+      app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/nftImgList"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_marginTop="16dp"
+      android:orientation="horizontal"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/nftAddress" />
+
+    <Button
+      android:id="@+id/btn_edit"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="정보수정"
+      app:layout_constraintBottom_toBottomOf="@+id/user_info"
+      app:layout_constraintEnd_toStartOf="@+id/btn_delete"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toEndOf="@+id/user_info"
+      app:layout_constraintTop_toTopOf="@+id/user_info" />
+
+    <Button
+      android:id="@+id/btn_delete"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="회원탈퇴"
+      app:layout_constraintBottom_toBottomOf="@+id/btn_edit"
+      app:layout_constraintEnd_toStartOf="@+id/btn_logout"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toEndOf="@+id/btn_edit"
+      app:layout_constraintTop_toTopOf="@+id/btn_edit" />
+
+    <Button
+      android:id="@+id/btn_logout"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="로그아웃"
+      app:layout_constraintBottom_toBottomOf="@+id/btn_delete"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toEndOf="@+id/btn_delete"
+      app:layout_constraintTop_toTopOf="@+id/btn_delete"
+      app:layout_constraintVertical_bias="1.0" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

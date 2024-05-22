@@ -11,6 +11,7 @@
   <declare-styleable name="UserCardView">
     <attr name="ivUser" format="reference" />
     <attr name="tvNickname" format="string" />
+    <attr name="android:textSize" format="dimension" />
     <attr name="tvAnswerCnt" format="integer" />
     <attr name="bgColor" format="integer" />
     <!--    <attr name="pbExperience" format="integer" />-->

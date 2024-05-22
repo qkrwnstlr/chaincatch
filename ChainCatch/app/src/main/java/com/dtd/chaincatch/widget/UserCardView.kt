@@ -47,6 +47,9 @@ class UserCardView @JvmOverloads constructor(
     setUerNickname(typedArray.getText(R.styleable.UserCardView_tvNickname))
     setUserAnswerCnt(typedArray.getText(R.styleable.UserCardView_tvAnswerCnt))
     setBgColor(typedArray.getInt(R.styleable.UserCardView_bgColor, defStyleAttr))
+    setTextSize(
+      typedArray.getDimension(R.styleable.UserCardView_android_textSize, defStyleAttr.toFloat())
+    )
 //    setUserExperience(typedArray.getInt(R.styleable.UserCardView_pbExperience, defStyleAttr))
     typedArray.recycle()
   }
@@ -57,6 +60,10 @@ class UserCardView @JvmOverloads constructor(
 
   fun setUerNickname(nickname: CharSequence) {
     tvNickname.text = nickname
+  }
+
+  private fun setTextSize(size: Float) {
+    tvNickname.textSize = size
   }
 
   fun setUserAnswerCnt(cnt: CharSequence) {
