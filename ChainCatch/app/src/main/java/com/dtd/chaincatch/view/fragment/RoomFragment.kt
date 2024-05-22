@@ -50,7 +50,7 @@ class RoomFragment :
   private lateinit var timer: Timer
 
   private fun initTimerButton() {
-    binding.timeTv.visibility = View.VISIBLE // View.GONE
+    binding.containerDrawingView.timeTv.visibility = View.VISIBLE // View.GONE
   }
 
   private fun initStartButton() {
@@ -134,26 +134,26 @@ class RoomFragment :
 
   private fun toggleMode(isDrawing: Boolean) {
     if (isDrawing) {
-      binding.dvQuestioner.visibility = View.VISIBLE
+      binding.containerDrawingView.dvQuestioner.visibility = View.VISIBLE
       binding.toolList.visibility = View.VISIBLE
-      binding.questionTv.visibility = View.VISIBLE
+      binding.containerDrawingView.questionTv.visibility = View.VISIBLE
 
-      binding.ivSolver.visibility = View.VISIBLE // View.GONE
+      binding.containerDrawingView.ivSolver.visibility = View.VISIBLE // View.GONE
 
       binding.chattingEt.isEnabled = false
     } else {
-      binding.dvQuestioner.visibility = View.VISIBLE // View.GONE
+      binding.containerDrawingView.dvQuestioner.visibility = View.VISIBLE // View.GONE
       binding.toolList.visibility = View.VISIBLE // View.GONE
-      binding.questionTv.visibility = View.VISIBLE // View.GONE
+      binding.containerDrawingView.questionTv.visibility = View.VISIBLE // View.GONE
 
-      binding.ivSolver.visibility = View.VISIBLE
+      binding.containerDrawingView.ivSolver.visibility = View.VISIBLE
 
       binding.chattingEt.isEnabled = true
     }
   }
 
   private fun initDrawingView() {
-    rasmContext = binding.dvQuestioner.rasmContext
+    rasmContext = binding.containerDrawingView.dvQuestioner.rasmContext
     rasmState = rasmContext.state
 
     rasmState.addOnStateChangedListener {
@@ -162,13 +162,13 @@ class RoomFragment :
     }
 
     rasmState.addOnStateChangedListener {
-      binding.undoBtn.isEnabled = rasmState.canCallUndo()
-      binding.redoBtn.isEnabled = rasmState.canCallRedo()
+      binding.containerDrawingView.undoBtn.isEnabled = rasmState.canCallUndo()
+      binding.containerDrawingView.redoBtn.isEnabled = rasmState.canCallRedo()
     }
 
     rasmContext.brushColor = 0x000000
-    binding.undoBtn.isEnabled = rasmState.canCallUndo()
-    binding.redoBtn.isEnabled = rasmState.canCallRedo()
+    binding.containerDrawingView.undoBtn.isEnabled = rasmState.canCallUndo()
+    binding.containerDrawingView.redoBtn.isEnabled = rasmState.canCallRedo()
 
     binding.colorBtn.setOnClickListener {
       colorDialog.show()
@@ -179,8 +179,8 @@ class RoomFragment :
       }
       brushDialog.show()
     }
-    binding.redoBtn.setOnClickListener { rasmState.redo() }
-    binding.undoBtn.setOnClickListener { rasmState.undo() }
+    binding.containerDrawingView.redoBtn.setOnClickListener { rasmState.redo() }
+    binding.containerDrawingView.undoBtn.setOnClickListener { rasmState.undo() }
     binding.clearBtn.setOnClickListener { rasmContext.clear() }
   }
 
@@ -205,15 +205,15 @@ class RoomFragment :
     }
 
     viewModel.drawing.observe(viewLifecycleOwner) {
-      if (it == null) binding.ivSolver.setImageResource(0)
-      else binding.ivSolver.setImageBitmap(base64ToBitmap(it))
+      if (it == null) binding.containerDrawingView.ivSolver.setImageResource(0)
+      else binding.containerDrawingView.ivSolver.setImageBitmap(base64ToBitmap(it))
     }
 
     viewModel.question.observe(viewLifecycleOwner) { question ->
 //      toggleMode(question?.uid == viewModel.user.value!!.uid)
 
       if (question == null) return@observe
-      binding.questionTv.text = question.answer
+      binding.containerDrawingView.questionTv.text = question.answer
 
       when (question.state) {
         "Waiting" -> {
@@ -233,17 +233,17 @@ class RoomFragment :
                 val leftTime = 120 - (System.currentTimeMillis() - question.startTime) / 1000
                 val minute = String.format("%02d", max(leftTime / 60, 0))
                 val second = String.format("%02d", max(leftTime % 60, 0))
-                binding.timeTv.text = "$minute : $second"
+                binding.containerDrawingView.timeTv.text = "$minute : $second"
               }
             }
           }
           timer.schedule(timerTask, 0, 1000)
-          binding.timeTv.visibility = View.VISIBLE
+          binding.containerDrawingView.timeTv.visibility = View.VISIBLE
         }
 
         "Success" -> {
           timer.cancel()
-          binding.timeTv.visibility = View.INVISIBLE // View.GONE
+          binding.containerDrawingView.timeTv.visibility = View.INVISIBLE // View.GONE
           AlertDialog.Builder(requireContext())
             .setMessage(
               "${question.successorUid}님이 정답을 맞췄습니다.\n" + "정답 : ${question.answer}"
@@ -254,7 +254,7 @@ class RoomFragment :
 
         "Fail" -> {
           timer.cancel()
-          binding.timeTv.visibility = View.INVISIBLE // View.GONE
+          binding.containerDrawingView.timeTv.visibility = View.INVISIBLE // View.GONE
           AlertDialog.Builder(requireContext())
             .setMessage(
               "시간이 초과되었습니다.\n" + "정답 : ${question.answer}"
