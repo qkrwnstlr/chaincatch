@@ -32,5 +32,11 @@
   <!-- sign up dialog -->
   <dimen name="sign_up_dialog_corner_radius_30">30dp</dimen>
 
+  <!-- game room page -->
+  <dimen name="game_room_root_margin_top_5">5dp</dimen>
+  <dimen name="game_room_center_col_margin_start_20">20dp</dimen>
+  <dimen name="game_room_ev_chatting_margin_vertical_5">5dp</dimen>
+  <dimen name="game_room_play_list_and_balloon_margin_top_10">10dp</dimen>
+
 
 </resources>

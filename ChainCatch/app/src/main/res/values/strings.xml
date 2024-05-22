@@ -8,4 +8,5 @@
   <string name="cat_name_fish">생선</string>
   <string name="cat_name_rainbow">무지개</string>
   <string name="list_item_room_max"> / 5</string>
+  <string name="user_card_answer_cnt">정답 : </string>
 </resources>

@@ -14,7 +14,7 @@ class PlayerListAdapter : ListAdapter<UserDto, PlayerListAdapter.ViewHolder>(dif
     RecyclerView.ViewHolder(binding.root) {
     fun bind(user: UserDto) {
       binding.tvNickname.text = user.nickname
-      binding.progressBarExperience.progress = user.experience
+//      binding.progressBarExperience.progress = user.experience
 
       when (user.profileImg) {
         CAT_CHEESE -> binding.ivUser.setImageResource(R.drawable.cat_cheese_face)
@@ -24,7 +24,7 @@ class PlayerListAdapter : ListAdapter<UserDto, PlayerListAdapter.ViewHolder>(dif
       }
 
       binding.tvNickname.text = user.nickname
-      binding.progressBarExperience.progress = user.experience
+//      binding.progressBarExperience.progress = user.experience
     }
   }
 

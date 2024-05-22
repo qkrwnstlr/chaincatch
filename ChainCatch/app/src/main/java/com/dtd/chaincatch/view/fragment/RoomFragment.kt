@@ -2,6 +2,7 @@ package com.dtd.chaincatch.view.fragment
 
 import android.app.AlertDialog
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -49,13 +50,25 @@ class RoomFragment :
   private lateinit var timer: Timer
 
   private fun initTimerButton() {
-    binding.timeTv.visibility = View.GONE
+    binding.timeTv.visibility = View.VISIBLE // View.GONE
   }
 
   private fun initStartButton() {
     binding.startButton.setOnClickListener {
       viewModel.startGame()
     }
+  }
+
+  private fun initPlayerList() {
+    initPlayerBGColor()
+  }
+
+  private fun initPlayerBGColor() {
+    binding.user1.setBgColor(Color.parseColor("#f8f439"))
+    binding.user2.setBgColor(Color.parseColor("#80dbe6"))
+    binding.user3.setBgColor(Color.parseColor("#77cd62"))
+    binding.user4.setBgColor(Color.parseColor("#c958b2"))
+    binding.user5.setBgColor(Color.parseColor("#f02a37"))
   }
 
   private fun initBrushDialog() {
@@ -120,13 +133,13 @@ class RoomFragment :
       binding.toolList.visibility = View.VISIBLE
       binding.questionTv.visibility = View.VISIBLE
 
-      binding.ivSolver.visibility = View.INVISIBLE
+      binding.ivSolver.visibility = View.VISIBLE // View.GONE
 
       binding.chattingEt.isEnabled = false
     } else {
-      binding.dvQuestioner.visibility = View.INVISIBLE
-      binding.toolList.visibility = View.GONE
-      binding.questionTv.visibility = View.GONE
+      binding.dvQuestioner.visibility = View.VISIBLE // View.GONE
+      binding.toolList.visibility = View.VISIBLE // View.GONE
+      binding.questionTv.visibility = View.VISIBLE // View.GONE
 
       binding.ivSolver.visibility = View.VISIBLE
 
@@ -225,7 +238,7 @@ class RoomFragment :
 
         "Success" -> {
           timer.cancel()
-          binding.timeTv.visibility = View.GONE
+          binding.timeTv.visibility = View.INVISIBLE // View.GONE
           AlertDialog.Builder(requireContext())
             .setMessage(
               "${question.successorUid}님이 정답을 맞췄습니다.\n" + "정답 : ${question.answer}"
@@ -236,7 +249,7 @@ class RoomFragment :
 
         "Fail" -> {
           timer.cancel()
-          binding.timeTv.visibility = View.GONE
+          binding.timeTv.visibility = View.INVISIBLE // View.GONE
           AlertDialog.Builder(requireContext())
             .setMessage(
               "시간이 초과되었습니다.\n" + "정답 : ${question.answer}"
@@ -268,7 +281,7 @@ class RoomFragment :
 
     initDrawingView()
     initBrushDialog()
-//    initPlayerList()
+    initPlayerList()
     initStartButton()
     initTimerButton()
   }
