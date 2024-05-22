@@ -3,22 +3,20 @@ package com.dtd.chaincatch.view.fragment
 import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.DialogBrushSettingsBinding
 import com.dtd.chaincatch.databinding.FragmentRoomBinding
-import com.dtd.chaincatch.view.activity.RoomActivity
 import com.dtd.chaincatch.util.SeekBarUserChangeListener
 import com.dtd.chaincatch.util.base64ToBitmap
 import com.dtd.chaincatch.util.toBase64
+import com.dtd.chaincatch.view.activity.RoomActivity
 import com.dtd.chaincatch.view.adapter.PlayerListAdapter
 import com.dtd.chaincatch.viewmodel.RoomViewModel
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
@@ -58,14 +56,6 @@ class RoomFragment :
     binding.startButton.setOnClickListener {
       viewModel.startGame()
     }
-  }
-
-  private fun initPlayerList() {
-//    playerListAdapter = PlayerListAdapter()
-//    binding.playerList.adapter = playerListAdapter
-//    binding.playerList.layoutManager = LinearLayoutManager(requireContext()).apply {
-//      orientation = LinearLayoutManager.VERTICAL
-//    }
   }
 
   private fun initBrushDialog() {
@@ -221,7 +211,7 @@ class RoomFragment :
           timer = Timer()
           val timerTask: TimerTask = object : TimerTask() {
             override fun run() {
-              lifecycleScope.launch {
+              viewLifecycleOwner.lifecycleScope.launch {
                 val leftTime = 120 - (System.currentTimeMillis() - question.startTime) / 1000
                 val minute = String.format("%02d", max(leftTime / 60, 0))
                 val second = String.format("%02d", max(leftTime % 60, 0))

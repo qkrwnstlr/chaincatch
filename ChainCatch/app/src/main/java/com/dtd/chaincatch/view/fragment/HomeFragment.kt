@@ -75,7 +75,15 @@ class HomeFragment :
 
   private fun initUserInfo() {
     viewModel.userInfo.observe(viewLifecycleOwner) {
-      // TODO : userInfo View 설정
+      binding.ivUser.setOnClickListener {
+        parentFragmentManager.beginTransaction()
+          .setReorderingAllowed(true)
+          .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+          .replace(R.id.home_fragment_container, MyPageFragment())
+          .addToBackStack(null)
+          .commit()
+      }
+
       if (it == null) return@observe
       when (it.profileImg) {
         CAT_CHEESE -> binding.ivUser.setImageResource(R.drawable.cat_cheese_face)
@@ -106,7 +114,7 @@ class HomeFragment :
     val animation =
       AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_anim_slide_in_left)
     binding.homeFragmentRecyclerView.layoutAnimation = animation
-    lifecycleScope.launch {
+    viewLifecycleOwner.lifecycleScope.launch {
       delay(200)
       binding.homeFragmentRecyclerView.scheduleLayoutAnimation()
     }

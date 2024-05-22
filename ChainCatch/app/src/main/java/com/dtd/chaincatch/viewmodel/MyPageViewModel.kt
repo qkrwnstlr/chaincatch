@@ -40,14 +40,24 @@ class MyPageViewModel : ViewModel() {
     }
   }
 
-  fun updateUser(userDto: UserDto) {
+  fun updateUser(nickname: String, profileImg: Int, nftAddress: String) {
+    val userDto = UserDto(
+      uid = user.value!!.uid,
+      nickname = nickname,
+      profileImg = profileImg,
+      nftAddress = nftAddress
+    )
     userDB.setValue(userDto)
   }
 
   fun deleteUser() {
     viewModelScope.launch {
-      userService.deleteUser(user.value!!.uid)
+      userService.deleteUser(UserDto(uid = user.value!!.uid))
     }
+  }
+
+  fun logout() {
+    auth.signOut()
   }
 
   companion object {

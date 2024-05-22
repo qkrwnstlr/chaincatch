@@ -3,6 +3,7 @@ package com.dtd.chaincatch.widget
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -11,6 +12,8 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.util.ConstValues
+
+;
 
 class UserCardView @JvmOverloads constructor(
   context: Context,
@@ -43,6 +46,9 @@ class UserCardView @JvmOverloads constructor(
     )
     setUerNickname(typedArray.getText(R.styleable.UserCardView_tvNickname))
     setUserExperience(typedArray.getInt(R.styleable.UserCardView_pbExperience, defStyleAttr))
+    setTextSize(
+      typedArray.getDimension(R.styleable.UserCardView_android_textSize, defStyleAttr.toFloat())
+    )
     typedArray.recycle()
   }
 
@@ -52,6 +58,10 @@ class UserCardView @JvmOverloads constructor(
 
   fun setUerNickname(nickname: CharSequence) {
     tvNickname.text = nickname
+  }
+
+  private fun setTextSize(size: Float) {
+    tvNickname.textSize = size
   }
 
   fun setUserExperience(experience: Int) {
