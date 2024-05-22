@@ -2,6 +2,7 @@ export class User {
   uid: string;
   profileImg: number;
   nickname: string;
+  nftAddress: string;
   currentRid: string | null;
   experience: number;
   isOnline: boolean;
@@ -10,6 +11,7 @@ export class User {
     uid: string,
     nickname: string,
     profileImg: number,
+    nftAddress: string,
     currentRid: string | null,
     experience: number,
     isOnline: boolean
@@ -17,6 +19,7 @@ export class User {
     this.uid = uid;
     this.nickname = nickname;
     this.profileImg = profileImg;
+    this.nftAddress = nftAddress;
     this.currentRid = currentRid;
     this.experience = experience;
     this.isOnline = isOnline;
