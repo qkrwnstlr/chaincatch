@@ -272,7 +272,7 @@
       android:layout_marginVertical="@dimen/game_room_ev_chatting_margin_vertical_5"
       android:layout_weight="8"
       android:background="@drawable/rounded_rectangle_white_no_border"
-      android:imeOptions="actionSend"
+      android:imeOptions="actionSend|flagNoFullscreen"
       android:inputType="text"
       android:paddingHorizontal="20dp"
       android:paddingVertical="1dp"
@@ -285,7 +285,7 @@
       android:layout_height="match_parent"
       android:layout_marginHorizontal="10dp"
       android:gravity="center_vertical"
-      android:text="00 : 30"
+      android:text="00 : 00"
       android:textColor="@color/white"
       android:textSize="24sp"
       android:textStyle="bold" />
