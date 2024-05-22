@@ -15,8 +15,8 @@
     android:paddingStart="@dimen/game_room_root_padding_start_15"
     android:paddingTop="@dimen/game_room_play_list_and_balloon_margin_top_10"
     android:paddingEnd="@dimen/game_room_root_padding_end_5"
-    android:paddingBottom="10dp"
-    app:layout_constraintBottom_toTopOf="@id/startButton"
+    android:paddingBottom="@dimen/game_room_play_list_and_balloon_padding_bottom_10"
+    app:layout_constraintBottom_toTopOf="@id/layout_startButton"
     app:layout_constraintEnd_toStartOf="@id/layout_drawing"
     app:layout_constraintHorizontal_weight="1.8"
     app:layout_constraintStart_toStartOf="parent"
@@ -83,17 +83,36 @@
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <!-- 게임시작 버튼 -->
-  <androidx.appcompat.widget.AppCompatButton
-    android:id="@+id/startButton"
+  <FrameLayout
+    android:id="@+id/layout_startButton"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    android:layout_marginBottom="4dp"
-    android:text="게임 시작"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="@id/player_list"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/player_list"
-    app:layout_constraintVertical_weight="1" />
+    app:layout_constraintVertical_weight="1">
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginStart="@dimen/game_room_root_padding_start_15"
+      android:layout_marginBottom="6dp"
+      android:background="@drawable/btn_submit2" />
+
+    <TextView
+      android:id="@+id/startButton"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="center"
+      android:gravity="center"
+      android:paddingStart="@dimen/game_room_root_padding_start_15"
+      android:paddingBottom="8dp"
+      android:text="시  작"
+      android:textColor="@color/white"
+      android:textStyle="bold" />
+  </FrameLayout>
+
 
   <!-- 그림판 + 툴 영역 -->
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -234,6 +253,7 @@
     android:layout_height="0dp"
     android:layout_marginTop="@dimen/game_room_play_list_and_balloon_margin_top_10"
     android:orientation="vertical"
+    android:paddingBottom="@dimen/game_room_play_list_and_balloon_padding_bottom_10"
     app:layout_constraintBottom_toBottomOf="@id/player_list"
     app:layout_constraintStart_toEndOf="@id/player_list"
     app:layout_constraintTop_toTopOf="parent">

@@ -137,9 +137,9 @@ class RoomFragment :
 
       binding.chattingEt.isEnabled = false
     } else {
-      binding.containerDrawingView.dvQuestioner.visibility = View.VISIBLE // View.GONE
-      binding.toolList.visibility = View.VISIBLE // View.GONE
-      binding.containerDrawingView.questionTv.visibility = View.VISIBLE // View.GONE
+      binding.containerDrawingView.dvQuestioner.visibility = View.GONE // View.GONE
+      binding.toolList.visibility = View.GONE // View.GONE
+      binding.containerDrawingView.questionTv.visibility = View.GONE // View.GONE
 
       binding.containerDrawingView.ivSolver.visibility = View.VISIBLE
 
