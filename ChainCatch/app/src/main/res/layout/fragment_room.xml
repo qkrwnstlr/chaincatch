@@ -4,7 +4,6 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="@color/black"
   tools:context=".view.fragment.RoomFragment">
 
   <!-- 사용자 영역 -->
@@ -208,8 +207,7 @@
       android:layout_height="0dp"
       android:layout_weight="1"
       android:background="@drawable/balloon2_nine_patch"
-      android:text="한줄당9글자제한??"
-      tools:visibility="visible" />
+      android:text="한줄당9글자제한??" />
 
     <include
       android:id="@+id/balloon2"
@@ -217,9 +215,7 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@drawable/balloon2_nine_patch"
-      android:visibility="invisible"
-      tools:visibility="visible" />
+      android:background="@drawable/balloon2_nine_patch" />
 
     <include
       android:id="@+id/balloon3"
@@ -227,9 +223,7 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@drawable/balloon2_nine_patch"
-      android:visibility="invisible"
-      tools:visibility="visible" />
+      android:background="@drawable/balloon2_nine_patch" />
 
     <include
       android:id="@+id/balloon4"
@@ -237,9 +231,7 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@drawable/balloon2_nine_patch"
-      android:visibility="invisible"
-      tools:visibility="visible" />
+      android:background="@drawable/balloon2_nine_patch" />
 
     <include
       android:id="@+id/balloon5"
@@ -247,9 +239,7 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@drawable/balloon2_nine_patch"
-      android:visibility="invisible"
-      tools:visibility="visible" />
+      android:background="@drawable/balloon2_nine_patch" />
   </LinearLayout>
 
   <!-- 채팅, 게임시작 버튼, 타이머 영역 -->
@@ -282,9 +272,11 @@
       android:layout_marginVertical="@dimen/game_room_ev_chatting_margin_vertical_5"
       android:layout_weight="8"
       android:background="@drawable/rounded_rectangle_white_no_border"
-      android:imeOptions="flagNoExtractUi"
+      android:imeOptions="actionSend"
+      android:inputType="text"
       android:paddingHorizontal="20dp"
       android:paddingVertical="1dp"
+      android:singleLine="true"
       android:textCursorDrawable="@null" />
 
     <TextView

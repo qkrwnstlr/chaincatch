@@ -1,5 +1,6 @@
 package com.dtd.chaincatch.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,8 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+
+private const val TAG = "RoomViewModel_싸피"
 
 class RoomViewModel : ViewModel() {
   private var auth: FirebaseAuth = Firebase.auth
@@ -55,8 +58,8 @@ class RoomViewModel : ViewModel() {
   private val _drawing = MutableLiveData<String?>()
   val drawing: LiveData<String?> get() = _drawing
 
-  private val _chattingList = MutableLiveData<List<ChattingDto>>()
-  val chatting: LiveData<List<ChattingDto>> get() = _chattingList
+  private val _newChatting = MutableLiveData<ChattingDto>()
+  val chatting: LiveData<ChattingDto> get() = _newChatting
 
   init {
     viewModelScope.launch {
@@ -103,6 +106,7 @@ class RoomViewModel : ViewModel() {
           viewModelScope.launch {
             val user = userDB.child(uid).get().await().getValue(UserDto::class.java)
               ?: return@launch
+            Log.d(TAG, "onChildChanged: $user")
             if (user.uid == "empty") {
               _playerList.postValue(_playerList.value!!.toMutableList().apply {
                 removeAt(indexOf(user))
@@ -121,7 +125,8 @@ class RoomViewModel : ViewModel() {
             val user = userDB.child(uid).get().await().getValue(UserDto::class.java)
               ?: return@launch
             _playerList.postValue(_playerList.value!!.toMutableList().apply {
-              removeAt(indexOf(user))
+              val index = indexOf(user).takeIf { it >= 0 } ?: return@apply
+              removeAt(index)
             })
           }
         }
@@ -158,9 +163,7 @@ class RoomViewModel : ViewModel() {
       chattingDB.addChildEventListener(object : ChildEventListener {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
           val chattingDto = snapshot.getValue(ChattingDto::class.java) ?: return
-          _chattingList.postValue(_chattingList.value?.toMutableList()?.apply { add(chattingDto) }
-            ?: listOf(chattingDto)
-          )
+          _newChatting.postValue(chattingDto)
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}

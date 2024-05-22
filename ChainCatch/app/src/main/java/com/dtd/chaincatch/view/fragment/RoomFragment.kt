@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -12,25 +14,30 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
+import com.dtd.chaincatch.databinding.ChattingBubbleBinding
 import com.dtd.chaincatch.databinding.DialogBrushSettingsBinding
 import com.dtd.chaincatch.databinding.FragmentRoomBinding
+import com.dtd.chaincatch.model.dto.UserDto
 import com.dtd.chaincatch.util.SeekBarUserChangeListener
 import com.dtd.chaincatch.util.base64ToBitmap
 import com.dtd.chaincatch.util.toBase64
 import com.dtd.chaincatch.view.activity.RoomActivity
-import com.dtd.chaincatch.view.adapter.PlayerListAdapter
 import com.dtd.chaincatch.viewmodel.RoomViewModel
+import com.dtd.chaincatch.widget.UserCardView
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.raed.rasmview.RasmContext
 import com.raed.rasmview.brushtool.data.Brush
 import com.raed.rasmview.brushtool.data.BrushesRepository
 import com.raed.rasmview.state.RasmState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Timer
 import java.util.TimerTask
 import kotlin.math.max
 import kotlin.math.roundToInt
+
+private const val TAG = "RoomFragment_싸피"
 
 class RoomFragment :
   BaseFragment<FragmentRoomBinding>(FragmentRoomBinding::bind, R.layout.fragment_room) {
@@ -44,8 +51,6 @@ class RoomFragment :
 
   private lateinit var rasmContext: RasmContext
   private lateinit var rasmState: RasmState
-
-  private lateinit var playerListAdapter: PlayerListAdapter
 
   private lateinit var timer: Timer
 
@@ -133,13 +138,13 @@ class RoomFragment :
       binding.toolList.visibility = View.VISIBLE
       binding.questionTv.visibility = View.VISIBLE
 
-      binding.ivSolver.visibility = View.VISIBLE // View.GONE
+      binding.ivSolver.visibility = View.GONE
 
       binding.chattingEt.isEnabled = false
     } else {
-      binding.dvQuestioner.visibility = View.VISIBLE // View.GONE
-      binding.toolList.visibility = View.VISIBLE // View.GONE
-      binding.questionTv.visibility = View.VISIBLE // View.GONE
+      binding.dvQuestioner.visibility = View.GONE
+      binding.toolList.visibility = View.GONE
+      binding.questionTv.visibility = View.GONE
 
       binding.ivSolver.visibility = View.VISIBLE
 
@@ -179,6 +184,16 @@ class RoomFragment :
     binding.clearBtn.setOnClickListener { rasmContext.clear() }
   }
 
+  private fun parseProfileImage(profileImage: Int): Int {
+    return when (profileImage) {
+      CAT_CHEESE -> R.drawable.cat_cheese_face
+      CAT_GREY -> R.drawable.cat_grey_face
+      CAT_FISH -> R.drawable.cat_fish_face
+      CAT_RAINBOW -> R.drawable.cat_rainbow_face
+      else -> R.drawable.cat_cheese_face
+    }
+  }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     roomActivity = requireActivity() as RoomActivity
@@ -186,17 +201,52 @@ class RoomFragment :
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    val profileList: List<UserCardView> = listOf(
+      binding.user1,
+      binding.user2,
+      binding.user3,
+      binding.user4,
+      binding.user5,
+    )
+
+    val chattingList: List<ChattingBubbleBinding> = listOf(
+      binding.balloon1,
+      binding.balloon2,
+      binding.balloon3,
+      binding.balloon4,
+      binding.balloon5,
+    )
+
+    profileList.forEach { it.visibility = View.INVISIBLE }
+    chattingList.forEach { it.balloon.visibility = View.INVISIBLE }
 
     viewModel.user.observe(viewLifecycleOwner) {
       if (it.currentRid == null) roomActivity.finish()
     }
 
     viewModel.playerList.observe(viewLifecycleOwner) {
-      if (::playerListAdapter.isInitialized) playerListAdapter.submitList(it)
+      profileList.forEach { it.visibility = View.INVISIBLE }
+      it?.forEachIndexed { index, userDto ->
+        with(profileList[index]) {
+          setUserImage(parseProfileImage(userDto.profileImg))
+          setUerNickname(userDto.nickname)
+          setUserAnswerCnt("${userDto.experience}")
+          visibility = View.VISIBLE
+        }
+      }
     }
 
     viewModel.chatting.observe(viewLifecycleOwner) {
-      // TODO : chattingList 초기화
+      val index = viewModel.playerList.value?.indexOf(UserDto(uid = it.uid))?.takeIf { it >= 0 }
+      if (index == null) return@observe
+      with(chattingList[index]) {
+        chatting = it
+        balloon.visibility = View.VISIBLE
+        viewLifecycleOwner.lifecycleScope.launch {
+          delay(2000)
+          balloon.visibility = View.INVISIBLE
+        }
+      }
     }
 
     viewModel.drawing.observe(viewLifecycleOwner) {
@@ -244,7 +294,6 @@ class RoomFragment :
               "${question.successorUid}님이 정답을 맞췄습니다.\n" + "정답 : ${question.answer}"
             )
             .setPositiveButton("OK") { _, _ -> }.show()
-          // TODO : 경험치 올리기
         }
 
         "Fail" -> {
@@ -284,5 +333,24 @@ class RoomFragment :
     initPlayerList()
     initStartButton()
     initTimerButton()
+    binding.chattingEt.setOnKeyListener { _, keyCode, _ ->
+      when (keyCode) {
+        KeyEvent.KEYCODE_ENTER -> {
+          val content = binding.chattingEt.text.toString()
+          if (content.isNotBlank()) {
+            viewModel.sendChatting(content)
+            binding.chattingEt.text.clear()
+          }
+        }
+      }
+      false
+    }
+  }
+
+  companion object {
+    private const val CAT_CHEESE = 0
+    private const val CAT_GREY = 1
+    private const val CAT_FISH = 2
+    private const val CAT_RAINBOW = 3
   }
 }

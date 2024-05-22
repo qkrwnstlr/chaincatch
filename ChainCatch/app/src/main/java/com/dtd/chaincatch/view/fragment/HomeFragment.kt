@@ -170,20 +170,18 @@ class HomeFragment :
   }
 
   private fun setVisibilityForAllButtons() {
-    Handler(Looper.getMainLooper()).postDelayed({
+    viewLifecycleOwner.lifecycleScope.launch {
+      delay(VISIBILITY_OFFSET)
       with(binding) {
         btnPrev.visibility = View.VISIBLE
         btnNext.visibility = View.VISIBLE
         ivBtnNewRoom.visibility = View.VISIBLE
-        Handler(Looper.getMainLooper()).postDelayed({
-          binding.ivBtnRandomStart.visibility = View.VISIBLE
-          Handler(Looper.getMainLooper()).postDelayed(
-            { binding.ivBtnSetting.visibility = View.VISIBLE },
-            VISIBILITY_OFFSET - 700
-          )
-        }, VISIBILITY_OFFSET - 700)
       }
-    }, VISIBILITY_OFFSET)
+      delay(VISIBILITY_OFFSET - 700)
+      binding.ivBtnRandomStart.visibility = View.VISIBLE
+      delay(VISIBILITY_OFFSET - 700)
+      binding.ivBtnSetting.visibility = View.VISIBLE
+    }
   }
 
   private fun initPrevAndNextButtons() {
