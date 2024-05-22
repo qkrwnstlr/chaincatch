@@ -115,7 +115,7 @@ class HomeFragment :
       AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_anim_slide_in_left)
     binding.homeFragmentRecyclerView.layoutAnimation = animation
     viewLifecycleOwner.lifecycleScope.launch {
-      delay(200)
+      delay(300)
       binding.homeFragmentRecyclerView.scheduleLayoutAnimation()
     }
 
