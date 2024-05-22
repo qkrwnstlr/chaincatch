@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.dtd.chaincatch.R
+import com.google.android.material.card.MaterialCardView
 
 class UserCardView @JvmOverloads constructor(
   context: Context,
@@ -19,6 +20,7 @@ class UserCardView @JvmOverloads constructor(
   private var ivUser: ImageView
   private var tvNickname: TextView
   private var tvAnswerCnt: TextView
+  private var bgView: MaterialCardView
 //  private var pbExperience: ProgressBar
 
   init {
@@ -28,6 +30,7 @@ class UserCardView @JvmOverloads constructor(
     ivUser = findViewById(R.id.iv_user)
     tvNickname = findViewById(R.id.tv_nickname)
     tvAnswerCnt = findViewById(R.id.tv_answer_cnt_val)
+    bgView = findViewById(R.id.cardview_user)
 //    pbExperience = findViewById(R.id.progress_bar_experience)
     getAttrs(attrs, defStyleAttr)
   }
@@ -43,6 +46,7 @@ class UserCardView @JvmOverloads constructor(
     )
     setUerNickname(typedArray.getText(R.styleable.UserCardView_tvNickname))
     setUserAnswerCnt(typedArray.getText(R.styleable.UserCardView_tvAnswerCnt))
+    setBgColor(typedArray.getInt(R.styleable.UserCardView_bgColor, defStyleAttr))
 //    setUserExperience(typedArray.getInt(R.styleable.UserCardView_pbExperience, defStyleAttr))
     typedArray.recycle()
   }
@@ -57,6 +61,10 @@ class UserCardView @JvmOverloads constructor(
 
   fun setUserAnswerCnt(cnt: CharSequence) {
     tvAnswerCnt.text = cnt
+  }
+
+  fun setBgColor(color: Int) {
+    bgView.setCardBackgroundColor(color)
   }
 
   fun addUserAnswerCnt() {

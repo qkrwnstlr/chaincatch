@@ -12,6 +12,7 @@
     <attr name="ivUser" format="reference" />
     <attr name="tvNickname" format="string" />
     <attr name="tvAnswerCnt" format="integer" />
+    <attr name="bgColor" format="integer" />
     <!--    <attr name="pbExperience" format="integer" />-->
   </declare-styleable>
 

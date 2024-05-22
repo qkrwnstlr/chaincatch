@@ -2,6 +2,7 @@ package com.dtd.chaincatch.view.fragment
 
 import android.app.AlertDialog
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -64,6 +65,15 @@ class RoomFragment :
 //    binding.playerList.layoutManager = LinearLayoutManager(requireContext()).apply {
 //      orientation = LinearLayoutManager.VERTICAL
 //    }
+    initPlayerBGColor()
+  }
+
+  private fun initPlayerBGColor() {
+    binding.user1.setBgColor(Color.parseColor("#f8f439"))
+    binding.user2.setBgColor(Color.parseColor("#80dbe6"))
+    binding.user3.setBgColor(Color.parseColor("#77cd62"))
+    binding.user4.setBgColor(Color.parseColor("#c958b2"))
+    binding.user5.setBgColor(Color.parseColor("#f02a37"))
   }
 
   private fun initBrushDialog() {
@@ -276,8 +286,9 @@ class RoomFragment :
 
     initDrawingView()
     initBrushDialog()
-//    initPlayerList()
+    initPlayerList()
     initStartButton()
     initTimerButton()
+
   }
 }
