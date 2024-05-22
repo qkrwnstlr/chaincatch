@@ -12,6 +12,7 @@
     <attr name="ivUser" format="reference" />
     <attr name="tvNickname" format="string" />
     <attr name="pbExperience" format="integer" />
+    <attr name="android:textSize" format="dimension" />
   </declare-styleable>
 
 </resources>
