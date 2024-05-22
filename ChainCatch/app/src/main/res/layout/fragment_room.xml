@@ -54,7 +54,7 @@
       app:layout_constraintTop_toBottomOf="@id/user2"
       app:layout_constraintVertical_weight="1"
       app:tvAnswerCnt="0"
-      app:tvNickname="닉네임"/>
+      app:tvNickname="닉네임" />
 
     <com.dtd.chaincatch.widget.UserCardView
       android:id="@+id/user4"
@@ -65,7 +65,7 @@
       app:layout_constraintTop_toBottomOf="@id/user3"
       app:layout_constraintVertical_weight="1"
       app:tvAnswerCnt="0"
-      app:tvNickname="닉네임"/>
+      app:tvNickname="닉네임" />
 
     <com.dtd.chaincatch.widget.UserCardView
       android:id="@+id/user5"
@@ -76,39 +76,20 @@
       app:layout_constraintTop_toBottomOf="@id/user4"
       app:layout_constraintVertical_weight="1"
       app:tvAnswerCnt="0"
-      app:tvNickname="닉네임"/>
+      app:tvNickname="닉네임" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <!-- 게임시작 버튼 -->
-  <FrameLayout
-    android:id="@+id/layout_startButton"
+  <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/startButton"
     android:layout_width="0dp"
     android:layout_height="0dp"
+    android:layout_marginBottom="4dp"
+    android:text="게임 시작"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="@id/player_list"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/player_list"
-    app:layout_constraintVertical_weight="1">
-
-    <ImageView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_marginHorizontal="@dimen/game_room_root_padding_start_15"
-      android:layout_marginBottom="6dp"
-      android:background="@drawable/btn_submit2" />
-
-    <TextView
-      android:id="@+id/startButton"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_gravity="center"
-      android:gravity="center"
-      android:paddingBottom="8dp"
-      android:text="시  작"
-      android:textColor="@color/white"
-      android:textStyle="bold" />
-  </FrameLayout>
-
+    app:layout_constraintTop_toBottomOf="@id/player_list" />
 
   <!-- 그림판 + 툴 영역 -->
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -230,11 +211,12 @@
           android:layout_marginEnd="20dp"
           android:background="@null"
           android:fontFamily="@font/dunggeunmo"
-          android:imeOptions="flagNoExtractUi"
+          android:imeOptions="actionSend|flagNoFullscreen"
           android:textColor="@color/white"
           android:textSize="14sp"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toEndOf="@id/chatting_tv"
+          android:singleLine="true"
           tools:text="채팅중" />
       </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
