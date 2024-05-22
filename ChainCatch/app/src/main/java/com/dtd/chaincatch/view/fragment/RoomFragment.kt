@@ -201,19 +201,19 @@ class RoomFragment :
 
   private fun toggleMode(isDrawing: Boolean) {
     if (isDrawing) {
-      binding.dvQuestioner.visibility = View.VISIBLE
+      binding.containerDrawingView.dvQuestioner.visibility = View.VISIBLE
       binding.toolList.visibility = View.VISIBLE
-      binding.questionTv.visibility = View.VISIBLE
+      binding.containerDrawingView.questionTv.visibility = View.VISIBLE
 
-      binding.ivSolver.visibility = View.GONE
+      binding.containerDrawingView.ivSolver.visibility = View.GONE
 
       binding.chattingEt.isEnabled = false
     } else {
-      binding.dvQuestioner.visibility = View.GONE
+      binding.containerDrawingView.dvQuestioner.visibility = View.GONE
       binding.toolList.visibility = View.GONE
-      binding.questionTv.visibility = View.GONE
+      binding.containerDrawingView.questionTv.visibility = View.GONE
 
-      binding.ivSolver.visibility = View.VISIBLE
+      binding.containerDrawingView.ivSolver.visibility = View.VISIBLE
 
       binding.chattingEt.isEnabled = true
     }
@@ -361,13 +361,13 @@ class RoomFragment :
 
         "Success" -> {
           timer.cancel()
-          binding.timeTv.visibility = View.INVISIBLE // View.GONE
+          binding.containerDrawingView.timeTv.visibility = View.INVISIBLE // View.GONE
           showSuccessDialog(question.successorUid, question.answer)
         }
 
         "Fail" -> {
           timer.cancel()
-          binding.timeTv.visibility = View.INVISIBLE // View.GONE
+          binding.containerDrawingView.timeTv.visibility = View.INVISIBLE // View.GONE
           showFailDialog(question.answer)
         }
       }

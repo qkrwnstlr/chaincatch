@@ -89,7 +89,8 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="@id/player_list"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/player_list" />
+    app:layout_constraintTop_toBottomOf="@id/player_list"
+    app:layout_constraintVertical_weight="1"/>
 
   <!-- 그림판 + 툴 영역 -->
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -211,7 +212,8 @@
           android:layout_marginEnd="20dp"
           android:background="@null"
           android:fontFamily="@font/dunggeunmo"
-          android:imeOptions="flagNoExtractUi"
+          android:imeOptions="actionSend|flagNoFullscreen"
+          android:singleLine="true"
           android:textColor="@color/white"
           android:textSize="14sp"
           app:layout_constraintEnd_toEndOf="parent"
@@ -241,8 +243,7 @@
       android:layout_height="0dp"
       android:layout_weight="1"
       android:background="@drawable/balloon2_nine_patch"
-      android:text="한줄당9글자제한??"
-      tools:visibility="visible" />
+      android:text="한줄당9글자제한??" />
 
     <include
       android:id="@+id/balloon2"
@@ -250,9 +251,7 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@drawable/balloon2_nine_patch"
-      android:visibility="invisible"
-      tools:visibility="visible" />
+      android:background="@drawable/balloon2_nine_patch" />
 
     <include
       android:id="@+id/balloon3"
@@ -260,9 +259,7 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@drawable/balloon2_nine_patch"
-      android:visibility="invisible"
-      tools:visibility="visible" />
+      android:background="@drawable/balloon2_nine_patch" />
 
     <include
       android:id="@+id/balloon4"
@@ -270,9 +267,7 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@drawable/balloon2_nine_patch"
-      android:visibility="invisible"
-      tools:visibility="visible" />
+      android:background="@drawable/balloon2_nine_patch" />
 
     <include
       android:id="@+id/balloon5"
@@ -280,9 +275,7 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@drawable/balloon2_nine_patch"
-      android:visibility="invisible"
-      tools:visibility="visible" />
+      android:background="@drawable/balloon2_nine_patch" />
   </LinearLayout>
 
 
