@@ -1,5 +1,6 @@
 package com.dtd.chaincatch.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,11 +19,14 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+
+private const val TAG = "RoomViewModel_싸피"
 
 class RoomViewModel : ViewModel() {
   private var auth: FirebaseAuth = Firebase.auth
@@ -55,8 +59,8 @@ class RoomViewModel : ViewModel() {
   private val _drawing = MutableLiveData<String?>()
   val drawing: LiveData<String?> get() = _drawing
 
-  private val _chattingList = MutableLiveData<List<ChattingDto>>()
-  val chatting: LiveData<List<ChattingDto>> get() = _chattingList
+  private val _newChatting = MutableLiveData<ChattingDto>()
+  val chatting: LiveData<ChattingDto> get() = _newChatting
 
   init {
     viewModelScope.launch {
@@ -81,52 +85,27 @@ class RoomViewModel : ViewModel() {
 
       roomDB.addValueEventListener(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
-          _room.postValue(snapshot.getValue(RoomDto::class.java))
+          val room = snapshot.getValue(RoomDto::class.java)
+          if (_room.value?.state != room?.state) _room.postValue(room)
         }
 
         override fun onCancelled(error: DatabaseError) {}
       })
 
-      roomDetailDB.child("playerList").addChildEventListener(object : ChildEventListener {
-        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-          val uid = snapshot.getValue(String::class.java) ?: return
+      roomDetailDB.child("playerList").addValueEventListener(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+          val ti = object : GenericTypeIndicator<List<String>>() {}
+          val uidList = snapshot.getValue(ti)
           viewModelScope.launch {
-            val user =
-              userDB.child(uid).get().await().getValue(UserDto::class.java) ?: return@launch
-            _playerList.postValue(_playerList.value?.toMutableList()?.apply { add(user) }
-              ?: listOf(user))
-          }
-        }
-
-        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-          val uid = snapshot.getValue(String::class.java) ?: return
-          viewModelScope.launch {
-            val user = userDB.child(uid).get().await().getValue(UserDto::class.java)
-              ?: return@launch
-            if (user.uid == "empty") {
-              _playerList.postValue(_playerList.value!!.toMutableList().apply {
-                removeAt(indexOf(user))
-              })
-            } else {
-              _playerList.postValue(_playerList.value!!.toMutableList().apply {
-                set(indexOf(user), user)
-              })
+            val playerList = mutableListOf<UserDto>()
+            uidList?.forEach {
+              val user = userDB.child(it).get().await().getValue(UserDto::class.java)
+                ?: return@forEach
+              playerList.add(user)
             }
+            _playerList.postValue(playerList)
           }
         }
-
-        override fun onChildRemoved(snapshot: DataSnapshot) {
-          val uid = snapshot.getValue(String::class.java) ?: return
-          viewModelScope.launch {
-            val user = userDB.child(uid).get().await().getValue(UserDto::class.java)
-              ?: return@launch
-            _playerList.postValue(_playerList.value!!.toMutableList().apply {
-              removeAt(indexOf(user))
-            })
-          }
-        }
-
-        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
 
         override fun onCancelled(error: DatabaseError) {}
       })
@@ -158,9 +137,7 @@ class RoomViewModel : ViewModel() {
       chattingDB.addChildEventListener(object : ChildEventListener {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
           val chattingDto = snapshot.getValue(ChattingDto::class.java) ?: return
-          _chattingList.postValue(_chattingList.value?.toMutableList()?.apply { add(chattingDto) }
-            ?: listOf(chattingDto)
-          )
+          _newChatting.postValue(chattingDto)
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
@@ -177,12 +154,6 @@ class RoomViewModel : ViewModel() {
   fun exitRoom() {
     viewModelScope.launch {
       userService.exitRoom(RoomActionDto(uid = user.value!!.uid))
-    }
-  }
-
-  fun playGame() {
-    viewModelScope.launch {
-      userService.startGame(RoomActionDto(rid = room.value!!.rid))
     }
   }
 

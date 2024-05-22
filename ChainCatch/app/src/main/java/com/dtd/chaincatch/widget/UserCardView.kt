@@ -27,11 +27,11 @@ class UserCardView @JvmOverloads constructor(
     val view = LayoutInflater.from(context).inflate(R.layout.list_item_user, this, false)
     addView(view)
     setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
-    ivUser = findViewById(R.id.iv_user)
-    tvNickname = findViewById(R.id.tv_nickname)
-    tvAnswerCnt = findViewById(R.id.tv_answer_cnt_val)
-    bgView = findViewById(R.id.cardview_user)
-//    pbExperience = findViewById(R.id.progress_bar_experience)
+    ivUser = view.findViewById(R.id.iv_user)
+    tvNickname = view.findViewById(R.id.tv_nickname)
+    tvAnswerCnt = view.findViewById(R.id.tv_answer_cnt_val)
+    bgView = view.findViewById(R.id.cardview_user)
+//    pbExperience = view.findViewById(R.id.progress_bar_experience)
     getAttrs(attrs, defStyleAttr)
   }
 
@@ -63,7 +63,7 @@ class UserCardView @JvmOverloads constructor(
   }
 
   private fun setTextSize(size: Float) {
-    tvNickname.textSize = size
+    if (size > 0) tvNickname.textSize = size
   }
 
   fun setUserAnswerCnt(cnt: CharSequence) {
