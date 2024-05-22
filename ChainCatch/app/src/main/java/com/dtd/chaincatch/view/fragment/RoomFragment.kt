@@ -49,10 +49,77 @@ class RoomFragment :
 
   private lateinit var colorDialog: MaterialColorPickerDialog.Builder
 
+  private var startDialog: AlertDialog? = null
+  private var waitingDialog: AlertDialog? = null
+  private var finishDialog: AlertDialog? = null
+  private var turnDialog: AlertDialog? = null
+  private var successDialog: AlertDialog? = null
+  private var failDialog: AlertDialog? = null
+
   private lateinit var rasmContext: RasmContext
   private lateinit var rasmState: RasmState
 
   private lateinit var timer: Timer
+
+  private fun showStartDialog() {
+    startDialog?.dismiss()
+    startDialog = AlertDialog.Builder(requireContext()).setMessage("곧 게임이 시작됩니다.").show()
+  }
+
+  private fun closeStartDialog() {
+    startDialog?.dismiss()
+    turnDialog = null
+  }
+
+  private fun showWaitingDialog() {
+    waitingDialog?.dismiss()
+    waitingDialog = AlertDialog.Builder(requireContext()).setMessage("이미 게임이 진행 중 입니다. 대기해 주세요").show()
+  }
+
+  private fun showFinishDialog() {
+    finishDialog?.dismiss()
+    finishDialog = AlertDialog.Builder(requireContext()).setMessage("게임이 종료되었습니다.").show()
+  }
+
+  private fun closeFinishDialog() {
+    finishDialog?.dismiss()
+    finishDialog = null
+  }
+
+  private fun showTurnDialog(nickname: String) {
+    turnDialog?.dismiss()
+    closeStartDialog()
+    turnDialog = AlertDialog.Builder(requireContext()).setMessage("${nickname}님의 차례입니다.").show()
+  }
+
+  private fun closeTurnDialog() {
+    turnDialog?.dismiss()
+    turnDialog = null
+  }
+
+  private fun showSuccessDialog(uid: String, answer: String) {
+    successDialog?.dismiss()
+    successDialog = AlertDialog.Builder(requireContext()).setMessage(
+      "${uid}님이 정답을 맞췄습니다.\n" + "정답 : $answer"
+    ).show()
+  }
+
+  private fun closeSuccessDialog() {
+    successDialog?.dismiss()
+    successDialog = null
+  }
+
+  private fun showFailDialog(answer: String) {
+    failDialog?.dismiss()
+    failDialog = AlertDialog.Builder(requireContext()).setMessage(
+      "시간이 초과되었습니다.\n정답 : $answer"
+    ).show()
+  }
+
+  private fun closeFailDialog() {
+    failDialog?.dismiss()
+    failDialog = null
+  }
 
   private fun initTimerButton() {
     binding.timeTv.visibility = View.VISIBLE // View.GONE
@@ -268,13 +335,15 @@ class RoomFragment :
         "Waiting" -> {
           val nickname = viewModel.playerList.value?.find { user ->
             user.uid == question.uid
-          }?.nickname
-          AlertDialog.Builder(requireContext())
-            .setMessage("${nickname}님의 차례입니다.")
-            .setPositiveButton("OK") { _, _ -> }.show()
+          }?.nickname ?: return@observe
+          rasmContext.clear()
+          showTurnDialog(nickname)
+          closeSuccessDialog()
+          closeFailDialog()
         }
 
         "Playing" -> {
+          closeTurnDialog()
           timer = Timer()
           val timerTask: TimerTask = object : TimerTask() {
             override fun run() {
@@ -293,38 +362,36 @@ class RoomFragment :
         "Success" -> {
           timer.cancel()
           binding.timeTv.visibility = View.INVISIBLE // View.GONE
-          AlertDialog.Builder(requireContext())
-            .setMessage(
-              "${question.successorUid}님이 정답을 맞췄습니다.\n" + "정답 : ${question.answer}"
-            )
-            .setPositiveButton("OK") { _, _ -> }.show()
+          showSuccessDialog(question.successorUid, question.answer)
         }
 
         "Fail" -> {
           timer.cancel()
           binding.timeTv.visibility = View.INVISIBLE // View.GONE
-          AlertDialog.Builder(requireContext())
-            .setMessage(
-              "시간이 초과되었습니다.\n" + "정답 : ${question.answer}"
-            )
-            .setPositiveButton("OK") { _, _ -> }.show()
+          showFailDialog(question.answer)
         }
       }
     }
 
     viewModel.round.observe(viewLifecycleOwner) {
-      // TODO : round 정보 초기화
-      // state == Finished -> nft 다이얼로그 띄우기
-      if (it == null) return@observe
-      if (it.state == "Finished") {
-        AlertDialog.Builder(requireContext())
-          .setMessage("라운드가 종료되었습니다.")
-          .setPositiveButton("OK") { _, _ -> }.show()
+      if (it == null) {
+        closeFinishDialog()
+      } else if (it.state == "Finished") {
+        showFinishDialog()
+        closeSuccessDialog()
+        closeFailDialog()
       }
     }
 
     viewModel.room.observe(viewLifecycleOwner) {
       // TODO : room 정보 초기화
+      if (it?.state == "Playing") {
+        if(viewModel.playerList.value?.contains(viewModel.user.value) == true) {
+          showStartDialog()
+        } else {
+          showWaitingDialog()
+        }
+      }
       if (it?.state == "Waiting" && it.manager == viewModel.user.value!!.uid) {
         binding.startButton.visibility = View.VISIBLE
       } else {

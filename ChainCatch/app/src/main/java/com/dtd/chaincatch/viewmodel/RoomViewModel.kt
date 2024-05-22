@@ -85,7 +85,8 @@ class RoomViewModel : ViewModel() {
 
       roomDB.addValueEventListener(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
-          _room.postValue(snapshot.getValue(RoomDto::class.java))
+          val room = snapshot.getValue(RoomDto::class.java)
+          if (_room.value?.state != room?.state) _room.postValue(room)
         }
 
         override fun onCancelled(error: DatabaseError) {}
@@ -153,12 +154,6 @@ class RoomViewModel : ViewModel() {
   fun exitRoom() {
     viewModelScope.launch {
       userService.exitRoom(RoomActionDto(uid = user.value!!.uid))
-    }
-  }
-
-  fun playGame() {
-    viewModelScope.launch {
-      userService.startGame(RoomActionDto(rid = room.value!!.rid))
     }
   }
 
