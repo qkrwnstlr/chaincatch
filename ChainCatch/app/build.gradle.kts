@@ -2,6 +2,7 @@ plugins {
   id("com.android.application")
   id("org.jetbrains.kotlin.android")
   id("com.google.gms.google-services")
+  id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -32,6 +33,9 @@ android {
     jvmTarget = "1.8"
   }
   viewBinding {
+    enable = true
+  }
+  dataBinding {
     enable = true
   }
 }
@@ -88,5 +92,5 @@ dependencies {
   implementation("com.squareup.okhttp3:okhttp:4.9.0")
   // https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
   implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
-  
+
 }

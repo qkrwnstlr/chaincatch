@@ -83,7 +83,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/player_list" />
 
-  <!-- 그림판 영역 -->
+  <!-- 그림판 + 툴 영역 -->
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/layout_drawing"
     android:layout_width="0dp"
@@ -98,20 +98,22 @@
 
     <!-- questioner 그림판 -->
     <com.raed.rasmview.RasmView
-      android:id="@+id/drawing_view"
-      android:layout_width="0dp"
-      android:layout_height="match_parent"
-      app:layout_constraintEnd_toStartOf="@id/toolList"
-      app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- solver 그림판 -->
-    <ImageView
-      android:id="@+id/imageView"
+      android:id="@+id/dv_questioner"
       android:layout_width="0dp"
       android:layout_height="match_parent"
       app:layout_constraintEnd_toStartOf="@id/toolList"
       app:layout_constraintStart_toStartOf="parent"
-      tools:background="#57FFDB9C" />
+      tools:background="#BBC9FD" />
+
+    <!-- solver 그림판 -->
+    <ImageView
+      android:id="@+id/iv_solver"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:adjustViewBounds="true"
+      app:layout_constraintEnd_toStartOf="@id/toolList"
+      app:layout_constraintStart_toStartOf="parent"
+      tools:background="#FFDB9C" />
 
     <!-- 그림판 툴 영역 -->
     <LinearLayout
@@ -121,8 +123,7 @@
       android:orientation="vertical"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.0">
+      app:layout_constraintTop_toTopOf="parent">
 
       <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/color_btn"
@@ -166,25 +167,74 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="16dp"
-      android:text=""
+      android:layout_marginEnd="16dp"
       android:textSize="24sp"
-      app:layout_constraintEnd_toStartOf="@+id/toolList"
-      app:layout_constraintHorizontal_bias="0.955"
-      app:layout_constraintStart_toEndOf="@+id/player_list"
-      app:layout_constraintTop_toTopOf="@+id/drawing_view" />
+      app:layout_constraintEnd_toStartOf="@id/toolList"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="문제" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <!-- 말풍선 영역-->
-  <androidx.constraintlayout.widget.ConstraintLayout
+  <LinearLayout
     android:id="@+id/layout_balloons"
     android:layout_width="150dp"
     android:layout_height="0dp"
+    android:orientation="vertical"
     app:layout_constraintBottom_toBottomOf="@id/player_list"
     app:layout_constraintStart_toEndOf="@id/player_list"
     app:layout_constraintTop_toTopOf="parent"
     tools:background="#4A000000">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+      android:id="@+id/balloon1"
+      layout="@layout/chatting_bubble"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:background="@drawable/balloon2_nine_patch"
+      android:text="한줄당9글자제한??"
+      tools:visibility="visible" />
+
+    <include
+      android:id="@+id/balloon2"
+      layout="@layout/chatting_bubble"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:background="@drawable/balloon2_nine_patch"
+      android:visibility="invisible"
+      tools:visibility="visible" />
+
+    <include
+      android:id="@+id/balloon3"
+      layout="@layout/chatting_bubble"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:background="@drawable/balloon2_nine_patch"
+      android:visibility="invisible"
+      tools:visibility="visible" />
+
+    <include
+      android:id="@+id/balloon4"
+      layout="@layout/chatting_bubble"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:background="@drawable/balloon2_nine_patch"
+      android:visibility="invisible"
+      tools:visibility="visible" />
+
+    <include
+      android:id="@+id/balloon5"
+      layout="@layout/chatting_bubble"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:background="@drawable/balloon2_nine_patch"
+      android:visibility="invisible"
+      tools:visibility="visible" />
+  </LinearLayout>
 
   <!-- 채팅, 게임시작 버튼, 타이머 영역 -->
   <LinearLayout
@@ -202,7 +252,8 @@
       android:id="@+id/chatting_et"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_weight="1" />
+      android:layout_weight="1"
+      android:imeOptions="flagNoExtractUi" />
 
 
     <TextView
