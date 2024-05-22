@@ -61,9 +61,9 @@ class MyPageFragment :
     super.onViewCreated(view, savedInstanceState)
     viewModel.user.observe(viewLifecycleOwner) {
       if (it == null) return@observe
-      binding.userInfo.setUerNickname(it.nickname)
-      binding.userInfo.setUserExperience(it.experience)
-      binding.userInfo.setUserImage(parseProfileImage(it.profileImg))
+      binding.tvNickname.text = it.nickname
+      binding.progressBarExperience.progress = it.experience
+      binding.ivUser.setImageResource(parseProfileImage(it.profileImg))
     }
 
     setResourceWithGlide(R.raw.bg_animated2, binding.ivBackground)

@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -12,25 +14,30 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
+import com.dtd.chaincatch.databinding.ChattingBubbleBinding
 import com.dtd.chaincatch.databinding.DialogBrushSettingsBinding
 import com.dtd.chaincatch.databinding.FragmentRoomBinding
+import com.dtd.chaincatch.model.dto.UserDto
 import com.dtd.chaincatch.util.SeekBarUserChangeListener
 import com.dtd.chaincatch.util.base64ToBitmap
 import com.dtd.chaincatch.util.toBase64
 import com.dtd.chaincatch.view.activity.RoomActivity
-import com.dtd.chaincatch.view.adapter.PlayerListAdapter
 import com.dtd.chaincatch.viewmodel.RoomViewModel
+import com.dtd.chaincatch.widget.UserCardView
 import com.github.dhaval2404.colorpicker.MaterialColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import com.raed.rasmview.RasmContext
 import com.raed.rasmview.brushtool.data.Brush
 import com.raed.rasmview.brushtool.data.BrushesRepository
 import com.raed.rasmview.state.RasmState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Timer
 import java.util.TimerTask
 import kotlin.math.max
 import kotlin.math.roundToInt
+
+private const val TAG = "RoomFragment_싸피"
 
 class RoomFragment :
   BaseFragment<FragmentRoomBinding>(FragmentRoomBinding::bind, R.layout.fragment_room) {
@@ -42,12 +49,77 @@ class RoomFragment :
 
   private lateinit var colorDialog: MaterialColorPickerDialog.Builder
 
+  private var startDialog: AlertDialog? = null
+  private var waitingDialog: AlertDialog? = null
+  private var finishDialog: AlertDialog? = null
+  private var turnDialog: AlertDialog? = null
+  private var successDialog: AlertDialog? = null
+  private var failDialog: AlertDialog? = null
+
   private lateinit var rasmContext: RasmContext
   private lateinit var rasmState: RasmState
 
-  private lateinit var playerListAdapter: PlayerListAdapter
-
   private lateinit var timer: Timer
+
+  private fun showStartDialog() {
+    startDialog?.dismiss()
+    startDialog = AlertDialog.Builder(requireContext()).setMessage("곧 게임이 시작됩니다.").show()
+  }
+
+  private fun closeStartDialog() {
+    startDialog?.dismiss()
+    turnDialog = null
+  }
+
+  private fun showWaitingDialog() {
+    waitingDialog?.dismiss()
+    waitingDialog = AlertDialog.Builder(requireContext()).setMessage("이미 게임이 진행 중 입니다. 대기해 주세요").show()
+  }
+
+  private fun showFinishDialog() {
+    finishDialog?.dismiss()
+    finishDialog = AlertDialog.Builder(requireContext()).setMessage("게임이 종료되었습니다.").show()
+  }
+
+  private fun closeFinishDialog() {
+    finishDialog?.dismiss()
+    finishDialog = null
+  }
+
+  private fun showTurnDialog(nickname: String) {
+    turnDialog?.dismiss()
+    closeStartDialog()
+    turnDialog = AlertDialog.Builder(requireContext()).setMessage("${nickname}님의 차례입니다.").show()
+  }
+
+  private fun closeTurnDialog() {
+    turnDialog?.dismiss()
+    turnDialog = null
+  }
+
+  private fun showSuccessDialog(uid: String, answer: String) {
+    successDialog?.dismiss()
+    successDialog = AlertDialog.Builder(requireContext()).setMessage(
+      "${uid}님이 정답을 맞췄습니다.\n" + "정답 : $answer"
+    ).show()
+  }
+
+  private fun closeSuccessDialog() {
+    successDialog?.dismiss()
+    successDialog = null
+  }
+
+  private fun showFailDialog(answer: String) {
+    failDialog?.dismiss()
+    failDialog = AlertDialog.Builder(requireContext()).setMessage(
+      "시간이 초과되었습니다.\n정답 : $answer"
+    ).show()
+  }
+
+  private fun closeFailDialog() {
+    failDialog?.dismiss()
+    failDialog = null
+  }
 
   private fun initTimerButton() {
     binding.containerDrawingView.timeTv.visibility = View.VISIBLE // View.GONE
@@ -133,13 +205,13 @@ class RoomFragment :
       binding.toolList.visibility = View.VISIBLE
       binding.containerDrawingView.questionTv.visibility = View.VISIBLE
 
-      binding.containerDrawingView.ivSolver.visibility = View.GONE // View.GONE
+      binding.containerDrawingView.ivSolver.visibility = View.GONE
 
       binding.chattingEt.isEnabled = false
     } else {
-      binding.containerDrawingView.dvQuestioner.visibility = View.GONE // View.GONE
-      binding.toolList.visibility = View.GONE // View.GONE
-      binding.containerDrawingView.questionTv.visibility = View.GONE // View.GONE
+      binding.containerDrawingView.dvQuestioner.visibility = View.GONE
+      binding.toolList.visibility = View.GONE
+      binding.containerDrawingView.questionTv.visibility = View.GONE
 
       binding.containerDrawingView.ivSolver.visibility = View.VISIBLE
 
@@ -179,6 +251,16 @@ class RoomFragment :
     binding.clearBtn.setOnClickListener { rasmContext.clear() }
   }
 
+  private fun parseProfileImage(profileImage: Int): Int {
+    return when (profileImage) {
+      CAT_CHEESE -> R.drawable.cat_cheese_face
+      CAT_GREY -> R.drawable.cat_grey_face
+      CAT_FISH -> R.drawable.cat_fish_face
+      CAT_RAINBOW -> R.drawable.cat_rainbow_face
+      else -> R.drawable.cat_cheese_face
+    }
+  }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     roomActivity = requireActivity() as RoomActivity
@@ -186,17 +268,56 @@ class RoomFragment :
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    val profileList: List<UserCardView> = listOf(
+      binding.user1,
+      binding.user2,
+      binding.user3,
+      binding.user4,
+      binding.user5,
+    )
+
+    val chattingList: List<ChattingBubbleBinding> = listOf(
+      binding.balloon1,
+      binding.balloon2,
+      binding.balloon3,
+      binding.balloon4,
+      binding.balloon5,
+    )
+
+    profileList.forEach { it.visibility = View.INVISIBLE }
+    chattingList.forEach { it.balloon.visibility = View.INVISIBLE }
 
     viewModel.user.observe(viewLifecycleOwner) {
       if (it.currentRid == null) roomActivity.finish()
     }
 
     viewModel.playerList.observe(viewLifecycleOwner) {
-      if (::playerListAdapter.isInitialized) playerListAdapter.submitList(it)
+      Log.d(TAG, "onViewCreated: ${it.size}")
+      var index = 0
+      for (i in 0 until it.size) {
+        val userDto = it[index]
+        with(profileList[index]) {
+          setUserImage(parseProfileImage(userDto.profileImg))
+          setUerNickname(userDto.nickname)
+          setUserAnswerCnt("${userDto.experience}")
+          visibility = View.VISIBLE
+        }
+        index++
+      }
+      for (i in index until 5) profileList[index].visibility = View.INVISIBLE
     }
 
     viewModel.chatting.observe(viewLifecycleOwner) {
-      // TODO : chattingList 초기화
+      val index = viewModel.playerList.value?.indexOf(UserDto(uid = it.uid))?.takeIf { it >= 0 }
+      if (index == null) return@observe
+      with(chattingList[index]) {
+        chatting = it
+        balloon.visibility = View.VISIBLE
+        viewLifecycleOwner.lifecycleScope.launch {
+          delay(2000)
+          balloon.visibility = View.INVISIBLE
+        }
+      }
     }
 
     viewModel.drawing.observe(viewLifecycleOwner) {
@@ -214,13 +335,15 @@ class RoomFragment :
         "Waiting" -> {
           val nickname = viewModel.playerList.value?.find { user ->
             user.uid == question.uid
-          }?.nickname
-          AlertDialog.Builder(requireContext())
-            .setMessage("${nickname}님의 차례입니다.")
-            .setPositiveButton("OK") { _, _ -> }.show()
+          }?.nickname ?: return@observe
+          rasmContext.clear()
+          showTurnDialog(nickname)
+          closeSuccessDialog()
+          closeFailDialog()
         }
 
         "Playing" -> {
+          closeTurnDialog()
           timer = Timer()
           val timerTask: TimerTask = object : TimerTask() {
             override fun run() {
@@ -239,39 +362,36 @@ class RoomFragment :
         "Success" -> {
           timer.cancel()
           binding.containerDrawingView.timeTv.visibility = View.INVISIBLE // View.GONE
-          AlertDialog.Builder(requireContext())
-            .setMessage(
-              "${question.successorUid}님이 정답을 맞췄습니다.\n" + "정답 : ${question.answer}"
-            )
-            .setPositiveButton("OK") { _, _ -> }.show()
-          // TODO : 경험치 올리기
+          showSuccessDialog(question.successorUid, question.answer)
         }
 
         "Fail" -> {
           timer.cancel()
           binding.containerDrawingView.timeTv.visibility = View.INVISIBLE // View.GONE
-          AlertDialog.Builder(requireContext())
-            .setMessage(
-              "시간이 초과되었습니다.\n" + "정답 : ${question.answer}"
-            )
-            .setPositiveButton("OK") { _, _ -> }.show()
+          showFailDialog(question.answer)
         }
       }
     }
 
     viewModel.round.observe(viewLifecycleOwner) {
-      // TODO : round 정보 초기화
-      // state == Finished -> nft 다이얼로그 띄우기
-      if (it == null) return@observe
-      if (it.state == "Finished") {
-        AlertDialog.Builder(requireContext())
-          .setMessage("라운드가 종료되었습니다.")
-          .setPositiveButton("OK") { _, _ -> }.show()
+      if (it == null) {
+        closeFinishDialog()
+      } else if (it.state == "Finished") {
+        showFinishDialog()
+        closeSuccessDialog()
+        closeFailDialog()
       }
     }
 
     viewModel.room.observe(viewLifecycleOwner) {
       // TODO : room 정보 초기화
+      if (it?.state == "Playing") {
+        if(viewModel.playerList.value?.contains(viewModel.user.value) == true) {
+          showStartDialog()
+        } else {
+          showWaitingDialog()
+        }
+      }
       if (it?.state == "Waiting" && it.manager == viewModel.user.value!!.uid) {
         binding.startButton.visibility = View.VISIBLE
       } else {
@@ -284,5 +404,24 @@ class RoomFragment :
     initPlayerList()
     initStartButton()
     initTimerButton()
+    binding.chattingEt.setOnKeyListener { _, keyCode, _ ->
+      when (keyCode) {
+        KeyEvent.KEYCODE_ENTER -> {
+          val content = binding.chattingEt.text.toString()
+          if (content.isNotBlank()) {
+            viewModel.sendChatting(content)
+            binding.chattingEt.text.clear()
+          }
+        }
+      }
+      false
+    }
+  }
+
+  companion object {
+    private const val CAT_CHEESE = 0
+    private const val CAT_GREY = 1
+    private const val CAT_FISH = 2
+    private const val CAT_RAINBOW = 3
   }
 }
