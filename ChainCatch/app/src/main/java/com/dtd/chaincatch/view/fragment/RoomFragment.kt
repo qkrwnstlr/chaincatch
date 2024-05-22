@@ -225,15 +225,19 @@ class RoomFragment :
     }
 
     viewModel.playerList.observe(viewLifecycleOwner) {
-      profileList.forEach { it.visibility = View.INVISIBLE }
-      it?.forEachIndexed { index, userDto ->
+      Log.d(TAG, "onViewCreated: ${it.size}")
+      var index = 0
+      for (i in 0 until it.size) {
+        val userDto = it[index]
         with(profileList[index]) {
           setUserImage(parseProfileImage(userDto.profileImg))
           setUerNickname(userDto.nickname)
           setUserAnswerCnt("${userDto.experience}")
           visibility = View.VISIBLE
         }
+        index++
       }
+      for (i in index until 5) profileList[index].visibility = View.INVISIBLE
     }
 
     viewModel.chatting.observe(viewLifecycleOwner) {
