@@ -73,7 +73,8 @@ class RoomFragment :
 
   private fun showWaitingDialog() {
     waitingDialog?.dismiss()
-    waitingDialog = AlertDialog.Builder(requireContext()).setMessage("이미 게임이 진행 중 입니다. 대기해 주세요").show()
+    waitingDialog =
+      AlertDialog.Builder(requireContext()).setMessage("이미 게임이 진행 중 입니다. 대기해 주세요").show()
   }
 
   private fun showFinishDialog() {
@@ -386,16 +387,16 @@ class RoomFragment :
     viewModel.room.observe(viewLifecycleOwner) {
       // TODO : room 정보 초기화
       if (it?.state == "Playing") {
-        if(viewModel.playerList.value?.contains(viewModel.user.value) == true) {
+        if (viewModel.playerList.value?.contains(viewModel.user.value) == true) {
           showStartDialog()
         } else {
           showWaitingDialog()
         }
       }
       if (it?.state == "Waiting" && it.manager == viewModel.user.value!!.uid) {
-        binding.startButton.visibility = View.VISIBLE
+        binding.layoutStartButton.visibility = View.VISIBLE
       } else {
-        binding.startButton.visibility = View.GONE
+        binding.layoutStartButton.visibility = View.GONE
       }
     }
 
