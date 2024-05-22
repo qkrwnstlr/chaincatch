@@ -49,7 +49,7 @@ class RoomFragment :
   private lateinit var timer: Timer
 
   private fun initTimerButton() {
-    binding.timeTv.visibility = View.GONE
+    binding.timeTv.visibility = View.VISIBLE // View.GONE
   }
 
   private fun initStartButton() {
@@ -128,13 +128,13 @@ class RoomFragment :
       binding.toolList.visibility = View.VISIBLE
       binding.questionTv.visibility = View.VISIBLE
 
-      binding.ivSolver.visibility = View.INVISIBLE
+      binding.ivSolver.visibility = View.VISIBLE // View.GONE
 
       binding.chattingEt.isEnabled = false
     } else {
-      binding.dvQuestioner.visibility = View.INVISIBLE
-      binding.toolList.visibility = View.GONE
-      binding.questionTv.visibility = View.GONE
+      binding.dvQuestioner.visibility = View.VISIBLE // View.GONE
+      binding.toolList.visibility = View.VISIBLE // View.GONE
+      binding.questionTv.visibility = View.VISIBLE // View.GONE
 
       binding.ivSolver.visibility = View.VISIBLE
 
@@ -200,7 +200,7 @@ class RoomFragment :
     }
 
     viewModel.question.observe(viewLifecycleOwner) { question ->
-      toggleMode(question?.uid == viewModel.user.value!!.uid)
+//      toggleMode(question?.uid == viewModel.user.value!!.uid)
 
       if (question == null) return@observe
       binding.questionTv.text = question.answer
@@ -233,7 +233,7 @@ class RoomFragment :
 
         "Success" -> {
           timer.cancel()
-          binding.timeTv.visibility = View.GONE
+          binding.timeTv.visibility = View.INVISIBLE // View.GONE
           AlertDialog.Builder(requireContext())
             .setMessage(
               "${question.successorUid}님이 정답을 맞췄습니다.\n" + "정답 : ${question.answer}"
@@ -244,7 +244,7 @@ class RoomFragment :
 
         "Fail" -> {
           timer.cancel()
-          binding.timeTv.visibility = View.GONE
+          binding.timeTv.visibility = View.INVISIBLE // View.GONE
           AlertDialog.Builder(requireContext())
             .setMessage(
               "시간이 초과되었습니다.\n" + "정답 : ${question.answer}"

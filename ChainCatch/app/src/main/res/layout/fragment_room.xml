@@ -4,7 +4,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="@color/white"
+  android:background="@color/black"
   tools:context=".view.fragment.RoomFragment">
 
   <!-- 사용자 영역 -->
@@ -12,7 +12,8 @@
     android:id="@+id/player_list"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    android:layout_marginStart="5dp"
+    android:layout_marginStart="@dimen/game_room_root_margin_top_5"
+    android:layout_marginTop="@dimen/game_room_play_list_and_balloon_margin_top_10"
     app:layout_constraintBottom_toTopOf="@id/bottom_layout"
     app:layout_constraintEnd_toStartOf="@id/layout_drawing"
     app:layout_constraintHorizontal_weight="2"
@@ -28,7 +29,7 @@
       app:layout_constraintBottom_toTopOf="@id/user2"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_weight="1"
-      app:pbExperience="30"
+      app:tvAnswerCnt="0"
       app:tvNickname="닉네임" />
 
     <com.dtd.chaincatch.widget.UserCardView
@@ -39,6 +40,7 @@
       app:layout_constraintBottom_toTopOf="@id/user3"
       app:layout_constraintTop_toBottomOf="@id/user1"
       app:layout_constraintVertical_weight="1"
+      app:tvAnswerCnt="0"
       app:tvNickname="닉네임" />
 
     <com.dtd.chaincatch.widget.UserCardView
@@ -49,6 +51,7 @@
       app:layout_constraintBottom_toTopOf="@id/user4"
       app:layout_constraintTop_toBottomOf="@id/user2"
       app:layout_constraintVertical_weight="1"
+      app:tvAnswerCnt="0"
       app:tvNickname="닉네임" />
 
     <com.dtd.chaincatch.widget.UserCardView
@@ -59,16 +62,18 @@
       app:layout_constraintBottom_toTopOf="@id/user5"
       app:layout_constraintTop_toBottomOf="@id/user3"
       app:layout_constraintVertical_weight="1"
+      app:tvAnswerCnt="0"
       app:tvNickname="닉네임" />
 
     <com.dtd.chaincatch.widget.UserCardView
       android:id="@+id/user5"
       android:layout_width="match_parent"
       android:layout_height="0dp"
-      app:ivUser="@drawable/cat_cheese_face"
+      app:ivUser="@drawable/cat_no_user_face"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintTop_toBottomOf="@id/user4"
       app:layout_constraintVertical_weight="1"
+      app:tvAnswerCnt="0"
       app:tvNickname="닉네임" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -88,38 +93,49 @@
     android:id="@+id/layout_drawing"
     android:layout_width="0dp"
     android:layout_height="0dp"
+    android:layout_marginStart="@dimen/fragment_home_root_margin_start_20"
+    android:layout_marginTop="@dimen/game_room_root_margin_top_5"
     app:layout_constraintBottom_toTopOf="@id/bottom_layout"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_weight="8"
     app:layout_constraintStart_toEndOf="@id/player_list"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_weight="9"
-    tools:background="#ADCDF3D1">
+    app:layout_constraintVertical_weight="8">
 
-    <!-- questioner 그림판 -->
-    <com.raed.rasmview.RasmView
-      android:id="@+id/dv_questioner"
+    <FrameLayout
       android:layout_width="0dp"
       android:layout_height="match_parent"
+      android:layout_marginEnd="10dp"
+      android:padding="10dp"
       app:layout_constraintEnd_toStartOf="@id/toolList"
-      app:layout_constraintStart_toStartOf="parent"
-      tools:background="#BBC9FD" />
+      app:layout_constraintStart_toStartOf="parent">
 
-    <!-- solver 그림판 -->
-    <ImageView
-      android:id="@+id/iv_solver"
-      android:layout_width="0dp"
-      android:layout_height="match_parent"
-      android:adjustViewBounds="true"
-      app:layout_constraintEnd_toStartOf="@id/toolList"
-      app:layout_constraintStart_toStartOf="parent"
-      tools:background="#FFDB9C" />
+      <!-- questioner 그림판 -->
+      <com.raed.rasmview.RasmView
+        android:id="@+id/dv_questioner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        tools:background="#BBC9FD" />
+
+      <!-- solver 그림판 -->
+      <ImageView
+        android:id="@+id/iv_solver"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:adjustViewBounds="true"
+        android:visibility="gone"
+        tools:background="#FFDB9C" />
+    </FrameLayout>
+
 
     <!-- 그림판 툴 영역 -->
     <LinearLayout
       android:id="@+id/toolList"
       android:layout_width="0dp"
       android:layout_height="match_parent"
+      android:background="@color/white"
       android:orientation="vertical"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
@@ -179,11 +195,11 @@
     android:id="@+id/layout_balloons"
     android:layout_width="150dp"
     android:layout_height="0dp"
+    android:layout_marginTop="@dimen/game_room_play_list_and_balloon_margin_top_10"
     android:orientation="vertical"
     app:layout_constraintBottom_toBottomOf="@id/player_list"
     app:layout_constraintStart_toEndOf="@id/player_list"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:background="#4A000000">
+    app:layout_constraintTop_toTopOf="parent">
 
     <include
       android:id="@+id/balloon1"
@@ -248,20 +264,39 @@
     app:layout_constraintTop_toBottomOf="@id/layout_drawing"
     app:layout_constraintVertical_weight="1">
 
+    <TextView
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_gravity="end|center_vertical"
+      android:layout_marginStart="@dimen/fragment_home_root_margin_start_20"
+      android:layout_weight="2"
+      android:gravity="center"
+      android:text="CHATTING"
+      android:textColor="#E80000"
+      android:textSize="20sp" />
+
     <EditText
       android:id="@+id/chatting_et"
       android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_weight="1"
-      android:imeOptions="flagNoExtractUi" />
-
+      android:layout_height="match_parent"
+      android:layout_marginVertical="@dimen/game_room_ev_chatting_margin_vertical_5"
+      android:layout_weight="8"
+      android:background="@drawable/rounded_rectangle_white_no_border"
+      android:imeOptions="flagNoExtractUi"
+      android:paddingHorizontal="20dp"
+      android:paddingVertical="1dp"
+      android:textCursorDrawable="@null" />
 
     <TextView
       android:id="@+id/time_tv"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_marginHorizontal="10dp"
+      android:gravity="center_vertical"
+      android:text="00 : 30"
+      android:textColor="@color/white"
       android:textSize="24sp"
-      tools:text="00 : 30" />
+      android:textStyle="bold" />
   </LinearLayout>
 
 

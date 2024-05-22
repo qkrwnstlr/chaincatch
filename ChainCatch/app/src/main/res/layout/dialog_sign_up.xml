@@ -50,17 +50,6 @@
     app:layout_constraintTop_toBottomOf="@id/iv_top"
     app:layout_constraintVertical_weight="8" />
 
-  <!--  <ImageView-->
-  <!--    android:id="@+id/iv_bottom_content"-->
-  <!--    android:layout_width="match_parent"-->
-  <!--    android:layout_height="0dp"-->
-  <!--    android:layout_marginBottom="90dp"-->
-  <!--    android:src="@drawable/rounded_rectangle_bottom_content_sign_up_dialog"-->
-  <!--    app:layout_constraintBottom_toBottomOf="parent"-->
-  <!--    app:layout_constraintTop_toBottomOf="@id/iv_top"-->
-  <!--    app:layout_constraintVertical_weight="8" />-->
-
-
   <!-- title -->
   <TextView
     android:id="@+id/tv_title_shadow"

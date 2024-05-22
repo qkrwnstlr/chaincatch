@@ -11,7 +11,8 @@
   <declare-styleable name="UserCardView">
     <attr name="ivUser" format="reference" />
     <attr name="tvNickname" format="string" />
-    <attr name="pbExperience" format="integer" />
+    <attr name="tvAnswerCnt" format="integer" />
+    <!--    <attr name="pbExperience" format="integer" />-->
   </declare-styleable>
 
 </resources>

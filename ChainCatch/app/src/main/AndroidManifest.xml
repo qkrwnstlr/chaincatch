@@ -16,7 +16,8 @@
     <activity
       android:name=".view.activity.RoomActivity"
       android:exported="false"
-      android:screenOrientation="landscape"/>
+      android:screenOrientation="landscape"
+      android:windowSoftInputMode="adjustPan" />
     <activity
       android:name=".view.activity.HomeActivity"
       android:exported="false"
