@@ -9,4 +9,14 @@
   <color name="sign_up_dialog_divider">#DFDFDF</color>
   <color name="sign_up_dialog_border">#676767</color>
   <color name="sign_up_dialog_text_color">#616161</color>
+
+  <!-- cat background -->
+  <color name="cat_cheese_unClicked">#68bbe2</color>
+  <color name="cat_cheese_clicked">#4f8aa6</color>
+  <color name="cat_grey_unClicked">#adbca1</color>
+  <color name="cat_grey_clicked">#8d9b82</color>
+  <color name="cat_fish_unClicked">#c7b39f</color>
+  <color name="cat_fish_clicked">#a09080</color>
+  <color name="cat_rainbow_unClicked">#bca1a9</color>
+  <color name="cat_rainbow_clicked">#9e828b</color>
 </resources>
