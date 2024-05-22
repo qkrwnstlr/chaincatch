@@ -4,6 +4,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:background="@color/white"
   tools:context=".view.fragment.RoomFragment">
 
   <!-- 사용자 영역 -->
@@ -11,9 +12,10 @@
     android:id="@+id/player_list"
     android:layout_width="0dp"
     android:layout_height="0dp"
+    android:layout_marginStart="5dp"
     app:layout_constraintBottom_toTopOf="@id/bottom_layout"
     app:layout_constraintEnd_toStartOf="@id/layout_drawing"
-    app:layout_constraintHorizontal_weight="1.5"
+    app:layout_constraintHorizontal_weight="2"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     tools:background="#27FF0000">
@@ -22,38 +24,64 @@
       android:id="@+id/user1"
       android:layout_width="match_parent"
       android:layout_height="0dp"
+      app:ivUser="@drawable/cat_cheese_face"
       app:layout_constraintBottom_toTopOf="@id/user2"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_chainStyle="packed" />
+      app:layout_constraintVertical_weight="1"
+      app:pbExperience="30"
+      app:tvNickname="닉네임" />
 
     <com.dtd.chaincatch.widget.UserCardView
       android:id="@+id/user2"
       android:layout_width="match_parent"
       android:layout_height="0dp"
+      app:ivUser="@drawable/cat_cheese_face"
       app:layout_constraintBottom_toTopOf="@id/user3"
-      app:layout_constraintTop_toBottomOf="@id/user1" />
+      app:layout_constraintTop_toBottomOf="@id/user1"
+      app:layout_constraintVertical_weight="1"
+      app:tvNickname="닉네임" />
 
     <com.dtd.chaincatch.widget.UserCardView
       android:id="@+id/user3"
       android:layout_width="match_parent"
       android:layout_height="0dp"
+      app:ivUser="@drawable/cat_cheese_face"
       app:layout_constraintBottom_toTopOf="@id/user4"
-      app:layout_constraintTop_toBottomOf="@id/user2" />
+      app:layout_constraintTop_toBottomOf="@id/user2"
+      app:layout_constraintVertical_weight="1"
+      app:tvNickname="닉네임" />
 
     <com.dtd.chaincatch.widget.UserCardView
       android:id="@+id/user4"
       android:layout_width="match_parent"
       android:layout_height="0dp"
+      app:ivUser="@drawable/cat_cheese_face"
       app:layout_constraintBottom_toTopOf="@id/user5"
-      app:layout_constraintTop_toBottomOf="@id/user3" />
+      app:layout_constraintTop_toBottomOf="@id/user3"
+      app:layout_constraintVertical_weight="1"
+      app:tvNickname="닉네임" />
 
     <com.dtd.chaincatch.widget.UserCardView
       android:id="@+id/user5"
       android:layout_width="match_parent"
       android:layout_height="0dp"
+      app:ivUser="@drawable/cat_cheese_face"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/user4" />
+      app:layout_constraintTop_toBottomOf="@id/user4"
+      app:layout_constraintVertical_weight="1"
+      app:tvNickname="닉네임" />
   </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/startButton"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_margin="5dp"
+    android:text="게임 시작"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="@id/player_list"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/player_list" />
 
   <!-- 그림판 영역 -->
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +90,7 @@
     android:layout_height="0dp"
     app:layout_constraintBottom_toTopOf="@id/bottom_layout"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_weight="8.5"
+    app:layout_constraintHorizontal_weight="8"
     app:layout_constraintStart_toEndOf="@id/player_list"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_weight="9"
@@ -82,7 +110,8 @@
       android:layout_width="0dp"
       android:layout_height="match_parent"
       app:layout_constraintEnd_toStartOf="@id/toolList"
-      app:layout_constraintStart_toStartOf="parent" />
+      app:layout_constraintStart_toStartOf="parent"
+      tools:background="#57FFDB9C" />
 
     <!-- 그림판 툴 영역 -->
     <LinearLayout
@@ -131,6 +160,7 @@
         android:background="@drawable/icon_clear" />
     </LinearLayout>
 
+    <!-- 문제 -->
     <TextView
       android:id="@+id/question_tv"
       android:layout_width="wrap_content"
@@ -152,7 +182,9 @@
     app:layout_constraintBottom_toBottomOf="@id/player_list"
     app:layout_constraintStart_toEndOf="@id/player_list"
     app:layout_constraintTop_toTopOf="parent"
-    tools:background="#4A000000" />
+    tools:background="#4A000000">
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
   <!-- 채팅, 게임시작 버튼, 타이머 영역 -->
   <LinearLayout
@@ -172,11 +204,6 @@
       android:layout_height="wrap_content"
       android:layout_weight="1" />
 
-    <Button
-      android:id="@+id/startButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="게임 시작" />
 
     <TextView
       android:id="@+id/time_tv"
