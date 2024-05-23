@@ -112,14 +112,12 @@ class HomeFragment :
     btnNewRoomCancel.setOnClickListener { alertDialog.dismiss() }
 
     btnNewRoomSubmit.setOnClickListener {
-      btnNewRoomSubmit.setOnClickListener {
-        val title = etRoomName.text.toString()
-        if (title.isBlank()) {
-          showCustomToast("빈 문자열은 입력할 수 없습니다.")
-        } else {
-          viewModel.createRoom(title)
-          alertDialog.dismiss()
-        }
+      val title = etRoomName.text.toString()
+      if (title.isBlank()) {
+        showCustomToast("빈 문자열은 입력할 수 없습니다.")
+      } else {
+        viewModel.createRoom(title)
+        alertDialog.dismiss()
       }
     }
   }
