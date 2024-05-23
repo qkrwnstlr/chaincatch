@@ -60,8 +60,7 @@ class RoomFragment :
 
   private fun showStartDialog() {
     startDialog?.dismiss()
-    startDialog = AlertDialog.Builder(requireContext()).setCancelable(false)
-      .setMessage("곧 게임이 시작됩니다.").show()
+    startDialog = buildSystemDialog("곧 게임이 시작됩니다.")
   }
 
   private fun closeStartDialog() {
@@ -71,14 +70,12 @@ class RoomFragment :
 
   private fun showWaitingDialog() {
     waitingDialog?.dismiss()
-    waitingDialog = AlertDialog.Builder(requireContext())
-      .setMessage("이미 게임이 진행 중 입니다. 대기해 주세요").show()
+    waitingDialog = buildSystemDialog("이미 게임이 진행 중 입니다. 대기해 주세요")
   }
 
   private fun showFinishDialog() {
     finishDialog?.dismiss()
-    finishDialog = AlertDialog.Builder(requireContext()).setCancelable(false)
-      .setMessage("게임이 종료되었습니다.").show()
+    finishDialog = buildSystemDialog("게임이 종료되었습니다.")
   }
 
   private fun closeFinishDialog() {
@@ -89,8 +86,7 @@ class RoomFragment :
   private fun showTurnDialog(nickname: String) {
     turnDialog?.dismiss()
     closeStartDialog()
-    turnDialog = AlertDialog.Builder(requireContext()).setCancelable(false)
-      .setMessage("${nickname}님의 차례입니다.").show()
+    turnDialog = buildSystemDialog("${nickname}님의 차례입니다.")
   }
 
   private fun closeTurnDialog() {
@@ -100,8 +96,7 @@ class RoomFragment :
 
   private fun showSuccessDialog(nickname: String, answer: String) {
     successDialog?.dismiss()
-    successDialog = AlertDialog.Builder(requireContext()).setCancelable(false)
-      .setMessage("${nickname}님이 정답을 맞췄습니다.\n" + "정답 : $answer").show()
+    successDialog = buildSystemDialog("${nickname}님이 정답을 맞췄습니다.\n" + "정답 : $answer")
   }
 
   private fun closeSuccessDialog() {
@@ -111,8 +106,7 @@ class RoomFragment :
 
   private fun showFailDialog(answer: String) {
     failDialog?.dismiss()
-    failDialog = AlertDialog.Builder(requireContext()).setCancelable(false)
-      .setMessage("시간이 초과되었습니다.\n정답 : $answer").show()
+    failDialog = buildSystemDialog("시간이 초과되었습니다.\n정답 : $answer")
   }
 
   private fun closeFailDialog() {
