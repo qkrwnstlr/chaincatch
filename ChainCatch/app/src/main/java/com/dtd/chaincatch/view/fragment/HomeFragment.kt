@@ -1,12 +1,15 @@
 package com.dtd.chaincatch.view.fragment
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -17,9 +20,9 @@ import com.bumptech.glide.Glide
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.FragmentHomeBinding
-import com.dtd.chaincatch.viewmodel.HomeViewModel
 import com.dtd.chaincatch.view.activity.RoomActivity
 import com.dtd.chaincatch.view.adapter.HomeAdapter
+import com.dtd.chaincatch.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -48,6 +51,10 @@ class HomeFragment :
   private val pageSize = COUNT_PER_PAGE
   private var currentPage = 0
 
+  private lateinit var etRoomName: EditText
+  private lateinit var btnCancel: View
+  private lateinit var btnSubmit: View
+
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
@@ -58,13 +65,42 @@ class HomeFragment :
 
   private fun initAllButtons() {
     setResourceWithGlide(R.raw.bg_animated2, binding.ivBackground)
-
     setResourceWithGlide(R.raw.btn_prev_animated, binding.btnPrev)
     setResourceWithGlide(R.raw.btn_next_animated, binding.btnNext)
-
     setResourceWithGlide(R.raw.btn_new_room_animated3, binding.ivBtnNewRoom)
     setResourceWithGlide(R.raw.btn_random_start_animated, binding.ivBtnRandomStart)
     setResourceWithGlide(R.raw.btn_setting_animated6, binding.ivBtnSetting)
+
+    binding.ivBtnNewRoom.setOnClickListener {
+      showNewRoomDialog()
+    }
+  }
+
+  private fun showNewRoomDialog() {
+    val layoutInflater = LayoutInflater.from(context)
+    val view = layoutInflater.inflate(R.layout.dialog_new_room, null)
+    val alertDialog = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+      .setView(view)
+      .create()
+
+    etRoomName = view.findViewById(R.id.et_room_name)
+    btnSubmit = view.findViewById(R.id.new_room_dialog_btn_submit)
+    btnCancel = view.findViewById(R.id.new_room_dialog_btn_cancel)
+
+    initClickListeners(alertDialog)
+    alertDialog.show()
+  }
+
+  private fun initClickListeners(alertDialog: AlertDialog) {
+    btnCancel.setOnClickListener { alertDialog.dismiss() }
+
+    btnSubmit.setOnClickListener {
+      Toast.makeText(context, "방 제목 : ${etRoomName.text}", Toast.LENGTH_SHORT).show()
+
+      lifecycleScope.launch {
+        // TODO : 방 생성
+      }
+    }
   }
 
   private fun setResourceWithGlide(rawInt: Int, imageView: ImageView) {

@@ -3,6 +3,8 @@
 
   <string name="login_failed">로그인에 실패하였습니다.</string>
   <string name="sign_up_dialog_title">닉네임을 정해주세요!</string>
+  <string name="new_room_dialog_title">방 제목을 정해주세요!</string>
+
   <string name="cat_name_cheese">치즈</string>
   <string name="cat_name_grey">고등어</string>
   <string name="cat_name_fish">생선</string>
