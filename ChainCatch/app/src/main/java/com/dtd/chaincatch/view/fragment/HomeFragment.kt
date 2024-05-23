@@ -61,6 +61,7 @@ class HomeFragment :
     initAllButtons()
     initRecyclerView()
     initUserInfo()
+    initActionButtons()
   }
 
   private fun initAllButtons() {
@@ -138,7 +139,10 @@ class HomeFragment :
 
   private fun initRecyclerView() {
     adapter = HomeAdapter(requireContext(), viewModel.roomDtoList.value!!).apply {
-      setOnItemClickListener { viewModel.enterRoom(it.rid) }
+      setOnItemClickListener {
+        if (it.currentUser < it.maxUser) viewModel.enterRoom(it.rid)
+        else AlertDialog.Builder(requireContext()).setMessage("사용자가 가득차서 들어갈 수 없습니다.").show()
+      }
     }
     binding.homeFragmentRecyclerView.layoutManager = object : LinearLayoutManager(context) {
       override fun canScrollVertically() = false
@@ -253,6 +257,18 @@ class HomeFragment :
       } else {
         Toast.makeText(context, "마지막 페이지입니다!", Toast.LENGTH_SHORT).show()
       }
+    }
+  }
+
+  private fun initActionButtons() {
+    binding.ivBtnNewRoom.setOnClickListener {
+      viewModel.createRoom("초보만 들어와라")
+    }
+    binding.ivBtnRandomStart.setOnClickListener {
+      viewModel.enterRandomRoom()
+    }
+    binding.ivBtnSetting.setOnClickListener {
+      // TODO : 다이얼로그 띄우기
     }
   }
 }

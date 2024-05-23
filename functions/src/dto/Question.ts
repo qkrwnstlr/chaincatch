@@ -1,4 +1,5 @@
 export class Question {
+  qid: string;
   uid: string;
   answer: string;
   state: string;
@@ -7,6 +8,7 @@ export class Question {
   successorUid: string | null;
 
   constructor(
+    qid: string,
     uid: string,
     answer: string,
     state: string,
@@ -14,6 +16,7 @@ export class Question {
     drawing: string | null,
     successorUid: string | null,
   ) {
+    this.qid = qid;
     this.uid = uid;
     this.answer = answer;
     this.state = state;

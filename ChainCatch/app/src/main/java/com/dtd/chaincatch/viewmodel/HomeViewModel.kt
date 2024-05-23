@@ -94,8 +94,9 @@ class HomeViewModel : ViewModel() {
     }
   }
 
-  fun createRoom(roomDTO: RoomDto) {
+  fun createRoom(title: String) {
     viewModelScope.launch {
+      val roomDTO = RoomDto(title = title, manager = userInfo.value!!.uid)
       userService.createRoom(roomDTO)
     }
   }
@@ -104,6 +105,11 @@ class HomeViewModel : ViewModel() {
     viewModelScope.launch {
       userService.enterRoom(RoomActionDto(rid = rid, uid = userInfo.value!!.uid))
     }
+  }
+
+  fun enterRandomRoom() {
+    val rid = roomDtoList.value!!.filter { it.currentUser < it.maxUser }.random().rid
+    enterRoom(rid)
   }
 
   companion object {
