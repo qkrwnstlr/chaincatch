@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <ImageView
+    android:id="@+id/iv_top"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:scaleType="fitCenter"
+    android:src="@drawable/system_dialog_title"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+    android:id="@+id/tv_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:text="System"
+    android:textColor="#DFDFDF"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="@+id/iv_top"
+    app:layout_constraintStart_toStartOf="@+id/iv_top"
+    app:layout_constraintTop_toTopOf="@+id/iv_top" />
+
+  <ImageView
+    android:id="@+id/iv_bottom"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:scaleType="fitCenter"
+    android:src="@drawable/system_dialog_body"
+    app:layout_constraintEnd_toEndOf="@+id/iv_top"
+    app:layout_constraintHorizontal_bias="0.501"
+    app:layout_constraintStart_toStartOf="@+id/iv_top"
+    app:layout_constraintTop_toBottomOf="@+id/iv_top" />
+
+  <TextView
+    android:id="@+id/tv_message"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:text="message"
+    android:textColor="#48390e"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toTopOf="@+id/btn_negative"
+    app:layout_constraintEnd_toEndOf="@+id/iv_bottom"
+    app:layout_constraintHorizontal_bias="0.501"
+    app:layout_constraintStart_toStartOf="@+id/iv_bottom"
+    app:layout_constraintTop_toBottomOf="@+id/iv_top"
+    app:layout_constraintVertical_bias="0.6" />
+
+  <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/btn_positive"
+    android:layout_width="112dp"
+    android:layout_height="40dp"
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/system_dialog_positive_button"
+    app:layout_constraintBottom_toBottomOf="@+id/iv_bottom"
+    app:layout_constraintEnd_toEndOf="@+id/iv_bottom"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toEndOf="@+id/btn_negative" />
+
+  <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/btn_negative"
+    android:layout_width="112dp"
+    android:layout_height="40dp"
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/system_dialog_negative_button"
+    app:layout_constraintBottom_toBottomOf="@+id/iv_bottom"
+    app:layout_constraintEnd_toStartOf="@+id/btn_positive"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="@+id/iv_bottom" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,11 +14,14 @@ import androidx.lifecycle.lifecycleScope
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.ChattingBubbleBinding
+import com.dtd.chaincatch.databinding.DialogBaseBinding
+import com.dtd.chaincatch.databinding.DialogBaseWithButtonsBinding
 import com.dtd.chaincatch.databinding.DialogBrushSettingsBinding
 import com.dtd.chaincatch.databinding.FragmentRoomBinding
 import com.dtd.chaincatch.model.dto.UserDto
 import com.dtd.chaincatch.util.SeekBarUserChangeListener
 import com.dtd.chaincatch.util.base64ToBitmap
+import com.dtd.chaincatch.util.dp
 import com.dtd.chaincatch.util.toBase64
 import com.dtd.chaincatch.view.activity.RoomActivity
 import com.dtd.chaincatch.viewmodel.RoomViewModel
@@ -138,11 +141,7 @@ class RoomFragment :
 
   private fun initBrushDialog() {
     brushDialogBinding = DialogBrushSettingsBinding.inflate(layoutInflater)
-    brushDialog = AlertDialog.Builder(requireContext())
-      .setTitle("Brush Setting")
-      .setView(brushDialogBinding.root)
-      .setPositiveButton("OK") { _, _ -> }
-      .setNegativeButton("Cancel") { _, _ -> }
+    brushDialog = AlertDialog.Builder(requireContext()).setView(brushDialogBinding.root)
     colorDialog = MaterialColorPickerDialog.Builder(requireContext())
       .setTitle("Brush Color")
       .setColorShape(ColorShape.SQAURE)
@@ -244,7 +243,9 @@ class RoomFragment :
       if (brushDialogBinding.root.parent != null) {
         ((brushDialogBinding.root.parent) as ViewGroup).removeView(brushDialogBinding.root)
       }
-      brushDialog.show()
+      brushDialog.show().apply {
+        window?.setLayout(400.dp, 300.dp)
+      }
     }
     binding.containerDrawingView.redoBtn.setOnClickListener { rasmState.redo() }
     binding.containerDrawingView.undoBtn.setOnClickListener { rasmState.undo() }

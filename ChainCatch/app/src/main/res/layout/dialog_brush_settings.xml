@@ -1,62 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:gravity="center"
-  android:orientation="vertical"
-  android:padding="12dp"
-  android:minWidth="200dp">
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
 
-  <androidx.appcompat.widget.AppCompatSpinner
-    android:id="@+id/brush_spinner"
+  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="6dp" />
+    android:background="@drawable/system_dialog_title"
+    android:gravity="center_vertical">
 
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:text="size"
-    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="2dp"
+      android:text="Brush Setting"
+      android:textColor="#DFDFDF"
+      android:textSize="22sp"
+      android:textStyle="bold" />
+  </LinearLayout>
 
-  <androidx.appcompat.widget.AppCompatSeekBar
-    android:id="@+id/brushSizeSeekBar"
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:max="99" />
+    android:layout_height="match_parent"
+    android:background="@drawable/system_dialog_body"
+    android:gravity="center"
+    android:minWidth="200dp"
+    android:orientation="vertical"
+    android:padding="12dp">
 
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:text="flow"
-    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="6dp"
+      android:background="@drawable/gradient_spinner">
 
-  <androidx.appcompat.widget.AppCompatSeekBar
-    android:id="@+id/brushFlowSeekBar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:max="99" />
+      <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/brush_spinner"
+        style="@style/spinner_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
 
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:text="opacity"
-    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="4dp"
+      android:text="size"
+      android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
-  <androidx.appcompat.widget.AppCompatSeekBar
-    android:id="@+id/brushOpacitySeekBar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:max="99" />
+    <androidx.appcompat.widget.AppCompatSeekBar
+      android:id="@+id/brushSizeSeekBar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:max="99" />
 
-  <View
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:layout_margin="12dp"
-    android:alpha="0.5"
-    android:background="?colorOnSurface" />
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="4dp"
+      android:text="flow"
+      android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
+    <androidx.appcompat.widget.AppCompatSeekBar
+      android:id="@+id/brushFlowSeekBar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:max="99" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="4dp"
+      android:text="opacity"
+      android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+      android:id="@+id/brushOpacitySeekBar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:max="99" />
+
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:layout_margin="12dp"
+      android:alpha="0.5" />
+
+  </LinearLayout>
 </LinearLayout>
