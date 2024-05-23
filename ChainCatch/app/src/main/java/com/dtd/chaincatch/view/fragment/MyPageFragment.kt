@@ -192,7 +192,7 @@ class MyPageFragment :
       alertDialog.dismiss()
       requireActivity().finish()
     }
-
+    
     view.findViewById<Button>(R.id.btn_resign_no).setOnClickListener {
       alertDialog.dismiss()
     }
