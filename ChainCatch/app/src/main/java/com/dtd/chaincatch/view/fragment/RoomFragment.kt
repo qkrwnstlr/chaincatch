@@ -70,7 +70,7 @@ class RoomFragment :
 
   private fun showWaitingDialog() {
     waitingDialog?.dismiss()
-    waitingDialog = buildSystemDialog("이미 게임이 진행 중 입니다. 대기해 주세요")
+    waitingDialog = buildSystemDialog("이미 게임이 진행 중 입니다.\n대기해 주세요", true)
   }
 
   private fun showFinishDialog() {
@@ -146,6 +146,7 @@ class RoomFragment :
     colorDialog = MaterialColorPickerDialog.Builder(requireContext())
       .setTitle("Brush Color")
       .setColorShape(ColorShape.SQAURE)
+      .setColorRes(resources.getIntArray(R.array.themeColors))
       .setColorListener { color, _ ->
         binding.colorBtn.setBackgroundColor(color)
         rasmContext.brushColor = color
