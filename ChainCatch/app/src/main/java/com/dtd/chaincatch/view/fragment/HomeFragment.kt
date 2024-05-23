@@ -52,8 +52,15 @@ class HomeFragment :
   private var currentPage = 0
 
   private lateinit var etRoomName: EditText
-  private lateinit var btnCancel: View
-  private lateinit var btnSubmit: View
+  private lateinit var btnNewRoomCancel: View
+  private lateinit var btnNewRoomSubmit: View
+  private lateinit var btnSettingBGM: ImageView
+  private lateinit var btnSettingEffectSound: ImageView
+  private lateinit var btnSettingHelp: ImageView
+  private lateinit var btnSettingMypage: ImageView
+  private lateinit var btnSettingCancel: View
+  private var isBgbOn = true
+  private var isEffectSoundOn = true
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -65,6 +72,8 @@ class HomeFragment :
   }
 
   private fun initAllButtons() {
+    isBgbOn = true
+    isEffectSoundOn = true
     setResourceWithGlide(R.raw.bg_animated2, binding.ivBackground)
     setResourceWithGlide(R.raw.btn_prev_animated, binding.btnPrev)
     setResourceWithGlide(R.raw.btn_next_animated, binding.btnNext)
@@ -74,6 +83,10 @@ class HomeFragment :
 
     binding.ivBtnNewRoom.setOnClickListener {
       showNewRoomDialog()
+    }
+
+    binding.ivBtnSetting.setOnClickListener {
+      showSettingDialog()
     }
   }
 
@@ -85,15 +98,18 @@ class HomeFragment :
       .create()
 
     etRoomName = view.findViewById(R.id.et_room_name)
-    btnSubmit = view.findViewById(R.id.new_room_dialog_btn_submit)
-    btnCancel = view.findViewById(R.id.new_room_dialog_btn_cancel)
+    btnNewRoomSubmit = view.findViewById(R.id.new_room_dialog_btn_submit)
+    btnNewRoomCancel = view.findViewById(R.id.new_room_dialog_btn_cancel)
 
-    initClickListeners(alertDialog)
+    initNewRoomDialogClickListeners(alertDialog)
     alertDialog.show()
   }
 
-  private fun initClickListeners(alertDialog: AlertDialog) {
-    btnCancel.setOnClickListener { alertDialog.dismiss() }
+  private fun initNewRoomDialogClickListeners(alertDialog: AlertDialog) {
+    btnNewRoomCancel.setOnClickListener { alertDialog.dismiss() }
+
+    btnNewRoomSubmit.setOnClickListener {
+      Toast.makeText(context, "방 제목 : ${etRoomName.text}", Toast.LENGTH_SHORT).show()
 
     btnSubmit.setOnClickListener {
       val title = etRoomName.text.toString()
@@ -104,6 +120,71 @@ class HomeFragment :
         alertDialog.dismiss()
       }
     }
+  }
+
+  private fun showSettingDialog() {
+    val layoutInflater = LayoutInflater.from(context)
+    val view = layoutInflater.inflate(R.layout.dialog_setting, null)
+    val alertDialog = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+      .setView(view)
+      .create()
+
+    btnSettingBGM = view.findViewById(R.id.btn_bgm)
+    btnSettingEffectSound = view.findViewById(R.id.btn_effect_sound)
+    btnSettingHelp = view.findViewById(R.id.btn_help)
+    btnSettingMypage = view.findViewById(R.id.btn_mypage)
+    btnSettingCancel = view.findViewById(R.id.setting_dialog_btn_cancel)
+
+    initSettingDialogClickListeners(alertDialog)
+    alertDialog.show()
+  }
+
+  private fun initSettingDialogClickListeners(alertDialog: AlertDialog) {
+    btnSettingCancel.setOnClickListener {
+      alertDialog.dismiss()
+    }
+
+    btnSettingBGM.setOnClickListener {
+      toggleBGM()
+    }
+    btnSettingEffectSound.setOnClickListener { toggleEffectSound() }
+    btnSettingHelp.setOnClickListener {
+      Toast.makeText(context, "help", Toast.LENGTH_SHORT).show()
+    }
+
+    btnSettingMypage.setOnClickListener {
+      alertDialog.dismiss()
+
+      parentFragmentManager.beginTransaction()
+        .setReorderingAllowed(true)
+        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+        .replace(R.id.home_fragment_container, MyPageFragment())
+        .addToBackStack(null)
+        .commit()
+
+    }
+  }
+
+  private fun toggleBGM() {
+    if (isBgbOn) {
+      btnSettingBGM.setImageResource(R.drawable.ic_bgm_off)
+      // TODO : bgm stop
+    } else {
+      btnSettingBGM.setImageResource(R.drawable.ic_bgm_on)
+      // TODO : bgm start
+    }
+    isBgbOn = !isBgbOn
+  }
+
+  private fun toggleEffectSound() {
+    if (isEffectSoundOn) {
+      btnSettingEffectSound.setImageResource(R.drawable.ic_effect_sound_off)
+      // TODO : effect sound stop
+    } else {
+      btnSettingEffectSound.setImageResource(R.drawable.ic_effect_sound_on)
+      // TODO : effect sound start
+    }
+    isEffectSoundOn = !isEffectSoundOn
   }
 
   private fun setResourceWithGlide(rawInt: Int, imageView: ImageView) {
@@ -264,10 +345,7 @@ class HomeFragment :
 
   private fun initActionButtons() {
     binding.ivBtnRandomStart.setOnClickListener {
-      if (!viewModel.enterRandomRoom()) showCustomToast("입장 가능한 방이 없습니다.")
-    }
-    binding.ivBtnSetting.setOnClickListener {
-      // TODO : 다이얼로그 띄우기
+      viewModel.enterRandomRoom()
     }
   }
 }
