@@ -23,7 +23,7 @@ class MyPageViewModel : ViewModel() {
   private val userDB = Firebase.database.getReference("$USER_DB_KEY/${auth.currentUser!!.uid}")
   private val userService by lazy { ApplicationClass.wRetrofit.create(UserService::class.java) }
 
-  private val _user = MutableLiveData<UserDto>()
+  private val _user = MutableLiveData<UserDto>(UserDto())
   val user: LiveData<UserDto> get() = _user
 
   init {

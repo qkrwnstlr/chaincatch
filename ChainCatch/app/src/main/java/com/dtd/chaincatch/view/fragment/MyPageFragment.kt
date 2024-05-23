@@ -60,7 +60,7 @@ class MyPageFragment :
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     viewModel.user.observe(viewLifecycleOwner) {
-      if (it == null) return@observe
+      if (it == null) requireActivity().finish()
       binding.tvNickname.text = it.nickname
       binding.progressBarExperience.progress = it.experience
       binding.ivUser.setImageResource(parseProfileImage(it.profileImg))
