@@ -34,4 +34,6 @@
     <item name="android:windowIsFloating">true</item>
   </style>
 
+  <style name="spinner_style" parent="Widget.AppCompat.Spinner">
+  </style>
 </resources>

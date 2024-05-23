@@ -1,6 +1,7 @@
 package com.dtd.chaincatch.view.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,13 @@ class HomeAdapter(private val context: Context, private val items: List<RoomDto>
       with(binding) {
         tvTitle.text = room.title
         tvManager.text = room.manager
-        tvStatus.text = "게임 중"
+        if (room.state == "Playing") {
+          tvStatus.text = "게임 중!"
+          tvStatus.setTextColor(Color.parseColor("#AE0505"))
+        } else {
+          tvStatus.text = "대기 중"
+          tvStatus.setTextColor(Color.parseColor("#0505AE"))
+        }
         tvCurrentPlayer.text = room.currentUser.toString()
         if (room.currentUser < room.maxUser) {
           root.setOnClickListener { onItemClickListener?.invoke(room) }

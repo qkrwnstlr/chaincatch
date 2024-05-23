@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <array name="themeColors">
+    <item>@color/red_500</item>
+    <item>#FFE57373</item>
+    <item>#FFF06292</item>
+    <item>#FFBA67C8</item>
+    <item>#FF9575CD</item>
+    <item>#FF7886CB</item>
+    <item>#FF65B5F6</item>
+    <item>#FF4EC3F7</item>
+    <item>@color/blue_500</item>
+    <item>#FF4CB6AC</item>
+    <item>@color/green_500</item>
+    <item>#FFAED581</item>
+    <item>#FFFFF176</item>
+    <item>#FFFFD54E</item>
+    <item>#FFFFB74C</item>
+    <item>@color/orange_500</item>
+    <item>#FFFF8A65</item>
+    <item>#FFA1887F</item>
+    <item>#FFE0E0E0</item>
+    <item>@color/grey_500</item>
+    <item>@color/black</item>
+  </array>
+</resources>

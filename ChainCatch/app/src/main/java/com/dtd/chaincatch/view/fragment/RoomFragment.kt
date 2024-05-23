@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +14,14 @@ import androidx.lifecycle.lifecycleScope
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.ChattingBubbleBinding
+import com.dtd.chaincatch.databinding.DialogBaseBinding
+import com.dtd.chaincatch.databinding.DialogBaseWithButtonsBinding
 import com.dtd.chaincatch.databinding.DialogBrushSettingsBinding
 import com.dtd.chaincatch.databinding.FragmentRoomBinding
 import com.dtd.chaincatch.model.dto.UserDto
 import com.dtd.chaincatch.util.SeekBarUserChangeListener
 import com.dtd.chaincatch.util.base64ToBitmap
+import com.dtd.chaincatch.util.dp
 import com.dtd.chaincatch.util.toBase64
 import com.dtd.chaincatch.view.activity.RoomActivity
 import com.dtd.chaincatch.viewmodel.RoomViewModel
@@ -36,8 +38,6 @@ import java.util.Timer
 import java.util.TimerTask
 import kotlin.math.max
 import kotlin.math.roundToInt
-
-private const val TAG = "RoomFragment_싸피"
 
 class RoomFragment :
   BaseFragment<FragmentRoomBinding>(FragmentRoomBinding::bind, R.layout.fragment_room) {
@@ -63,7 +63,7 @@ class RoomFragment :
 
   private fun showStartDialog() {
     startDialog?.dismiss()
-    startDialog = AlertDialog.Builder(requireContext()).setMessage("곧 게임이 시작됩니다.").show()
+    startDialog = buildSystemDialog("곧 게임이 시작됩니다.")
   }
 
   private fun closeStartDialog() {
@@ -73,13 +73,12 @@ class RoomFragment :
 
   private fun showWaitingDialog() {
     waitingDialog?.dismiss()
-    waitingDialog =
-      AlertDialog.Builder(requireContext()).setMessage("이미 게임이 진행 중 입니다. 대기해 주세요").show()
+    waitingDialog = buildSystemDialog("이미 게임이 진행 중 입니다.\n대기해 주세요", true)
   }
 
   private fun showFinishDialog() {
     finishDialog?.dismiss()
-    finishDialog = AlertDialog.Builder(requireContext()).setMessage("게임이 종료되었습니다.").show()
+    finishDialog = buildSystemDialog("게임이 종료되었습니다.")
   }
 
   private fun closeFinishDialog() {
@@ -90,7 +89,7 @@ class RoomFragment :
   private fun showTurnDialog(nickname: String) {
     turnDialog?.dismiss()
     closeStartDialog()
-    turnDialog = AlertDialog.Builder(requireContext()).setMessage("${nickname}님의 차례입니다.").show()
+    turnDialog = buildSystemDialog("${nickname}님의 차례입니다.")
   }
 
   private fun closeTurnDialog() {
@@ -98,11 +97,9 @@ class RoomFragment :
     turnDialog = null
   }
 
-  private fun showSuccessDialog(uid: String, answer: String) {
+  private fun showSuccessDialog(nickname: String, answer: String) {
     successDialog?.dismiss()
-    successDialog = AlertDialog.Builder(requireContext()).setMessage(
-      "${uid}님이 정답을 맞췄습니다.\n" + "정답 : $answer"
-    ).show()
+    successDialog = buildSystemDialog("${nickname}님이 정답을 맞췄습니다.\n" + "정답 : $answer")
   }
 
   private fun closeSuccessDialog() {
@@ -112,9 +109,7 @@ class RoomFragment :
 
   private fun showFailDialog(answer: String) {
     failDialog?.dismiss()
-    failDialog = AlertDialog.Builder(requireContext()).setMessage(
-      "시간이 초과되었습니다.\n정답 : $answer"
-    ).show()
+    failDialog = buildSystemDialog("시간이 초과되었습니다.\n정답 : $answer")
   }
 
   private fun closeFailDialog() {
@@ -146,14 +141,11 @@ class RoomFragment :
 
   private fun initBrushDialog() {
     brushDialogBinding = DialogBrushSettingsBinding.inflate(layoutInflater)
-    brushDialog = AlertDialog.Builder(requireContext())
-      .setTitle("Brush Setting")
-      .setView(brushDialogBinding.root)
-      .setPositiveButton("OK") { _, _ -> }
-      .setNegativeButton("Cancel") { _, _ -> }
+    brushDialog = AlertDialog.Builder(requireContext()).setView(brushDialogBinding.root)
     colorDialog = MaterialColorPickerDialog.Builder(requireContext())
       .setTitle("Brush Color")
       .setColorShape(ColorShape.SQAURE)
+      .setColorRes(resources.getIntArray(R.array.themeColors))
       .setColorListener { color, _ ->
         binding.colorBtn.setBackgroundColor(color)
         rasmContext.brushColor = color
@@ -209,6 +201,9 @@ class RoomFragment :
       binding.containerDrawingView.ivSolver.visibility = View.GONE
 
       binding.chattingEt.isEnabled = false
+
+      binding.containerDrawingView.undoBtn.visibility = View.VISIBLE
+      binding.containerDrawingView.redoBtn.visibility = View.VISIBLE
     } else {
       binding.containerDrawingView.dvQuestioner.visibility = View.GONE
       binding.toolList.visibility = View.GONE
@@ -217,6 +212,9 @@ class RoomFragment :
       binding.containerDrawingView.ivSolver.visibility = View.VISIBLE
 
       binding.chattingEt.isEnabled = true
+
+      binding.containerDrawingView.undoBtn.visibility = View.GONE
+      binding.containerDrawingView.redoBtn.visibility = View.GONE
     }
   }
 
@@ -245,7 +243,9 @@ class RoomFragment :
       if (brushDialogBinding.root.parent != null) {
         ((brushDialogBinding.root.parent) as ViewGroup).removeView(brushDialogBinding.root)
       }
-      brushDialog.show()
+      brushDialog.show().apply {
+        window?.setLayout(400.dp, 300.dp)
+      }
     }
     binding.containerDrawingView.redoBtn.setOnClickListener { rasmState.redo() }
     binding.containerDrawingView.undoBtn.setOnClickListener { rasmState.undo() }
@@ -293,7 +293,6 @@ class RoomFragment :
     }
 
     viewModel.playerList.observe(viewLifecycleOwner) {
-      Log.d(TAG, "onViewCreated: ${it.size}")
       var index = 0
       for (i in 0 until it.size) {
         val userDto = it[index]
@@ -396,7 +395,7 @@ class RoomFragment :
       if (it?.state == "Waiting" && it.manager == viewModel.user.value!!.uid) {
         binding.layoutStartButton.visibility = View.VISIBLE
       } else {
-        binding.layoutStartButton.visibility = View.GONE
+        binding.layoutStartButton.visibility = View.INVISIBLE
       }
     }
 
@@ -417,6 +416,11 @@ class RoomFragment :
       }
       false
     }
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+    if (::timer.isInitialized) timer.cancel()
   }
 
   companion object {

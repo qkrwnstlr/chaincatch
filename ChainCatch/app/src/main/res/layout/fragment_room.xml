@@ -54,8 +54,7 @@
       app:layout_constraintTop_toBottomOf="@id/user2"
       app:layout_constraintVertical_weight="1"
       app:tvAnswerCnt="0"
-      app:tvNickname="닉네임"
-      tools:visibility="invisible" />
+      app:tvNickname="닉네임" />
 
     <com.dtd.chaincatch.widget.UserCardView
       android:id="@+id/user4"
@@ -66,8 +65,7 @@
       app:layout_constraintTop_toBottomOf="@id/user3"
       app:layout_constraintVertical_weight="1"
       app:tvAnswerCnt="0"
-      app:tvNickname="닉네임"
-      tools:visibility="invisible" />
+      app:tvNickname="닉네임" />
 
     <com.dtd.chaincatch.widget.UserCardView
       android:id="@+id/user5"
@@ -78,8 +76,7 @@
       app:layout_constraintTop_toBottomOf="@id/user4"
       app:layout_constraintVertical_weight="1"
       app:tvAnswerCnt="0"
-      app:tvNickname="닉네임"
-      tools:visibility="invisible" />
+      app:tvNickname="닉네임" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <!-- 게임시작 버튼 -->
@@ -163,7 +160,7 @@
         app:layout_constraintVertical_bias="0.1"
         app:layout_constraintVertical_chainStyle="packed" />
 
-      <androidx.appcompat.widget.AppCompatButton
+      <Button
         android:id="@+id/brush_btn"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -173,7 +170,7 @@
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintTop_toBottomOf="@id/color_btn" />
 
-      <androidx.appcompat.widget.AppCompatButton
+      <Button
         android:id="@+id/clear_btn"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -276,8 +273,7 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@drawable/balloon2_nine_patch"
-      tools:visibility="visible" />
+      android:background="@drawable/balloon2_nine_patch"/>
 
     <include
       android:id="@+id/balloon3"
@@ -285,8 +281,7 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@drawable/balloon2_nine_patch"
-      tools:visibility="visible" />
+      android:background="@drawable/balloon2_nine_patch"/>
 
     <include
       android:id="@+id/balloon4"
@@ -294,8 +289,7 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@drawable/balloon2_nine_patch"
-      tools:visibility="visible" />
+      android:background="@drawable/balloon2_nine_patch"/>
 
     <include
       android:id="@+id/balloon5"
@@ -303,8 +297,7 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:background="@drawable/balloon2_nine_patch"
-      tools:visibility="visible" />
+      android:background="@drawable/balloon2_nine_patch"/>
   </LinearLayout>
 
 
