@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">체인 캐치</string>
+  <string name="app_name">캣치 캐치</string>
 
   <string name="login_failed">로그인에 실패하였습니다.</string>
   <string name="sign_up_dialog_title">닉네임을 정해주세요!</string>

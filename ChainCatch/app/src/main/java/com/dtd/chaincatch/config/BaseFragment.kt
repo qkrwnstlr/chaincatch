@@ -1,6 +1,7 @@
 package com.dtd.chaincatch.config
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.databinding.DialogBaseBinding
+import com.dtd.chaincatch.util.BgmService
 import com.dtd.chaincatch.util.LoadingDialog
+import com.dtd.chaincatch.util.SettingsManager
 import com.dtd.chaincatch.util.dp
 
 // Fragment의 기본을 작성, 뷰 바인딩 활용
@@ -23,8 +26,16 @@ abstract class BaseFragment<B : ViewBinding>(
   protected val mLoadingDialog: LoadingDialog by lazy {
     LoadingDialog(requireContext())
   }
+  private lateinit var settingsManager: SettingsManager
 
   protected val binding get() = _binding!!
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    settingsManager = SettingsManager(requireContext())
+    if (settingsManager.getSoundSettingVal()) startBGM()
+    else stopBGM()
+  }
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -65,4 +76,13 @@ abstract class BaseFragment<B : ViewBinding>(
         window?.setLayout(400.dp, 250.dp)
       }
   }
+
+  fun stopBGM() {
+    requireActivity().stopService(Intent(requireContext(), BgmService::class.java))
+  }
+
+  fun startBGM() {
+    requireActivity().startService(Intent(requireContext(), BgmService::class.java))
+  }
+
 }

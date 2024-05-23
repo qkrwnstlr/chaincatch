@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.FragmentHomeBinding
+import com.dtd.chaincatch.util.SettingsManager
 import com.dtd.chaincatch.view.activity.RoomActivity
 import com.dtd.chaincatch.view.adapter.HomeAdapter
 import com.dtd.chaincatch.viewmodel.HomeViewModel
@@ -55,16 +56,17 @@ class HomeFragment :
   private lateinit var btnNewRoomCancel: View
   private lateinit var btnNewRoomSubmit: View
   private lateinit var btnSettingBGM: ImageView
-  private lateinit var btnSettingEffectSound: ImageView
   private lateinit var btnSettingHelp: ImageView
   private lateinit var btnSettingMypage: ImageView
   private lateinit var btnSettingCancel: View
   private var isBgbOn = true
-  private var isEffectSoundOn = true
+
+  private lateinit var settingsManager: SettingsManager
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    settingsManager = SettingsManager(requireContext())
     initAllButtons()
     initRecyclerView()
     initUserInfo()
@@ -72,7 +74,6 @@ class HomeFragment :
 
   private fun initAllButtons() {
     isBgbOn = true
-    isEffectSoundOn = true
     setResourceWithGlide(R.raw.bg_animated2, binding.ivBackground)
     setResourceWithGlide(R.raw.btn_prev_animated, binding.btnPrev)
     setResourceWithGlide(R.raw.btn_next_animated, binding.btnNext)
@@ -132,10 +133,11 @@ class HomeFragment :
       .create()
 
     btnSettingBGM = view.findViewById(R.id.btn_bgm)
-    btnSettingEffectSound = view.findViewById(R.id.btn_effect_sound)
     btnSettingHelp = view.findViewById(R.id.btn_help)
     btnSettingMypage = view.findViewById(R.id.btn_mypage)
     btnSettingCancel = view.findViewById(R.id.setting_dialog_btn_cancel)
+    if (settingsManager.getSoundSettingVal()) btnSettingBGM.setImageResource(R.drawable.ic_bgm_on)
+    else btnSettingBGM.setImageResource(R.drawable.ic_bgm_off)
 
     initSettingDialogClickListeners(alertDialog)
     alertDialog.show()
@@ -147,9 +149,8 @@ class HomeFragment :
     }
 
     btnSettingBGM.setOnClickListener {
-      toggleBGM()
+      toggleBGM(settingsManager)
     }
-    btnSettingEffectSound.setOnClickListener { toggleEffectSound() }
     btnSettingHelp.setOnClickListener {
       Toast.makeText(context, "help", Toast.LENGTH_SHORT).show()
     }
@@ -167,27 +168,19 @@ class HomeFragment :
     }
   }
 
-  private fun toggleBGM() {
+  private fun toggleBGM(settingsManager: SettingsManager) {
     if (isBgbOn) {
       btnSettingBGM.setImageResource(R.drawable.ic_bgm_off)
-      // TODO : bgm stop
+      settingsManager.soundSetting = false
+      stopBGM()
     } else {
       btnSettingBGM.setImageResource(R.drawable.ic_bgm_on)
-      // TODO : bgm start
+      settingsManager.soundSetting = true
+      startBGM()
     }
     isBgbOn = !isBgbOn
   }
 
-  private fun toggleEffectSound() {
-    if (isEffectSoundOn) {
-      btnSettingEffectSound.setImageResource(R.drawable.ic_effect_sound_off)
-      // TODO : effect sound stop
-    } else {
-      btnSettingEffectSound.setImageResource(R.drawable.ic_effect_sound_on)
-      // TODO : effect sound start
-    }
-    isEffectSoundOn = !isEffectSoundOn
-  }
 
   private fun setResourceWithGlide(rawInt: Int, imageView: ImageView) {
     Glide.with(requireContext())

@@ -15,7 +15,7 @@
     android:src="@drawable/rounded_rectangle_top_for_sign_up_dialog"
     app:layout_constraintBottom_toTopOf="@id/iv_bottom"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_weight="3" />
+    app:layout_constraintVertical_weight="3.5" />
 
   <!-- cancel button -->
   <ImageView
@@ -112,37 +112,8 @@
       android:padding="12dp"
       android:src="@drawable/ic_bgm_on"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@id/layout_effect_sound"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- effect sound -->
-    <androidx.appcompat.widget.AppCompatImageView
-      android:id="@+id/layout_effect_sound"
-      android:layout_width="@dimen/setting_dialog_width_and_height_60"
-      android:layout_height="@dimen/setting_dialog_width_and_height_60"
-      android:layout_marginStart="3dp"
-      android:layout_marginTop="5dp"
-      android:background="@drawable/rounded_rectangle_grey_no_border"
-      app:layout_constraintBottom_toBottomOf="@+id/btn_effect_sound"
-      app:layout_constraintStart_toStartOf="@+id/btn_effect_sound"
-      app:layout_constraintTop_toTopOf="@+id/btn_effect_sound" />
-
-    <ImageView
-      android:id="@+id/btn_effect_sound"
-      android:layout_width="@dimen/setting_dialog_width_and_height_60"
-      android:layout_height="@dimen/setting_dialog_width_and_height_60"
-      android:layout_marginTop="5dp"
-      android:adjustViewBounds="true"
-      android:background="@drawable/rounded_rectangle_white_no_border"
-      android:paddingStart="18dp"
-      android:paddingTop="12dp"
-      android:paddingEnd="12dp"
-      android:paddingBottom="12dp"
-      android:src="@drawable/ic_effect_sound_on"
-      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toStartOf="@id/layout_help"
-      app:layout_constraintStart_toEndOf="@id/layout_bgm"
+      app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 
     <!-- help -->
@@ -168,7 +139,7 @@
       android:src="@drawable/ic_help2"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toStartOf="@id/btn_mypage"
-      app:layout_constraintStart_toEndOf="@id/layout_effect_sound"
+      app:layout_constraintStart_toEndOf="@id/layout_bgm"
       app:layout_constraintTop_toTopOf="parent" />
 
     <!-- my page -->

@@ -1,7 +1,9 @@
 package com.dtd.chaincatch.config
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowInsets
@@ -9,7 +11,10 @@ import android.view.WindowInsetsController
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import com.dtd.chaincatch.util.BgmService
 import com.dtd.chaincatch.util.LoadingDialog
+import com.dtd.chaincatch.util.SettingsManager
+
 
 // 액티비티의 기본을 작성, 뷰 바인딩 활용
 abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflater) -> B) :
@@ -19,9 +24,11 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
   protected val mLoadingDialog: LoadingDialog by lazy {
     LoadingDialog(this)
   }
+  private lateinit var settingsManager: SettingsManager
 
   override fun onResume() {
     super.onResume()
+    setBGM()
     hideSystemUI()
   }
 
@@ -29,10 +36,21 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
   // 즉 매번 onCreate에서 setContentView를 하지 않아도 됨.
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
+
     binding = inflate(layoutInflater)
     setContentView(binding.root)
 
+    setBGM()
     hideSystemUI()
+  }
+
+  fun setBGM() {
+    settingsManager = SettingsManager(this)
+    Log.d("아아아", "onCreate: ${settingsManager.getSoundSettingVal()}")
+
+    if (settingsManager.getSoundSettingVal()) startBGM()
+    else stopBGM()
   }
 
   // 로딩 다이얼로그, 즉 로딩창을 띄워줌.
@@ -77,5 +95,23 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
       )
     }
 
+  }
+
+  fun stopBGM() {
+    stopService(Intent(applicationContext, BgmService::class.java))
+  }
+
+  fun startBGM() {
+    startService(Intent(applicationContext, BgmService::class.java))
+  }
+
+  override fun onDestroy() {
+    stopService(Intent(applicationContext, BgmService::class.java))
+    super.onDestroy()
+  }
+
+  override fun onUserLeaveHint() {
+    stopService(Intent(applicationContext, BgmService::class.java))
+    super.onUserLeaveHint()
   }
 }

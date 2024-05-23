@@ -71,6 +71,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
   private lateinit var etNickname: EditText
   private var choicedCatId = -1
 
+
   private fun initFirebaseAuth() {
     auth = FirebaseAuth.getInstance()
 
@@ -275,7 +276,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
   private fun initView() {
     // Set Title
     Glide.with(this)
-      .load(R.raw.title_animated)
+      .load(R.raw.title_animated2)
       .into(binding.ivTitle)
 
     // Set Start Button
@@ -287,6 +288,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
       if (auth.currentUser == null) signIn()
       else checkUserInfo()
     }
+  }
+
+  override fun onBackPressed() {
+    stopBGM()
+    super.onBackPressed()
   }
 
   companion object {
