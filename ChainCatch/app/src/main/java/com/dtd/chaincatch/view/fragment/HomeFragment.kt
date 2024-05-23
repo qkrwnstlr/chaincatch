@@ -55,6 +55,7 @@ class HomeFragment :
     initAllButtons()
     initRecyclerView()
     initUserInfo()
+    initActionButtons()
   }
 
   private fun initAllButtons() {
@@ -221,6 +222,18 @@ class HomeFragment :
       } else {
         Toast.makeText(context, "마지막 페이지입니다!", Toast.LENGTH_SHORT).show()
       }
+    }
+  }
+
+  private fun initActionButtons() {
+    binding.ivBtnNewRoom.setOnClickListener {
+      viewModel.createRoom("초보만 들어와라")
+    }
+    binding.ivBtnRandomStart.setOnClickListener {
+      viewModel.enterRandomRoom()
+    }
+    binding.ivBtnSetting.setOnClickListener {
+      // TODO : 다이얼로그 띄우기
     }
   }
 }

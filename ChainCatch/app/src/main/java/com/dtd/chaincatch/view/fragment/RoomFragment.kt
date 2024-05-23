@@ -394,7 +394,7 @@ class RoomFragment :
       if (it?.state == "Waiting" && it.manager == viewModel.user.value!!.uid) {
         binding.layoutStartButton.visibility = View.VISIBLE
       } else {
-        binding.layoutStartButton.visibility = View.GONE
+        binding.layoutStartButton.visibility = View.INVISIBLE
       }
     }
 
@@ -419,7 +419,7 @@ class RoomFragment :
 
   override fun onDestroyView() {
     super.onDestroyView()
-    timer.cancel()
+    if (::timer.isInitialized) timer.cancel()
   }
 
   companion object {

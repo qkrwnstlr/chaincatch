@@ -94,8 +94,9 @@ class HomeViewModel : ViewModel() {
     }
   }
 
-  fun createRoom(roomDTO: RoomDto) {
+  fun createRoom(title: String) {
     viewModelScope.launch {
+      val roomDTO = RoomDto(title = title, manager = userInfo.value!!.uid)
       userService.createRoom(roomDTO)
     }
   }
