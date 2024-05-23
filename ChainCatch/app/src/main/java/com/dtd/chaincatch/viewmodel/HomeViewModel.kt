@@ -107,9 +107,14 @@ class HomeViewModel : ViewModel() {
     }
   }
 
-  fun enterRandomRoom() {
-    val rid = roomDtoList.value!!.filter { it.currentUser < it.maxUser }.random().rid
-    enterRoom(rid)
+  fun enterRandomRoom(): Boolean {
+    val rid = roomDtoList.value
+      ?.filter { it.currentUser < it.maxUser }
+      ?.takeIf { it.isNotEmpty() }
+      ?.random()?.rid
+    if (rid == null) return false
+    else enterRoom(rid)
+    return true
   }
 
   companion object {

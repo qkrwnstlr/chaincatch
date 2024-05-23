@@ -96,10 +96,12 @@ class HomeFragment :
     btnCancel.setOnClickListener { alertDialog.dismiss() }
 
     btnSubmit.setOnClickListener {
-      Toast.makeText(context, "방 제목 : ${etRoomName.text}", Toast.LENGTH_SHORT).show()
-
-      lifecycleScope.launch {
-        // TODO : 방 생성
+      val title = etRoomName.text.toString()
+      if (title.isBlank()) {
+        showCustomToast("빈 문자열은 입력할 수 없습니다.")
+      } else {
+        viewModel.createRoom(title)
+        alertDialog.dismiss()
       }
     }
   }
@@ -261,11 +263,8 @@ class HomeFragment :
   }
 
   private fun initActionButtons() {
-    binding.ivBtnNewRoom.setOnClickListener {
-      viewModel.createRoom("초보만 들어와라")
-    }
     binding.ivBtnRandomStart.setOnClickListener {
-      viewModel.enterRandomRoom()
+      if (!viewModel.enterRandomRoom()) showCustomToast("입장 가능한 방이 없습니다.")
     }
     binding.ivBtnSetting.setOnClickListener {
       // TODO : 다이얼로그 띄우기
