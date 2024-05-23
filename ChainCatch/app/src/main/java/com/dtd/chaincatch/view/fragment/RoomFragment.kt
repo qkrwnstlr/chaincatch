@@ -14,6 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import com.dtd.chaincatch.R
 import com.dtd.chaincatch.config.BaseFragment
 import com.dtd.chaincatch.databinding.ChattingBubbleBinding
+import com.dtd.chaincatch.databinding.DialogBaseBinding
+import com.dtd.chaincatch.databinding.DialogBaseWithButtonsBinding
 import com.dtd.chaincatch.databinding.DialogBrushSettingsBinding
 import com.dtd.chaincatch.databinding.FragmentRoomBinding
 import com.dtd.chaincatch.model.dto.UserDto
@@ -213,8 +215,6 @@ class RoomFragment :
 
       binding.containerDrawingView.undoBtn.visibility = View.GONE
       binding.containerDrawingView.redoBtn.visibility = View.GONE
-
-      while (rasmState.canCallUndo()) rasmState.undo()
     }
   }
 
@@ -294,23 +294,17 @@ class RoomFragment :
 
     viewModel.playerList.observe(viewLifecycleOwner) {
       var index = 0
-      for (i in it.indices) {
+      for (i in 0 until it.size) {
         val userDto = it[index]
         with(profileList[index]) {
           setUserImage(parseProfileImage(userDto.profileImg))
           setUerNickname(userDto.nickname)
+          setUserAnswerCnt("${userDto.experience}")
           visibility = View.VISIBLE
         }
         index++
       }
       for (i in index until 5) profileList[index].visibility = View.INVISIBLE
-    }
-
-    viewModel.playerCount.observe(viewLifecycleOwner) {
-      if (it == null) return@observe
-      viewModel.playerList.value?.forEachIndexed { index, userDto ->
-        profileList[index].setUserAnswerCnt("${it[userDto.uid]}")
-      }
     }
 
     viewModel.chatting.observe(viewLifecycleOwner) {
@@ -368,7 +362,7 @@ class RoomFragment :
         "Success" -> {
           timer.cancel()
           binding.containerDrawingView.timeTv.visibility = View.INVISIBLE // View.GONE
-          showSuccessDialog(question.successorNickname, question.answer)
+          showSuccessDialog(question.successorUid, question.answer)
         }
 
         "Fail" -> {
@@ -390,6 +384,7 @@ class RoomFragment :
     }
 
     viewModel.room.observe(viewLifecycleOwner) {
+      // TODO : room 정보 초기화
       if (it?.state == "Playing") {
         if (viewModel.playerList.value?.contains(viewModel.user.value) == true) {
           showStartDialog()

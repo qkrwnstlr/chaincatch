@@ -212,7 +212,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
       prevCatCard,
       getCatCardBgColorUnClicked(choicedCatId)
     )
-    // 지금 선택된 애
+    // 지금 선택`된 애
     choicedCatId = clickedCatId
     setCatCardBackground(getCatCardViewByID(choicedCatId)!!, clickedBgColor)
   }

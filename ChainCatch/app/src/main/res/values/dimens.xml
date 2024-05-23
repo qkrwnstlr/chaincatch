@@ -37,6 +37,9 @@
   <!-- setting dialog -->
   <dimen name="setting_dialog_width_and_height_60">60dp</dimen>
 
+  <!-- logout dialog -->
+  <dimen name="logout_dialog_padding_vertical">45dp</dimen>
+  <dimen name="logout_dialog_padding_side">55dp</dimen>
 
   <!-- game room page -->
   <dimen name="game_room_root_padding_top_5">5dp</dimen>
