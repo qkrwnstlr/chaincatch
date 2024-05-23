@@ -294,17 +294,23 @@ class RoomFragment :
 
     viewModel.playerList.observe(viewLifecycleOwner) {
       var index = 0
-      for (i in 0 until it.size) {
+      for (i in it.indices) {
         val userDto = it[index]
         with(profileList[index]) {
           setUserImage(parseProfileImage(userDto.profileImg))
           setUerNickname(userDto.nickname)
-          setUserAnswerCnt("${userDto.experience}")
           visibility = View.VISIBLE
         }
         index++
       }
       for (i in index until 5) profileList[index].visibility = View.INVISIBLE
+    }
+
+    viewModel.playerCount.observe(viewLifecycleOwner) {
+      if (it == null) return@observe
+      viewModel.playerList.value?.forEachIndexed { index, userDto ->
+        profileList[index].setUserAnswerCnt("${it[userDto.uid]}")
+      }
     }
 
     viewModel.chatting.observe(viewLifecycleOwner) {
@@ -362,7 +368,7 @@ class RoomFragment :
         "Success" -> {
           timer.cancel()
           binding.containerDrawingView.timeTv.visibility = View.INVISIBLE // View.GONE
-          showSuccessDialog(question.successorUid, question.answer)
+          showSuccessDialog(question.successorNickname, question.answer)
         }
 
         "Fail" -> {

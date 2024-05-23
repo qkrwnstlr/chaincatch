@@ -7,4 +7,5 @@ data class QuestionDto(
   val startTime: Long = 0,
   val drawing: String = "",
   val successorUid: String = "",
+  val successorNickname: String = "",
 )

@@ -6,6 +6,7 @@ export class Question {
   startTime: number | null;
   drawing: string | null;
   successorUid: string | null;
+  successorNickname: string | null;
 
   constructor(
     qid: string,
@@ -15,6 +16,7 @@ export class Question {
     startTime: number | null,
     drawing: string | null,
     successorUid: string | null,
+    successorNickname: string | null
   ) {
     this.qid = qid;
     this.uid = uid;
@@ -23,5 +25,6 @@ export class Question {
     this.startTime = startTime;
     this.drawing = drawing;
     this.successorUid = successorUid;
+    this.successorNickname = successorNickname;
   }
 }

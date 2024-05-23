@@ -1,6 +1,5 @@
 package com.dtd.chaincatch.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -46,6 +45,8 @@ class RoomViewModel : ViewModel() {
 
   private val _playerList = MutableLiveData<List<UserDto>>()
   val playerList: LiveData<List<UserDto>> get() = _playerList
+  private val _playerCount = MutableLiveData<Map<String, Int>>()
+  val playerCount: LiveData<Map<String, Int>> get() = _playerCount
 
   private val _room = MutableLiveData<RoomDto?>()
   val room: LiveData<RoomDto?> get() = _room
@@ -110,6 +111,16 @@ class RoomViewModel : ViewModel() {
         override fun onCancelled(error: DatabaseError) {}
       })
 
+      roomDetailDB.child("playerCount").addValueEventListener(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+          val ti = object : GenericTypeIndicator<HashMap<String, Int>>() {}
+          val playerCount = snapshot.getValue(ti) ?: return
+          _playerCount.postValue(playerCount)
+        }
+
+        override fun onCancelled(error: DatabaseError) {}
+      })
+
       roundDB.addValueEventListener(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
           _round.postValue(snapshot.getValue(RoundDto::class.java))
@@ -120,7 +131,8 @@ class RoomViewModel : ViewModel() {
 
       questionDB.addValueEventListener(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
-          _question.postValue(snapshot.getValue(QuestionDto::class.java))
+          val questionDto = snapshot.getValue(QuestionDto::class.java)
+          _question.postValue(questionDto)
         }
 
         override fun onCancelled(error: DatabaseError) {}
