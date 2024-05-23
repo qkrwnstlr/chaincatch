@@ -105,6 +105,10 @@ class RoomViewModel : ViewModel() {
               playerList.add(user)
             }
             _playerList.postValue(playerList)
+            val ti = object : GenericTypeIndicator<HashMap<String, Int>>() {}
+            val playerCount = roomDetailDB.child("playerCount")
+              .get().await().getValue(ti) ?: return@launch
+            _playerCount.postValue(playerCount)
           }
         }
 

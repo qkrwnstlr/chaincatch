@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:paddingHorizontal="100dp"
+  android:paddingVertical="50dp">
+
+  <!-- background imgs -->
+  <ImageView
+    android:id="@+id/iv_top"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:src="@drawable/rounded_rectangle_top_for_sign_up_dialog"
+    app:layout_constraintBottom_toTopOf="@id/iv_bottom"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_weight="3.5" />
+
+  <ImageView
+    android:id="@+id/iv_bottom_shadow"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:src="@drawable/rounded_rectangle_bottom_shadow_for_sign_up_dialog"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/iv_top"
+    app:layout_constraintVertical_weight="7" />
+
+  <ImageView
+    android:id="@+id/iv_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginBottom="10dp"
+    android:src="@drawable/rounded_rectangle_bottom_for_sign_up_dialog"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/iv_top"
+    app:layout_constraintVertical_weight="7" />
+
+  <!-- title -->
+  <TextView
+    android:id="@+id/tv_title_shadow"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="7dp"
+    android:text="@string/logout_dialog_title"
+    android:textColor="@color/white"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="@id/iv_top"
+    app:layout_constraintEnd_toEndOf="@id/iv_top"
+    app:layout_constraintStart_toStartOf="@id/iv_top"
+    app:layout_constraintTop_toTopOf="@id/iv_top" />
+
+  <TextView
+    android:id="@+id/tv_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="25dp"
+    android:text="@string/logout_dialog_title"
+    android:textColor="#48390e"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="@id/iv_top"
+    app:layout_constraintEnd_toEndOf="@id/iv_top"
+    app:layout_constraintStart_toStartOf="@id/iv_top"
+    app:layout_constraintTop_toTopOf="@id/iv_top" />
+
+  <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/btn_resign_yes"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginVertical="@dimen/logout_dialog_padding_vertical"
+    android:layout_marginStart="@dimen/logout_dialog_padding_side"
+    android:layout_marginEnd="40dp"
+    android:background="@drawable/btn_submit2"
+    android:paddingBottom="2dp"
+    android:text="네"
+    android:textColor="@color/white"
+    android:textSize="20sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="@id/iv_bottom"
+    app:layout_constraintEnd_toStartOf="@id/btn_resign_no"
+    app:layout_constraintStart_toStartOf="@id/iv_bottom"
+    app:layout_constraintTop_toTopOf="@id/iv_bottom" />
+
+  <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/btn_resign_no"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginVertical="@dimen/logout_dialog_padding_vertical"
+    android:layout_marginEnd="@dimen/logout_dialog_padding_side"
+    android:background="@drawable/btn_submit2"
+    android:paddingBottom="2dp"
+    android:text="아니오"
+    android:textColor="@color/white"
+    android:textSize="20sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="@id/iv_bottom"
+    app:layout_constraintEnd_toEndOf="@id/iv_bottom"
+    app:layout_constraintStart_toEndOf="@id/btn_resign_yes"
+    app:layout_constraintTop_toTopOf="@id/iv_bottom" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

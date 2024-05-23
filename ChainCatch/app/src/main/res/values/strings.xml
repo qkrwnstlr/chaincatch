@@ -5,6 +5,9 @@
   <string name="sign_up_dialog_title">닉네임을 정해주세요!</string>
   <string name="new_room_dialog_title">방 제목을 정해주세요!</string>
   <string name="setting_dialog_title">설 정</string>
+  <string name="edit_user_cat_dialog_title">고양이를 골라주세요!</string>
+  <string name="logout_dialog_title">정말 로그아웃 할까요?</string>
+  <string name="resign_dialog_title">정말 탈퇴 할까요?</string>
 
   <string name="cat_name_cheese">치즈</string>
   <string name="cat_name_grey">고등어</string>

@@ -55,7 +55,6 @@ class HomeFragment :
   private lateinit var btnNewRoomCancel: View
   private lateinit var btnNewRoomSubmit: View
   private lateinit var btnSettingBGM: ImageView
-  private lateinit var btnSettingEffectSound: ImageView
   private lateinit var btnSettingHelp: ImageView
   private lateinit var btnSettingMypage: ImageView
   private lateinit var btnSettingCancel: View
@@ -130,7 +129,6 @@ class HomeFragment :
       .create()
 
     btnSettingBGM = view.findViewById(R.id.btn_bgm)
-    btnSettingEffectSound = view.findViewById(R.id.btn_effect_sound)
     btnSettingHelp = view.findViewById(R.id.btn_help)
     btnSettingMypage = view.findViewById(R.id.btn_mypage)
     btnSettingCancel = view.findViewById(R.id.setting_dialog_btn_cancel)
@@ -147,7 +145,6 @@ class HomeFragment :
     btnSettingBGM.setOnClickListener {
       toggleBGM()
     }
-    btnSettingEffectSound.setOnClickListener { toggleEffectSound() }
     btnSettingHelp.setOnClickListener {
       Toast.makeText(context, "help", Toast.LENGTH_SHORT).show()
     }
@@ -174,17 +171,6 @@ class HomeFragment :
       // TODO : bgm start
     }
     isBgbOn = !isBgbOn
-  }
-
-  private fun toggleEffectSound() {
-    if (isEffectSoundOn) {
-      btnSettingEffectSound.setImageResource(R.drawable.ic_effect_sound_off)
-      // TODO : effect sound stop
-    } else {
-      btnSettingEffectSound.setImageResource(R.drawable.ic_effect_sound_on)
-      // TODO : effect sound start
-    }
-    isEffectSoundOn = !isEffectSoundOn
   }
 
   private fun setResourceWithGlide(rawInt: Int, imageView: ImageView) {

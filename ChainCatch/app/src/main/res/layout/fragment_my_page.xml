@@ -4,7 +4,6 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="@color/white"
   tools:context=".view.fragment.MyPageFragment">
 
   <!-- background gif -->
@@ -12,165 +11,151 @@
     android:id="@+id/iv_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scaleType="fitXY" />
+    android:scaleType="fitXY"
+    tools:background="@drawable/bg_summer_origin" />
 
-  <androidx.constraintlayout.widget.ConstraintLayout
+  <com.google.android.material.card.MaterialCardView
+    android:id="@+id/cardview_user"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_marginHorizontal="50dp"
+    android:layout_marginVertical="45dp"
+    app:cardBackgroundColor="#A4FFFFFF"
+    app:cardCornerRadius="3dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:strokeColor="#68000000"
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-      android:layout_width="270dp"
-      android:layout_height="110dp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      android:id="@+id/user_info">
-
-      <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardview_user"
-        android:layout_width="match_parent"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="#66FFFFFF">
+      <!-- user 캐릭터 사진 -->
+      <FrameLayout
+        android:id="@+id/framelayout_user"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="#A7D8EF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:strokeColor="@color/white"
-        app:strokeWidth="3dp"
-        tools:cardCornerRadius="10dp"
-        tools:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_constraintTop_toTopOf="parent"
-        tools:strokeColor="@color/white">
+        android:layout_margin="15dp"
+        app:layout_constraintEnd_toStartOf="@id/layout_user_info"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+          android:id="@+id/iv_user"
           android:layout_width="match_parent"
-          android:layout_height="match_parent">
-          <!-- user 캐릭터 사진 -->
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_margin="15dp"
+          android:adjustViewBounds="true"
+          android:paddingStart="25dp"
+          android:paddingEnd="10dp"
+          tools:src="@drawable/cat_cheese_face" />
+      </FrameLayout>
 
-          <ImageView
-            android:id="@+id/iv_user"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:paddingHorizontal="7dp"
-            android:src="@drawable/cat_cheese_face"
-            app:layout_constraintEnd_toStartOf="@id/layout_user_info"
-            app:layout_constraintHorizontal_weight="4"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="16dp" />
+      <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_user_info"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="30dp"
+        android:paddingStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/framelayout_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintStart_toEndOf="@id/framelayout_user"
+        app:layout_constraintTop_toTopOf="@id/framelayout_user">
 
-          <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_user_info"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="@id/iv_user"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="6"
-            app:layout_constraintStart_toEndOf="@id/iv_user"
-            app:layout_constraintTop_toTopOf="@id/iv_user">
+        <!-- user 닉네임 -->
+        <EditText
+          android:id="@+id/et_nickname"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="4dp"
+          android:editable="true"
+          android:fontFamily="@font/dunggeunmo"
+          android:gravity="start"
+          android:textSize="24sp"
+          android:textStyle="bold"
+          app:layout_constraintBottom_toTopOf="@id/progress_bar_experience"
+          app:layout_constraintEnd_toStartOf="@id/btn_edit_submit"
+          app:layout_constraintHorizontal_weight="7"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_chainStyle="packed"
+          tools:text="닉네임" />
 
-            <!-- user 닉네임 -->
-            <TextView
-              android:id="@+id/tv_nickname"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textSize="24sp"
-              android:textStyle="bold"
-              android:layout_margin="16dp"
-              app:layout_constraintBottom_toTopOf="@id/progress_bar_experience"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toTopOf="parent"
-              app:layout_constraintVertical_chainStyle="packed"
-              tools:text="닉네임" />
+        <!-- 수정 버튼-->
+        <androidx.appcompat.widget.AppCompatButton
+          android:id="@+id/btn_edit_submit"
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:layout_marginVertical="6dp"
+          android:layout_marginStart="10dp"
+          android:background="@drawable/btn_submit2"
+          android:paddingBottom="2dp"
+          android:text="OK"
+          android:textColor="@color/white"
+          android:textSize="20sp"
+          app:layout_constraintBottom_toBottomOf="@id/et_nickname"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_weight="2"
+          app:layout_constraintStart_toEndOf="@id/et_nickname"
+          app:layout_constraintTop_toTopOf="@id/et_nickname" />
 
-            <!--        &lt;!&ndash; user 경험치 &ndash;&gt;-->
-            <ProgressBar
-              android:id="@+id/progress_bar_experience"
-              style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-              android:layout_width="0dp"
-              android:layout_height="20dp"
-              android:layout_marginTop="5dp"
-              android:layout_marginRight="16dp"
-              android:progress="20"
-              android:progressDrawable="@drawable/custom_progress_bar"
-              app:layout_constraintBottom_toBottomOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="@+id/tv_nickname"
-              app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
-          </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- user 경험치 -->
+        <ProgressBar
+          android:id="@+id/progress_bar_experience"
+          style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+          android:layout_width="0dp"
+          android:layout_height="30dp"
+          android:layout_marginTop="25dp"
+          android:progressDrawable="@drawable/custom_progress_bar_white"
+          app:layout_constraintBottom_toTopOf="@id/btn_logout"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/et_nickname"
+          tools:progress="20" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatButton
+          android:id="@+id/btn_logout"
+          android:layout_width="0dp"
+          android:layout_height="40dp"
+          android:layout_marginStart="100dp"
+          android:layout_marginBottom="10dp"
+          android:background="@drawable/btn_submit2"
+          android:paddingBottom="2dp"
+          android:text="LOGOUT"
+          android:textColor="@color/white"
+          android:textSize="20sp"
+          android:textStyle="bold"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toStartOf="@id/btn_delete"
+          app:layout_constraintHorizontal_chainStyle="packed"
+          app:layout_constraintStart_toStartOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatButton
+          android:id="@+id/btn_delete"
+          android:layout_width="0dp"
+          android:layout_height="40dp"
+          android:layout_marginStart="10dp"
+          android:background="@drawable/btn_submit2"
+          android:paddingBottom="2dp"
+          android:text="탈퇴"
+          android:textColor="@color/white"
+          android:textSize="18sp"
+          android:textStyle="bold"
+          app:layout_constraintBottom_toBottomOf="@id/btn_logout"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/btn_logout"
+          app:layout_constraintTop_toTopOf="@id/btn_logout" />
+      </androidx.constraintlayout.widget.ConstraintLayout>
 
-      </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-      android:id="@+id/textView"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="16dp"
-      android:text="NFT 지갑 주소"
-      android:textSize="24sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="@+id/user_info"
-      app:layout_constraintTop_toBottomOf="@+id/user_info" />
 
-    <TextView
-      android:id="@+id/nftAddress"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="16dp"
-      android:textSize="24sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="1.0"
-      app:layout_constraintStart_toStartOf="@+id/textView"
-      app:layout_constraintTop_toBottomOf="@+id/textView" />
+  </com.google.android.material.card.MaterialCardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/nftImgList"
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      android:layout_marginTop="16dp"
-      android:orientation="horizontal"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/nftAddress" />
-
-    <Button
-      android:id="@+id/btn_edit"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="정보수정"
-      app:layout_constraintBottom_toBottomOf="@+id/user_info"
-      app:layout_constraintEnd_toStartOf="@+id/btn_delete"
-      app:layout_constraintHorizontal_bias="0.5"
-      app:layout_constraintStart_toEndOf="@+id/user_info"
-      app:layout_constraintTop_toTopOf="@+id/user_info" />
-
-    <Button
-      android:id="@+id/btn_delete"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="회원탈퇴"
-      app:layout_constraintBottom_toBottomOf="@+id/btn_edit"
-      app:layout_constraintEnd_toStartOf="@+id/btn_logout"
-      app:layout_constraintHorizontal_bias="0.5"
-      app:layout_constraintStart_toEndOf="@+id/btn_edit"
-      app:layout_constraintTop_toTopOf="@+id/btn_edit" />
-
-    <Button
-      android:id="@+id/btn_logout"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="로그아웃"
-      app:layout_constraintBottom_toBottomOf="@+id/btn_delete"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.5"
-      app:layout_constraintStart_toEndOf="@+id/btn_delete"
-      app:layout_constraintTop_toTopOf="@+id/btn_delete"
-      app:layout_constraintVertical_bias="1.0" />
-  </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
