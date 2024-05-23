@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:paddingHorizontal="100dp"
+  android:paddingVertical="60dp">
+
+  <!-- background imgs -->
+  <ImageView
+    android:id="@+id/iv_top"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:src="@drawable/rounded_rectangle_top_for_sign_up_dialog"
+    app:layout_constraintBottom_toTopOf="@id/iv_bottom"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_weight="3" />
+
+  <!-- cancel button -->
+  <ImageView
+    android:id="@+id/setting_dialog_btn_cancel"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginEnd="30dp"
+    android:adjustViewBounds="true"
+    android:src="@drawable/btn_cancel3"
+    app:layout_constraintBottom_toBottomOf="@id/tv_title"
+    app:layout_constraintDimensionRatio="1"
+    app:layout_constraintEnd_toEndOf="@id/iv_top"
+    app:layout_constraintTop_toTopOf="@id/tv_title" />
+
+  <ImageView
+    android:id="@+id/iv_bottom_shadow"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:src="@drawable/rounded_rectangle_bottom_shadow_for_sign_up_dialog"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/iv_top"
+    app:layout_constraintVertical_weight="8" />
+
+  <ImageView
+    android:id="@+id/iv_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginBottom="10dp"
+    android:src="@drawable/rounded_rectangle_bottom_for_sign_up_dialog"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/iv_top"
+    app:layout_constraintVertical_weight="8" />
+
+  <!-- title -->
+  <TextView
+    android:id="@+id/tv_title_shadow"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="7dp"
+    android:text="@string/setting_dialog_title"
+    android:textColor="@color/white"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="@id/iv_top"
+    app:layout_constraintEnd_toEndOf="@id/iv_top"
+    app:layout_constraintStart_toStartOf="@id/iv_top"
+    app:layout_constraintTop_toTopOf="@id/iv_top" />
+
+  <TextView
+    android:id="@+id/tv_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="25dp"
+    android:text="@string/setting_dialog_title"
+    android:textColor="#48390e"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="@id/iv_top"
+    app:layout_constraintEnd_toEndOf="@id/iv_top"
+    app:layout_constraintStart_toStartOf="@id/iv_top"
+    app:layout_constraintTop_toTopOf="@id/iv_top" />
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/setting_layout"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="@id/iv_bottom"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@id/iv_bottom"
+    tools:visibility="visible">
+
+    <!-- bgm -->
+    <androidx.appcompat.widget.AppCompatImageView
+      android:id="@+id/layout_bgm"
+      android:layout_width="@dimen/setting_dialog_width_and_height_60"
+      android:layout_height="@dimen/setting_dialog_width_and_height_60"
+      android:layout_marginStart="3dp"
+      android:layout_marginTop="5dp"
+      android:background="@drawable/rounded_rectangle_grey_no_border"
+      app:layout_constraintBottom_toBottomOf="@id/btn_bgm"
+      app:layout_constraintStart_toStartOf="@id/btn_bgm"
+      app:layout_constraintTop_toTopOf="@id/btn_bgm" />
+
+    <ImageView
+      android:id="@+id/btn_bgm"
+      android:layout_width="@dimen/setting_dialog_width_and_height_60"
+      android:layout_height="@dimen/setting_dialog_width_and_height_60"
+      android:layout_marginTop="5dp"
+      android:adjustViewBounds="true"
+      android:background="@drawable/rounded_rectangle_white_no_border"
+      android:padding="12dp"
+      android:src="@drawable/ic_bgm_on"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/layout_effect_sound"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- effect sound -->
+    <androidx.appcompat.widget.AppCompatImageView
+      android:id="@+id/layout_effect_sound"
+      android:layout_width="@dimen/setting_dialog_width_and_height_60"
+      android:layout_height="@dimen/setting_dialog_width_and_height_60"
+      android:layout_marginStart="3dp"
+      android:layout_marginTop="5dp"
+      android:background="@drawable/rounded_rectangle_grey_no_border"
+      app:layout_constraintBottom_toBottomOf="@+id/btn_effect_sound"
+      app:layout_constraintStart_toStartOf="@+id/btn_effect_sound"
+      app:layout_constraintTop_toTopOf="@+id/btn_effect_sound" />
+
+    <ImageView
+      android:id="@+id/btn_effect_sound"
+      android:layout_width="@dimen/setting_dialog_width_and_height_60"
+      android:layout_height="@dimen/setting_dialog_width_and_height_60"
+      android:layout_marginTop="5dp"
+      android:adjustViewBounds="true"
+      android:background="@drawable/rounded_rectangle_white_no_border"
+      android:paddingStart="18dp"
+      android:paddingTop="12dp"
+      android:paddingEnd="12dp"
+      android:paddingBottom="12dp"
+      android:src="@drawable/ic_effect_sound_on"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/layout_help"
+      app:layout_constraintStart_toEndOf="@id/layout_bgm"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- help -->
+    <androidx.appcompat.widget.AppCompatImageView
+      android:id="@+id/layout_help"
+      android:layout_width="@dimen/setting_dialog_width_and_height_60"
+      android:layout_height="@dimen/setting_dialog_width_and_height_60"
+      android:layout_marginStart="3dp"
+      android:layout_marginTop="5dp"
+      android:background="@drawable/rounded_rectangle_grey_no_border"
+      app:layout_constraintBottom_toBottomOf="@id/btn_help"
+      app:layout_constraintStart_toStartOf="@id/btn_help"
+      app:layout_constraintTop_toTopOf="@id/btn_help" />
+
+    <ImageView
+      android:id="@+id/btn_help"
+      android:layout_width="@dimen/setting_dialog_width_and_height_60"
+      android:layout_height="@dimen/setting_dialog_width_and_height_60"
+      android:layout_marginTop="5dp"
+      android:adjustViewBounds="true"
+      android:background="@drawable/rounded_rectangle_white_no_border"
+      android:padding="14dp"
+      android:src="@drawable/ic_help2"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/btn_mypage"
+      app:layout_constraintStart_toEndOf="@id/layout_effect_sound"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- my page -->
+    <androidx.appcompat.widget.AppCompatImageView
+      android:id="@+id/layout_mypage"
+      android:layout_width="@dimen/setting_dialog_width_and_height_60"
+      android:layout_height="@dimen/setting_dialog_width_and_height_60"
+      android:layout_marginStart="3dp"
+      android:layout_marginTop="5dp"
+      android:background="@drawable/rounded_rectangle_grey_no_border"
+      app:layout_constraintBottom_toBottomOf="@id/btn_mypage"
+      app:layout_constraintStart_toStartOf="@id/btn_mypage"
+      app:layout_constraintTop_toTopOf="@id/btn_mypage" />
+
+    <ImageView
+      android:id="@+id/btn_mypage"
+      android:layout_width="@dimen/setting_dialog_width_and_height_60"
+      android:layout_height="@dimen/setting_dialog_width_and_height_60"
+      android:layout_marginTop="5dp"
+      android:adjustViewBounds="true"
+      android:background="@drawable/rounded_rectangle_white_no_border"
+      android:padding="12dp"
+      android:src="@drawable/ic_mypage"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@id/layout_help"
+      app:layout_constraintTop_toTopOf="parent" />
+
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
