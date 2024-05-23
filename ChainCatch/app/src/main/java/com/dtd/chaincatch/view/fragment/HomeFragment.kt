@@ -68,7 +68,6 @@ class HomeFragment :
     initAllButtons()
     initRecyclerView()
     initUserInfo()
-    initActionButtons()
   }
 
   private fun initAllButtons() {
@@ -83,6 +82,10 @@ class HomeFragment :
 
     binding.ivBtnNewRoom.setOnClickListener {
       showNewRoomDialog()
+    }
+
+    binding.ivBtnRandomStart.setOnClickListener {
+      if (!viewModel.enterRandomRoom()) showCustomToast("입장 가능한 방이 없습니다.")
     }
 
     binding.ivBtnSetting.setOnClickListener {
@@ -109,15 +112,14 @@ class HomeFragment :
     btnNewRoomCancel.setOnClickListener { alertDialog.dismiss() }
 
     btnNewRoomSubmit.setOnClickListener {
-      Toast.makeText(context, "방 제목 : ${etRoomName.text}", Toast.LENGTH_SHORT).show()
-
-    btnSubmit.setOnClickListener {
-      val title = etRoomName.text.toString()
-      if (title.isBlank()) {
-        showCustomToast("빈 문자열은 입력할 수 없습니다.")
-      } else {
-        viewModel.createRoom(title)
-        alertDialog.dismiss()
+      btnNewRoomSubmit.setOnClickListener {
+        val title = etRoomName.text.toString()
+        if (title.isBlank()) {
+          showCustomToast("빈 문자열은 입력할 수 없습니다.")
+        } else {
+          viewModel.createRoom(title)
+          alertDialog.dismiss()
+        }
       }
     }
   }
@@ -340,12 +342,6 @@ class HomeFragment :
       } else {
         Toast.makeText(context, "마지막 페이지입니다!", Toast.LENGTH_SHORT).show()
       }
-    }
-  }
-
-  private fun initActionButtons() {
-    binding.ivBtnRandomStart.setOnClickListener {
-      viewModel.enterRandomRoom()
     }
   }
 }
